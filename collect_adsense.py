@@ -147,6 +147,45 @@ def fetch_monthly(svc, account, y):
     }
 
 
+# 충족률 진단용: 어디서 광고가 안 채워지는지 (요청→매칭→노출 + 충족률)
+DIAG_METRICS = ["AD_REQUESTS", "MATCHED_AD_REQUESTS", "AD_REQUESTS_COVERAGE", "IMPRESSIONS", "ESTIMATED_EARNINGS"]
+DIAG_DIMS = [
+    ("by_device", "PLATFORM_TYPE_NAME"),
+    ("by_country", "COUNTRY_NAME"),
+    ("by_ad_unit", "AD_UNIT_NAME"),
+    ("by_format", "AD_FORMAT_NAME"),
+]
+
+
+def fetch_diagnostics(svc, account, target_date, top=10):
+    out = {}
+    for key, dim in DIAG_DIMS:
+        try:
+            report = _generate(svc, account, target_date, target_date, DIAG_METRICS, [dim])
+        except Exception as e:  # noqa: BLE001
+            print(f"[진단 {key}] 수집 실패: {str(e)[:120]}")
+            out[key] = []
+            continue
+        headers = [h["name"] for h in report.get("headers", [])]
+        rows = []
+        for row in report.get("rows", []):
+            rd = dict(zip(headers, [c.get("value") for c in row.get("cells", [])]))
+            req = _to_number(rd.get("AD_REQUESTS"))
+            matched = _to_number(rd.get("MATCHED_AD_REQUESTS"))
+            rows.append({
+                "name": rd.get(dim),
+                "requests": req,
+                "matched": matched,
+                "coverage": _to_number(rd.get("AD_REQUESTS_COVERAGE")),
+                "impressions": _to_number(rd.get("IMPRESSIONS")),
+                "earnings": _to_number(rd.get("ESTIMATED_EARNINGS")),
+                "unfilled": (req - matched) if isinstance(req, (int, float)) and isinstance(matched, (int, float)) else None,
+            })
+        rows.sort(key=lambda x: (x["requests"] or 0), reverse=True)
+        out[key] = rows[:top]
+    return out
+
+
 def main():
     account = common.env("ADSENSE_ACCOUNT", required=True)
     d = common.yesterday()
@@ -154,9 +193,10 @@ def main():
 
     daily = fetch_daily(svc, account, d)
     monthly = fetch_monthly(svc, account, d)
+    diagnostics = fetch_diagnostics(svc, account, d)
 
     out = common.RAW_DIR / f"adsense-{d.isoformat()}.json"
-    common.save_json(out, {"date": d.isoformat(), "adsense": daily, "monthly": monthly})
+    common.save_json(out, {"date": d.isoformat(), "adsense": daily, "monthly": monthly, "diagnostics": diagnostics})
 
     t = daily["total"]
     print(f"[AdSense] {d} 수집 완료 → {out}")

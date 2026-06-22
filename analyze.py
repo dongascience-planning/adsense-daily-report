@@ -6,7 +6,9 @@
 - Jandi 전송용 payload(data/_jandi-YYYY-MM-DD.json) 작성
 출력: data/YYYY-MM-DD.json (insight 포함), data/_jandi-*.json
 """
+import json
 import os
+import re
 import shutil
 import subprocess
 from datetime import timedelta
@@ -39,8 +41,27 @@ def build_record(d):
         "date": d.isoformat(),
         "adsense": ad.get("adsense", {}),
         "monthly": ad.get("monthly", {}),
+        "diagnostics": ad.get("diagnostics", {}),
         "ga4": ga.get("ga4", {}),
     }
+
+
+def diagnostics_brief(record):
+    """충족률 진단(기기/국가/광고단위)을 프롬프트용 텍스트로."""
+    diag = record.get("diagnostics") or {}
+    out = []
+    for key, label in [("by_device", "기기"), ("by_country", "국가"), ("by_ad_unit", "광고단위")]:
+        rows = diag.get(key) or []
+        if not rows:
+            continue
+        out.append(f"[{label}별 — 요청/충족률/미충족/수익]")
+        for r in rows[:6]:
+            cov = r.get("coverage")
+            covp = f"{cov*100:.0f}%" if isinstance(cov, (int, float)) else "?"
+            req = int(r.get("requests") or 0)
+            unf = int(r.get("unfilled") or 0)
+            out.append(f"- {r.get('name')}: 요청 {req:,}, 충족 {covp}, 미충족 {unf:,}, 수익 ${r.get('earnings')}")
+    return "\n".join(out)
 
 
 _CURRENCY_SYMBOL = {"USD": "$", "KRW": "₩", "EUR": "€", "JPY": "¥", "GBP": "£"}
@@ -233,23 +254,55 @@ def build_prompt(record, comp, stats, funnel):
             )
 
     data_block = "\n".join(lines)
+    diag = diagnostics_brief(record)
 
     return f"""너는 언론사 디지털광고 담당자를 돕는 분석가다. 아래 어제 데이터를 보고 인사이트를 작성하라.
 
 {data_block}
 
+[충족률 진단 — 부른 광고가 어디서 안 채워지나]
+{diag or '진단 데이터 없음'}
+
 [작성 규칙]
+- 위 '충족률 진단'을 활용해 충족률이 낮은 **진짜 원인 세그먼트**를 수치로 지목하라(요청은 많은데 충족·수익이 낮은 국가/기기/광고단위). 예: "충족률 저하의 대부분은 ○○(요청 N건, 충족 1%, 수익 거의 0)에서 발생" / "△△ 광고단위가 요청만 많고 충족 8%".
+- 수익이 이미 잘 나오는(충족률 높은) 세그먼트는 굳이 손대라고 하지 말 것.
 - 광고가 독자를 쫓아내고 있지 않은지 반드시 판정하라.
 - 핵심 프레임: "광고 = (늘었나/줄었나), 독자 = (머무나/떠나나), 따라서 = (좋은 신호 / 주의 필요)".
 - 월 목표가 있으면 목표 대비 현재 페이스(부족/초과)와 월말 예상치를 반드시 언급하라. 목표에 미달이면 무엇을 끌어올려야 하는지 한 가지 제시.
 - 광고 깔때기(요청→매칭→노출): 충족률이 낮으면 "광고를 부르는 만큼 다 채워지지 않는다"는 뜻 → 채움 개선 여지를 짚어라.
 - 이탈률↑·참여시간↓ 신호가 보이면 수익 변화와 연결해 해석.
-- 어느 지표든 전일/7일평균 대비 ±20% 이상 급변이면 맨 앞에 "⚠️ 경고:" 한 줄 먼저.
+- 어느 지표든 전일/7일평균 대비 ±20% 이상 급변이면 그 내용을 "⚠️ 경고: ..." 포인트로 맨 앞에.
 - 모바일/데스크톱을 구분해 평가.
-- 출력은 실무자용 평이한 한국어 4~6줄. 광고 전문용어 최소화. 불릿이나 머리말 없이 문장만.
-- 데이터가 '데이터 없음'인 항목은 추측하지 말 것.
 
-인사이트만 출력하라."""
+[출력 형식]
+- 모든 줄을 '- '로 시작하는 한 문장 포인트로. 번호·머리말 금지. 평이한 한국어.
+- 먼저 **핵심 진단 2~4개**(수익/목표 페이스/광고 충족/독자 반응).
+- 그다음, 수익을 끌어올릴 **가장 중요한 기회 1가지의 실행 방안 2~4개**를 덧붙여라. 각 실행 방안은 아래 태그로 시작:
+   [관리자] = 구글 AdSense 콘솔에서 코드 없이 바로 (예: 자동광고 켜기, 광고 게재율 100% 확인, 광고 형식 모두 허용, 차단관리 완화)
+   [사이트] = 사이트·소스 수정 필요 (예: ads.txt 게시/수정, 반응형 광고단위로 교체, 빈 슬롯 자동 접기, 본문 광고 위치 추가, 페이지 속도·뷰어빌리티 개선)
+   [확인] = 먼저 점검할 것 (예: ads.txt 경고 여부, 광고 게재율 값, 국가·시간대별 수요)
+- 실제로 존재하는 AdSense 기능만 제시(없는 기능 추측 금지). 원인을 데이터로 단정 못 하면 [확인]으로.
+- 단, 충족률(채움률)이 낮을 때는 [확인]만 나열하지 말고 **[관리자]와 [사이트] 실행 방안을 각각 최소 1개씩 반드시 포함**하라(충족률을 올리는 일반 조치는 데이터 없이도 권할 수 있다).
+- '데이터 없음' 항목은 추측하지 말 것.
+
+포인트 목록만 출력하라."""
+
+
+def to_points(text):
+    """인사이트 텍스트를 말머리(포인트) 리스트로 분해."""
+    lines = [l.strip() for l in (text or "").splitlines() if l.strip()]
+    points = []
+    for l in lines:
+        for pre in ("- ", "• ", "* ", "· "):
+            if l.startswith(pre):
+                l = l[len(pre):].strip()
+                break
+        l = re.sub(r"^\d+[.)]\s*", "", l)  # "1. " 번호 제거
+        if l:
+            points.append(l)
+    if len(points) <= 1:  # 불릿이 아니면 문장 단위로 분해
+        points = [s.strip() for s in re.split(r"(?<=[.!?。])\s+", (text or "").strip()) if s.strip()]
+    return points[:8]
 
 
 def run_claude(prompt):
@@ -331,6 +384,83 @@ def fallback_insight(comp):
     )
 
 
+# ---------- 액션 추적 (계획·실행 → 효과 자동 판정) ----------
+TRACKING_PATH = common.DATA_DIR / "tracking.json"
+
+
+def daily_series(n=21):
+    """최근 n일 핵심 지표를 한 줄씩 — 효과 판정용 컨텍스트."""
+    rows = []
+    for f in sorted(common.DATA_DIR.glob("20[0-9][0-9]-[0-1][0-9]-[0-3][0-9].json"))[-n:]:
+        rec = common.load_json(f) or {}
+        t = (rec.get("adsense") or {}).get("total", {}) or {}
+        ga = (rec.get("ga4") or {}).get("total", {}) or {}
+        cov = t.get("ad_requests_coverage")
+        def s(v, suf="", pct=False):
+            if not isinstance(v, (int, float)):
+                return "?"
+            return f"{round(v * 100) if pct else round(v)}{suf}"
+        rows.append(
+            f"{rec.get('date')}: 수익 ${t.get('earnings')}, 충족률 {s(cov, '%', pct=True)}, "
+            f"노출 {s(t.get('impressions'))}, 이탈률 {s(ga.get('bounce_rate'), '%')}, "
+            f"참여 {s(ga.get('avg_session_duration'), 's')}"
+        )
+    return "\n".join(rows)
+
+
+def judge_item(item, series):
+    """추적 항목의 효과를 데이터로 판정 → {'verdict':..., 'stop_suggested':bool}."""
+    prompt = f"""너는 광고 운영 분석가다. 아래 '개선 액션'의 효과를 데이터로 판정하라.
+- 원래 인사이트({item.get('date')}): {item.get('insight')}
+- 계획: {item.get('plan') or '(미입력)'}
+- 실행: {item.get('exec') or '(미입력)'}
+
+일별 지표 추이:
+{series}
+
+규칙:
+- 실행에 날짜가 있으면 그 이후 관련 지표 변화를 본다.
+- 관련 지표(충족률/수익/노출/이탈률 등)가 개선/악화/무변화인지 수치로 판단.
+- 데이터가 부족하면 "관찰 필요".
+- verdict: 한국어 한 문장(수치 변화 포함, 예 "충족률 28%→41%, 효과 있음").
+- stop_suggested: 효과가 분명해 더 추적 안 해도 되면 true, 아니면 false.
+
+JSON만 출력: {{"verdict":"...","stop_suggested":true}}"""
+    out = generate_insight(prompt)
+    if not out:
+        return None
+    m = re.search(r"\{.*\}", out, re.S)
+    if not m:
+        return None
+    try:
+        return json.loads(m.group(0))
+    except json.JSONDecodeError:
+        return None
+
+
+def judge_tracking_items(today):
+    """tracking.json 의 active 항목 효과를 갱신하고 active 목록 반환."""
+    data = common.load_json(TRACKING_PATH)
+    if not data:
+        return []
+    series = daily_series()
+    active = []
+    for iid, item in data.items():
+        if item.get("status") == "stopped":
+            continue
+        if not (item.get("plan") or item.get("exec")):
+            continue
+        if item.get("exec"):  # 실행이 있으면 효과 판정
+            res = judge_item(item, series)
+            if res:
+                item["verdict"] = res.get("verdict")
+                item["stop_suggested"] = bool(res.get("stop_suggested"))
+                item["verdict_date"] = today.isoformat()
+        active.append((iid, item))
+    common.save_json(TRACKING_PATH, data)
+    return active
+
+
 def main():
     d = common.yesterday()
     record = build_record(d)
@@ -340,23 +470,28 @@ def main():
     funnel = ad_funnel(record)
 
     prompt = build_prompt(record, comp, stats, funnel)
-    insight = generate_insight(prompt) or fallback_insight(comp)
+    raw_insight = generate_insight(prompt) or fallback_insight(comp)
+    points = to_points(raw_insight)
 
-    record["insight"] = insight
+    record["insight_points"] = points
+    record["insight"] = "\n".join("• " + p for p in points)
     record["comparisons"] = comp
     record["monthly_stats"] = stats
     common.save_json(common.daily_path(d), record)
 
+    # 추적 중인 액션(계획·실행)의 효과를 데이터로 판정
+    active = judge_tracking_items(d)
+
     # Jandi payload 미리 계산해 send 단계로 전달
-    payload = build_jandi_payload(d, record, comp, stats, funnel)
+    payload = build_jandi_payload(d, record, comp, stats, funnel, active)
     common.save_json(common.DATA_DIR / f"_jandi-{d.isoformat()}.json", payload)
 
     print(f"[분석] {d} 완료 → {common.daily_path(d)}")
     print("─" * 50)
-    print(insight)
+    print(record["insight"])
 
 
-def build_jandi_payload(d, record, comp, stats, funnel):
+def build_jandi_payload(d, record, comp, stats, funnel, active=None):
     cur = currency_of(record)
 
     earn = comp["earnings"]
@@ -414,18 +549,31 @@ def build_jandi_payload(d, record, comp, stats, funnel):
     info.append({"title": "독자 반응", "description": reader_desc})
     info.append({"title": "💡 인사이트", "description": record.get("insight", "")})
 
+    # 추적 중인 액션의 효과 판정
+    if active:
+        rows = []
+        for _iid, item in active[:5]:
+            label = item.get("plan") or (item.get("insight", "")[:20] + "…")
+            verdict = item.get("verdict") or "실행 대기"
+            tag = "  ✅중지제안" if item.get("stop_suggested") else ""
+            rows.append(f"• {label} → {verdict}{tag}")
+        info.append({"title": "📌 추적 현황", "description": "\n".join(rows)})
+
     # 인사이트에 쓰인 용어 풀이 (구글애드센스 이해도 ↑)
     tips = glossary.tips_for(record.get("insight", ""))
     if tips:
         tip_text = "\n".join(f"• {term} = {desc}" for term, desc in tips)
         info.append({"title": "📖 용어 팁", "description": tip_text})
 
-    # 누적 리포트(일지) 대시보드 위치
-    dashboard = common.BASE_DIR / "report" / "dashboard.html"
-    info.append({
-        "title": "📂 누적 리포트(일지)",
-        "description": f"월별·일별 수익 추이 + 인사이트 일지 보기:\n{dashboard}",
-    })
+    # 누적 리포트(일지) 대시보드 링크
+    dash_url = os.getenv("DASHBOARD_URL")
+    if dash_url:
+        dash_desc = f"월별·일별 수익 추이 + 인사이트 일지:\n{dash_url}"
+    elif os.getenv("GITHUB_ACTIONS") or os.getenv("CI"):
+        dash_desc = "월별·일별 수익 추이 + 인사이트 일지 (공유 링크 준비 중 — Cloudflare 설정 후 표시)"
+    else:
+        dash_desc = f"월별·일별 수익 추이 + 인사이트 일지(로컬에서 열기):\n{common.BASE_DIR / 'report' / 'dashboard.html'}"
+    info.append({"title": "📂 누적 리포트(일지)", "description": dash_desc})
 
     return {
         "body": f"[동아사이언스닷컴 일일 광고 리포트] {d.isoformat()}",

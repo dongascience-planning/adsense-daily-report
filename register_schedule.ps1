@@ -10,7 +10,7 @@ $action = New-ScheduledTaskAction -Execute "powershell.exe" `
     -Argument "-NoProfile -ExecutionPolicy Bypass -File `"$script`"" `
     -WorkingDirectory $PSScriptRoot
 
-$trigger = New-ScheduledTaskTrigger -Daily -At 9:00AM
+$trigger = New-ScheduledTaskTrigger -Daily -At 8:00AM
 
 # If the PC was off/asleep at 09:00, run the missed task once it is available.
 $settings = New-ScheduledTaskSettingsSet -StartWhenAvailable -WakeToRun `
@@ -19,5 +19,5 @@ $settings = New-ScheduledTaskSettingsSet -StartWhenAvailable -WakeToRun `
 Register-ScheduledTask -TaskName $taskName -Action $action -Trigger $trigger `
     -Settings $settings -Description "Dongascience daily AdSense+GA4 report" -Force | Out-Null
 
-Write-Output "[OK] Task Scheduler registered: '$taskName' daily at 09:00"
+Write-Output "[OK] Task Scheduler registered: '$taskName' daily at 08:00"
 Write-Output "Test now with:  Start-ScheduledTask -TaskName $taskName"
