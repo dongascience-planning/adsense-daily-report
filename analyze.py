@@ -6,9 +6,12 @@
 - Jandi 전송용 payload(data/_jandi-YYYY-MM-DD.json) 작성
 출력: data/YYYY-MM-DD.json (insight 포함), data/_jandi-*.json
 """
+import os
 import shutil
 import subprocess
 from datetime import timedelta
+
+import requests
 
 import common
 import glossary
@@ -276,6 +279,42 @@ def run_claude(prompt):
     return result.stdout.strip()
 
 
+def call_anthropic_api(prompt):
+    """claude CLI 가 없는 환경(클라우드 등)에서 Anthropic API 로 인사이트 생성.
+    ANTHROPIC_API_KEY 가 있을 때만 동작. 모델은 ANTHROPIC_MODEL 로 변경 가능."""
+    key = os.getenv("ANTHROPIC_API_KEY")
+    if not key:
+        return None
+    model = os.getenv("ANTHROPIC_MODEL", "claude-opus-4-8")
+    try:
+        r = requests.post(
+            "https://api.anthropic.com/v1/messages",
+            headers={
+                "x-api-key": key,
+                "anthropic-version": "2023-06-01",
+                "content-type": "application/json",
+            },
+            json={
+                "model": model,
+                "max_tokens": 1024,
+                "messages": [{"role": "user", "content": prompt}],
+            },
+            timeout=120,
+        )
+        r.raise_for_status()
+        data = r.json()
+        text = "".join(b.get("text", "") for b in data.get("content", []) if b.get("type") == "text")
+        return text.strip() or None
+    except Exception as e:  # noqa: BLE001
+        print(f"[anthropic API 실패] {e}")
+        return None
+
+
+def generate_insight(prompt):
+    """우선순위: 로컬 claude CLI → Anthropic API → 규칙기반 fallback(호출부에서)."""
+    return run_claude(prompt) or call_anthropic_api(prompt)
+
+
 def fallback_insight(comp):
     """claude -p 실패 시 규칙 기반 백업 인사이트."""
     ad = comp["ad_requests"]["vs_week_pct"]
@@ -301,7 +340,7 @@ def main():
     funnel = ad_funnel(record)
 
     prompt = build_prompt(record, comp, stats, funnel)
-    insight = run_claude(prompt) or fallback_insight(comp)
+    insight = generate_insight(prompt) or fallback_insight(comp)
 
     record["insight"] = insight
     record["comparisons"] = comp
