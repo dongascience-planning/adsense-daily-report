@@ -1,5 +1,6 @@
 name: Daily AdSense Report
 
+# 동아사이언스닷컴 일일 AdSense+GA4 리포트 (매일 09:00 KST 자동 실행)
 on:
   schedule:
     - cron: "0 0 * * *"      # 매일 00:00 UTC = 09:00 KST
