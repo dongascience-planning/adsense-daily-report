@@ -1,0 +1,184 @@
+{
+  "date": "2026-06-21",
+  "adsense": {
+    "total": {
+      "earnings": 40.05,
+      "page_views": 50459.0,
+      "impressions": 47265.0,
+      "impressions_rpm": 0.85,
+      "clicks": 195.0,
+      "page_views_ctr": 0.0039,
+      "ad_requests": 194804.0,
+      "matched_ad_requests": 55305.0,
+      "ad_requests_coverage": 0.2839
+    },
+    "by_device": {
+      "Connected TV": {
+        "earnings": 0.0,
+        "page_views": 26.0,
+        "impressions": 33.0,
+        "impressions_rpm": 0.07,
+        "clicks": 0.0,
+        "page_views_ctr": 0.0,
+        "ad_requests": 84.0,
+        "matched_ad_requests": 33.0,
+        "ad_requests_coverage": 0.3929
+      },
+      "Desktop": {
+        "earnings": 4.45,
+        "page_views": 42570.0,
+        "impressions": 10432.0,
+        "impressions_rpm": 0.43,
+        "clicks": 15.0,
+        "page_views_ctr": 0.0004,
+        "ad_requests": 150009.0,
+        "matched_ad_requests": 14200.0,
+        "ad_requests_coverage": 0.0947
+      },
+      "High-end mobile devices": {
+        "earnings": 34.36,
+        "page_views": 7255.0,
+        "impressions": 34709.0,
+        "impressions_rpm": 0.99,
+        "clicks": 175.0,
+        "page_views_ctr": 0.0241,
+        "ad_requests": 41897.0,
+        "matched_ad_requests": 38674.0,
+        "ad_requests_coverage": 0.9231
+      },
+      "Tablets": {
+        "earnings": 1.23,
+        "page_views": 608.0,
+        "impressions": 2091.0,
+        "impressions_rpm": 0.59,
+        "clicks": 5.0,
+        "page_views_ctr": 0.0082,
+        "ad_requests": 2814.0,
+        "matched_ad_requests": 2398.0,
+        "ad_requests_coverage": 0.8522
+      }
+    },
+    "currency": "USD"
+  },
+  "monthly": {
+    "days_elapsed": 21,
+    "days_in_month": 30,
+    "mtd": {
+      "earnings": 1000.32,
+      "page_views": 878626.0,
+      "ad_requests": 2212797.0
+    },
+    "last_month_same_period": {
+      "earnings": 942.49,
+      "page_views": 958614.0,
+      "ad_requests": 2502241.0
+    },
+    "last_month_full": {
+      "earnings": 1422.77,
+      "page_views": 1513447.0,
+      "ad_requests": 3481662.0
+    },
+    "last_month_label": "2026-05"
+  },
+  "ga4": {
+    "total": {
+      "bounce_rate": 81.91568888744435,
+      "avg_session_duration": 54.594287753258364,
+      "user_engagement_duration": 361967.70825884875,
+      "screen_page_views": 86022.0,
+      "sessions": 61534.0
+    },
+    "by_device": {
+      "desktop": {
+        "bounce_rate": 91.15410645328238,
+        "avg_session_duration": 27.890948500497633,
+        "user_engagement_duration": 336139.0,
+        "screen_page_views": 53389.0,
+        "sessions": 50238.0
+      },
+      "mobile": {
+        "bounce_rate": 41.19461581604038,
+        "avg_session_duration": 165.33441818994206,
+        "user_engagement_duration": 500585.0,
+        "screen_page_views": 28842.0,
+        "sessions": 10698.0
+      },
+      "tablet": {
+        "bounce_rate": 34.280936454849495,
+        "avg_session_duration": 316.84251846989963,
+        "user_engagement_duration": 52026.0,
+        "screen_page_views": 3791.0,
+        "sessions": 598.0
+      }
+    }
+  },
+  "insight": "어제는 비교할 전일·7일평균 데이터가 없어 증감 방향이 아니라 수준으로만 판단합니다. 광고는 정상적으로 노출됐고(노출 47,265회) 독자는 평균 54.59초를 머물렀으며 이탈률 81.92%는 뉴스 사이트로는 일반적인 범위라, 광고가 독자를 쫓아내고 있다는 신호는 아직 보이지 않아 현재로선 양호한 신호로 봅니다. 다만 수익의 86%가 모바일($34.36)에서 나오고 데스크톱은 $4.45(11%)에 그쳐, 사실상 모바일 단일 채널에 의존하는 구조입니다. 광고 깔때기를 보면 19만여 건을 불렀는데 충족률이 28%에 불과해(요청의 24%만 실제 노출), 부르는 만큼 다 채우지 못하는 손실이 커서 광고 채움률을 끌어올릴 여지가 가장 큽니다. 월 목표는 $2,850인데 현재 21일까지 $1,000으로 달성률 35%, 이 추세면 월말 $1,429로 목표의 절반(50%)에 그쳐 약 $1,421이 부족합니다. 남은 9일간 하루 $205가 필요하나 어제는 $40 수준이라 격차가 매우 크므로, 우선 충족률(채움률) 개선으로 노출 손실분부터 회수하는 것이 현실적인 첫걸음입니다.",
+  "comparisons": {
+    "earnings": {
+      "current": 40.05,
+      "prev": null,
+      "week_avg": null,
+      "vs_prev_pct": null,
+      "vs_week_pct": null
+    },
+    "ad_requests": {
+      "current": 194804.0,
+      "prev": null,
+      "week_avg": null,
+      "vs_prev_pct": null,
+      "vs_week_pct": null
+    },
+    "impressions_rpm": {
+      "current": 0.85,
+      "prev": null,
+      "week_avg": null,
+      "vs_prev_pct": null,
+      "vs_week_pct": null
+    },
+    "page_views": {
+      "current": 50459.0,
+      "prev": null,
+      "week_avg": null,
+      "vs_prev_pct": null,
+      "vs_week_pct": null
+    },
+    "bounce_rate": {
+      "current": 81.91568888744435,
+      "prev": null,
+      "week_avg": null,
+      "vs_prev_pct": null,
+      "vs_week_pct": null
+    },
+    "avg_session_duration": {
+      "current": 54.594287753258364,
+      "prev": null,
+      "week_avg": null,
+      "vs_prev_pct": null,
+      "vs_week_pct": null
+    },
+    "sessions": {
+      "current": 61534.0,
+      "prev": null,
+      "week_avg": null,
+      "vs_prev_pct": null,
+      "vs_week_pct": null
+    }
+  },
+  "monthly_stats": {
+    "mtd": 1000.32,
+    "days_elapsed": 21,
+    "days_in_month": 30,
+    "daily_avg": 47.63428571428572,
+    "projection": 1429.0285714285715,
+    "lm_same": 942.49,
+    "lm_full": 1422.77,
+    "vs_lm_same_pct": 6.13587412068033,
+    "goal": 2850.0,
+    "progress_pct": 35.09894736842105,
+    "projected_pct": 50.14135338345865,
+    "remaining": 1849.6799999999998,
+    "days_left": 9,
+    "needed_daily": 205.51999999999998,
+    "projected_gap": -1420.9714285714285
+  }
+}

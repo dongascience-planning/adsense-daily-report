@@ -1,0 +1,18 @@
+# === 비밀: 절대 커밋 금지 ===
+.env
+token_adsense.json
+ga4-key.json
+*-key.json
+*.credentials.json
+
+# === 로컬 환경 ===
+.venv/
+__pycache__/
+*.pyc
+
+# === 생성물/임시 (클라우드에서 재생성·배포) ===
+report/
+data/logs/
+data/_jandi-*.json
+
+# 비공개 저장소이므로 data/ 의 일별/월별/일지 JSON은 커밋한다(추세·누적 유지).

@@ -1,0 +1,83 @@
+{
+  "date": "2026-06-21",
+  "adsense": {
+    "total": {
+      "earnings": 40.05,
+      "page_views": 50459.0,
+      "impressions": 47265.0,
+      "impressions_rpm": 0.85,
+      "clicks": 195.0,
+      "page_views_ctr": 0.0039,
+      "ad_requests": 194804.0,
+      "matched_ad_requests": 55305.0,
+      "ad_requests_coverage": 0.2839
+    },
+    "by_device": {
+      "Connected TV": {
+        "earnings": 0.0,
+        "page_views": 26.0,
+        "impressions": 33.0,
+        "impressions_rpm": 0.07,
+        "clicks": 0.0,
+        "page_views_ctr": 0.0,
+        "ad_requests": 84.0,
+        "matched_ad_requests": 33.0,
+        "ad_requests_coverage": 0.3929
+      },
+      "Desktop": {
+        "earnings": 4.45,
+        "page_views": 42570.0,
+        "impressions": 10432.0,
+        "impressions_rpm": 0.43,
+        "clicks": 15.0,
+        "page_views_ctr": 0.0004,
+        "ad_requests": 150009.0,
+        "matched_ad_requests": 14200.0,
+        "ad_requests_coverage": 0.0947
+      },
+      "High-end mobile devices": {
+        "earnings": 34.36,
+        "page_views": 7255.0,
+        "impressions": 34709.0,
+        "impressions_rpm": 0.99,
+        "clicks": 175.0,
+        "page_views_ctr": 0.0241,
+        "ad_requests": 41897.0,
+        "matched_ad_requests": 38674.0,
+        "ad_requests_coverage": 0.9231
+      },
+      "Tablets": {
+        "earnings": 1.23,
+        "page_views": 608.0,
+        "impressions": 2091.0,
+        "impressions_rpm": 0.59,
+        "clicks": 5.0,
+        "page_views_ctr": 0.0082,
+        "ad_requests": 2814.0,
+        "matched_ad_requests": 2398.0,
+        "ad_requests_coverage": 0.8522
+      }
+    },
+    "currency": "USD"
+  },
+  "monthly": {
+    "days_elapsed": 21,
+    "days_in_month": 30,
+    "mtd": {
+      "earnings": 1000.32,
+      "page_views": 878626.0,
+      "ad_requests": 2212797.0
+    },
+    "last_month_same_period": {
+      "earnings": 942.49,
+      "page_views": 958614.0,
+      "ad_requests": 2502241.0
+    },
+    "last_month_full": {
+      "earnings": 1422.77,
+      "page_views": 1513447.0,
+      "ad_requests": 3481662.0
+    },
+    "last_month_label": "2026-05"
+  }
+}

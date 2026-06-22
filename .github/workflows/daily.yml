@@ -1,0 +1,64 @@
+name: Daily AdSense Report
+
+on:
+  schedule:
+    - cron: "0 0 * * *"      # 매일 00:00 UTC = 09:00 KST
+  workflow_dispatch: {}        # 수동 실행 버튼 (Actions 탭)
+
+permissions:
+  contents: write              # 데이터/일지를 저장소에 다시 커밋
+
+concurrency:
+  group: daily-report
+  cancel-in-progress: false
+
+jobs:
+  report:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install deps
+        run: pip install -r requirements.txt
+
+      - name: Restore credentials from secrets
+        env:
+          TOKEN_ADSENSE_JSON: ${{ secrets.TOKEN_ADSENSE_JSON }}
+          GA4_KEY_JSON: ${{ secrets.GA4_KEY_JSON }}
+        run: |
+          printf '%s' "$TOKEN_ADSENSE_JSON" > token_adsense.json
+          printf '%s' "$GA4_KEY_JSON" > ga4-key.json
+
+      - name: Run pipeline
+        env:
+          ADSENSE_CLIENT_ID: ${{ secrets.ADSENSE_CLIENT_ID }}
+          ADSENSE_CLIENT_SECRET: ${{ secrets.ADSENSE_CLIENT_SECRET }}
+          ADSENSE_ACCOUNT: ${{ secrets.ADSENSE_ACCOUNT }}
+          GA4_PROPERTY_ID: ${{ secrets.GA4_PROPERTY_ID }}
+          GA4_SERVICE_ACCOUNT_JSON: ./ga4-key.json
+          JANDI_WEBHOOK_URL: ${{ secrets.JANDI_WEBHOOK_URL }}
+          MONTHLY_REVENUE_GOAL: ${{ secrets.MONTHLY_REVENUE_GOAL }}
+        run: |
+          python collect_adsense.py
+          python collect_ga4.py
+          python analyze.py
+          python build_dashboard.py
+          python send_jandi.py
+
+      - name: Commit data/journal back
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/
+          git commit -m "data: $(date -u +%F) automated run" || echo "no data changes"
+          git push
+
+      # Cloudflare Pages 배포 단계는 Cloudflare 설정 후 추가됩니다.
+
+      - name: Cleanup credentials
+        if: always()
+        run: rm -f token_adsense.json ga4-key.json
