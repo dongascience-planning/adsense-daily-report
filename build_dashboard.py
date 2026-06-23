@@ -183,6 +183,31 @@ HTML_TEMPLATE = r"""<!doctype html>
   button{background:var(--accent);color:#fff;border:0;border-radius:8px;padding:8px 14px;font:inherit;cursor:pointer;font-weight:600}
   .saved{color:var(--good);font-size:12px;opacity:0;transition:opacity .3s}
   .hint{font-size:12px;color:var(--muted)}
+  .qcard textarea{width:100%;min-height:60px;resize:vertical;background:var(--card2);color:var(--txt);border:1px solid var(--line);border-radius:8px;padding:8px;font:inherit;font-size:13px;margin:8px 0}
+  .qrow{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+  .qrow input{flex:0 0 140px;background:var(--card2);color:var(--txt);border:1px solid var(--line);border-radius:8px;padding:7px;font:inherit;font-size:13px}
+  .qbtn{background:transparent;border:1px solid var(--line);color:var(--muted);border-radius:6px;padding:2px 7px;font-size:12px;cursor:pointer;margin-left:6px}
+  .qbtn:hover{border-color:var(--accent);color:var(--accent)}
+
+  /* 인사이트 체크리스트 */
+  .ins{display:flex;align-items:flex-start;gap:10px;justify-content:space-between;padding:11px 13px;border:1px solid var(--line);border-radius:10px;background:var(--card);margin-bottom:7px;box-shadow:var(--shadow);cursor:pointer;transition:border-color .15s}
+  .ins:hover{border-color:var(--accent)}
+  .ins-text{font-size:14px;flex:1}
+  .ins-text .bullet{color:var(--accent);font-weight:700;margin-right:5px}
+  .ins-status{flex:0 0 auto;white-space:nowrap;font-size:12px;align-self:center}
+  .b-track{background:#fde8e8;color:#c0392b;font-weight:700;border-radius:20px;padding:4px 10px}
+  .b-add{color:var(--muted);border:1px dashed var(--line);border-radius:20px;padding:4px 10px}
+  /* 모달 */
+  .modal-ov{position:fixed;inset:0;background:rgba(16,24,40,.45);display:flex;align-items:center;justify-content:center;padding:16px;z-index:50}
+  .modal-box{background:var(--card);border-radius:14px;max-width:560px;width:100%;max-height:88vh;overflow-y:auto;padding:22px;box-shadow:0 12px 44px rgba(0,0,0,.28);position:relative}
+  .modal-x{position:absolute;top:12px;right:14px;background:transparent;border:0;color:var(--muted);font-size:18px;cursor:pointer}
+  .modal-date{font-size:12px;color:var(--accent);font-weight:700}
+  .modal-ins{font-size:15px;font-weight:600;margin:4px 0 12px;line-height:1.55}
+  .modal-verdict{font-size:13px;background:var(--card2);border-radius:8px;padding:9px 11px;margin-bottom:12px}
+  .modal-box textarea{width:100%;min-height:56px;resize:vertical;background:var(--card2);color:var(--txt);border:1px solid var(--line);border-radius:8px;padding:8px;font:inherit;font-size:13px;margin:4px 0 10px}
+  .modal-box .ml{font-size:12px;color:var(--muted);font-weight:600}
+  .modal-hr{border:0;border-top:1px solid var(--line);margin:14px 0}
+  button.ghost{background:transparent;border:1px solid var(--line);color:var(--muted)}
 
   details.gloss{margin-top:24px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:8px 16px;box-shadow:var(--shadow)}
   details.gloss summary{cursor:pointer;font-weight:700;padding:6px 0}
@@ -205,18 +230,36 @@ HTML_TEMPLATE = r"""<!doctype html>
   <h2>🔍 충족률 진단 <small>— 부른 광고가 어디서 안 채워지나 (빨강 = 낮음)</small></h2>
   <div class="card" id="diag"></div>
 
-  <h2>📌 추적 중인 액션 <small>— 인사이트에 계획·실행을 적으면, 이후 효과를 매일 자동 판정합니다</small></h2>
-  <div id="track"></div>
-
-  <h2>📝 인사이트 일지 <small>— 매일 새 인사이트가 위에 쌓입니다 · 계획/실행은 자동 저장</small></h2>
-  <div class="toolbar">
-    <span class="hint">아래에 계획·실행을 적으면 자동 저장되어, 위 "추적 중인 액션"에서 효과를 추적합니다.</span>
-    <span class="saved" id="savedMsg">저장됨</span>
-  </div>
-  <div class="loghdr"><div>인사이트</div><div>🧭 계획</div><div>🔧 실행</div></div>
+  <h2>📝 인사이트 체크리스트 <small>— 🔴 = 진행 중인 액션 있음 · 인사이트를 클릭하면 계획·실행·질문 입력</small></h2>
   <div id="log"></div>
 
   <details class="gloss" id="gloss"><summary>📖 용어 사전 (펼치기)</summary></details>
+
+  <h2>💬 질문 / 요청 남기기</h2>
+  <div class="card qcard">
+    <div class="hint">자동 답변이 아니라, 담당자(광고팀)가 Jandi로 받아 확인 후 답합니다. (특정 인사이트 질문은 그 인사이트를 클릭하세요)</div>
+    <textarea id="qbox" placeholder="인사이트와 무관한 일반 질문·요청을 적어주세요..."></textarea>
+    <div class="qrow"><input id="qname" placeholder="이름(선택)"><button id="qsend">보내기</button><span class="saved" id="qmsg">접수됐어요 ✅</span></div>
+  </div>
+
+  <!-- 인사이트 상세/입력 모달 -->
+  <div id="modal" class="modal-ov" style="display:none">
+    <div class="modal-box">
+      <button class="modal-x" id="mClose">✕</button>
+      <div class="modal-date" id="mDate"></div>
+      <div class="modal-ins" id="mIns"></div>
+      <div class="modal-verdict" id="mVerdict" style="display:none"></div>
+      <label class="ml">🧭 계획</label>
+      <textarea id="mPlan" placeholder="이 인사이트에 대해 무엇을 할 계획인지..."></textarea>
+      <label class="ml">🔧 실행</label>
+      <textarea id="mExec" placeholder="언제 무엇을 실행했는지 (날짜 포함 권장: 예 6/24 본문 광고 2개 추가)..."></textarea>
+      <div class="qrow"><button id="mSave">💾 저장 (추적 시작)</button><button class="ghost" id="mStop">⏹ 추적 중지</button><span class="saved" id="mSaved">저장됨 ✅</span></div>
+      <hr class="modal-hr">
+      <label class="ml">💬 이 인사이트에 질문</label>
+      <textarea id="mQ" placeholder="궁금한 점을 적으면 담당자(광고팀)에게 전달됩니다..."></textarea>
+      <div class="qrow"><input id="mQName" placeholder="이름(선택)"><button id="mQSend">질문 보내기</button><span class="saved" id="mQMsg">전송됨 ✅</span></div>
+    </div>
+  </div>
 
 <script>
 const DATA = /*__DATA__*/;
@@ -349,68 +392,81 @@ function renderDiag(D){
   document.getElementById("diag").innerHTML = html || `<div class="empty">진단 데이터가 아직 없습니다 (다음 수집부터 표시).</div>`;
 }
 
-/* ---------- 추적 중인 액션 ---------- */
-function renderTracking(){
-  const box=document.getElementById("track");
-  const items=Object.entries(DATA.tracking||{}).filter(([id,it])=> it && it.status!=="stopped" && (it.plan||it.exec));
-  if(!items.length){
-    box.innerHTML=`<div class="empty2">아직 추적 중인 액션이 없습니다. 아래 인사이트에 <b>계획</b>과 <b>실행</b>을 적으면, 이후 효과가 매일 여기에 자동으로 표시됩니다.</div>`;
-    return;
-  }
-  box.innerHTML=items.map(([id,it])=>{
-    const stop=it.stop_suggested;
-    const verdict = it.verdict
-      ? `<div class="track-verdict">→ ${esc(it.verdict)}${stop?'<span class="badge">✅ 효과 확정 · 중지 제안</span>':''}</div>`
-      : `<div class="track-verdict" style="color:var(--muted);font-weight:500">→ 실행 이후 효과를 매일 판정합니다</div>`;
-    return `<div class="track-item ${stop?'stopflag':''}">
-      <button class="stopbtn" data-stop="${id}">중지</button>
-      <div class="track-ins">📌 [${it.date||''}] ${richText(it.insight||'')}</div>
-      <div class="track-pe">🧭 <b>${esc(it.plan||'-')}</b> &nbsp;·&nbsp; 🔧 <b>${esc(it.exec||'-')}</b></div>
-      ${verdict}
-    </div>`;
-  }).join("");
-  box.querySelectorAll("[data-stop]").forEach(b=>b.addEventListener("click", async ()=>{
-    await postTrack({id:b.dataset.stop, status:"stopped"});
-    b.closest(".track-item").style.display="none";
-  }));
-}
-renderTracking();
-
-/* ---------- 인사이트 일지 (말머리 + 계획/실행) ---------- */
-function seedVal(id, field){
-  // 서버(tracking.json)를 단일 진실로 사용 — 초기화가 깨끗이 반영됨
-  const t=(DATA.tracking||{})[id];
-  return (t && (field in t)) ? (t[field]||"") : "";
-}
+/* ---------- 인사이트 체크리스트 (한 줄씩 + 🔴 배지 + 클릭→모달) ---------- */
 const log=document.getElementById("log");
-const FIELDS=[["plan","계획"],["exec","실행"]];
-DATA.days.slice().reverse().forEach(d=>{
-  if(!d.points||!d.points.length) return;
-  const grp=document.createElement("div"); grp.className="daygrp";
-  grp.innerHTML=`<div class="dayhdr">${d.date}</div>`;
-  d.points.forEach((p, idx)=>{
-    const id=d.date+"#"+idx; ID2INFO[id]={date:d.date, insight:p};
-    const row=document.createElement("div"); row.className="pt";
-    row.innerHTML=`<div class="pt-text"><span class="bullet">•</span>${richText(p)}</div>`+
-      FIELDS.map(f=>`<div><span class="ml">${f[1]}</span><textarea data-id="${id}" data-field="${f[0]}" placeholder="${f[1]}..."></textarea></div>`).join("");
-    grp.appendChild(row);
+function statusBadge(id){
+  const t=(DATA.tracking||{})[id];
+  if(t && t.status!=="stopped" && (t.plan||t.exec)){
+    return `<span class="b-track">🔴 액션 추적중</span>`;
+  }
+  return `<span class="b-add">＋ 계획·실행·질문</span>`;
+}
+function renderLog(){
+  log.innerHTML="";
+  DATA.days.slice().reverse().forEach(d=>{
+    if(!d.points||!d.points.length) return;
+    const grp=document.createElement("div"); grp.className="daygrp";
+    grp.innerHTML=`<div class="dayhdr">${d.date}</div>`;
+    d.points.forEach((p, idx)=>{
+      const id=d.date+"#"+idx; ID2INFO[id]={date:d.date, insight:p};
+      const row=document.createElement("div"); row.className="ins"; row.dataset.id=id;
+      row.innerHTML=`<div class="ins-text"><span class="bullet">•</span>${richText(p)}</div><div class="ins-status">${statusBadge(id)}</div>`;
+      row.addEventListener("click", ()=> openModal(id));
+      grp.appendChild(row);
+    });
+    log.appendChild(grp);
   });
-  log.appendChild(grp);
+  if(!log.children.length) log.innerHTML=`<div class="empty">아직 인사이트가 없습니다. 내일부터 쌓입니다.</div>`;
+}
+renderLog();
+
+/* ---------- 인사이트 상세/입력 모달 (계획·실행·질문) ---------- */
+let MID=null;
+const modal=document.getElementById("modal");
+function openModal(id){
+  MID=id;
+  const info=ID2INFO[id]||{}; const t=(DATA.tracking||{})[id]||{};
+  document.getElementById("mDate").textContent="["+(info.date||"")+"]";
+  document.getElementById("mIns").innerHTML=richText(info.insight||"");
+  const v=document.getElementById("mVerdict");
+  if(t.verdict){ v.style.display="block"; v.innerHTML="📈 추적 효과: "+esc(t.verdict)+(t.stop_suggested?' <b class="good">(중지 제안)</b>':''); }
+  else { v.style.display="none"; }
+  document.getElementById("mPlan").value=t.plan||"";
+  document.getElementById("mExec").value=t.exec||"";
+  document.getElementById("mStop").style.display=(t.status!=="stopped" && (t.plan||t.exec))?"inline-block":"none";
+  document.getElementById("mQ").value="";
+  document.getElementById("mSaved").style.opacity=0; document.getElementById("mQMsg").style.opacity=0;
+  modal.style.display="flex";
+}
+function closeModal(){ modal.style.display="none"; MID=null; }
+document.getElementById("mClose").addEventListener("click", closeModal);
+modal.addEventListener("click", e=>{ if(e.target===modal) closeModal(); });
+document.getElementById("mSave").addEventListener("click", async ()=>{
+  if(!MID) return;
+  const info=ID2INFO[MID]||{};
+  const plan=document.getElementById("mPlan").value, ex=document.getElementById("mExec").value;
+  if(await postJSON("/api/track",{id:MID, date:info.date, insight:info.insight, plan, exec:ex})){
+    DATA.tracking[MID]=Object.assign({}, DATA.tracking[MID], {date:info.date, insight:info.insight, plan, exec:ex, status:"active"});
+    const m=document.getElementById("mSaved"); m.style.opacity=1; setTimeout(()=>m.style.opacity=0,2000);
+    document.getElementById("mStop").style.display=(plan||ex)?"inline-block":"none";
+    renderLog();
+  } else alert("저장 실패 — 사내망 서버 접속 상태를 확인하세요 (대시보드 파일을 직접 연 경우 동작 안 함).");
 });
-const timers={};
-document.querySelectorAll(".pt textarea").forEach(t=>{
-  t.value=seedVal(t.dataset.id, t.dataset.field);
-  t.addEventListener("input", ()=>{
-    const id=t.dataset.id;
-    localStorage.setItem("memo:"+id+":"+t.dataset.field, t.value);
-    clearTimeout(timers[id]);
-    timers[id]=setTimeout(async ()=>{
-      const info=ID2INFO[id]||{};
-      if(await postTrack({id, date:info.date, insight:info.insight, plan:tval(id,"plan"), exec:tval(id,"exec")})) flashSaved();
-    }, 700);
-  });
+document.getElementById("mStop").addEventListener("click", async ()=>{
+  if(!MID) return;
+  if(await postJSON("/api/track",{id:MID, status:"stopped"})){
+    if(DATA.tracking[MID]) DATA.tracking[MID].status="stopped";
+    renderLog(); closeModal();
+  }
 });
-if(!log.children.length) log.innerHTML=`<div class="empty">아직 인사이트가 없습니다. 내일부터 쌓입니다.</div>`;
+document.getElementById("mQSend").addEventListener("click", async ()=>{
+  if(!MID) return;
+  const info=ID2INFO[MID]||{}; const q=document.getElementById("mQ").value.trim(); if(!q) return;
+  if(await postJSON("/api/question",{question:q, name:document.getElementById("mQName").value, date:info.date, insight:info.insight})){
+    document.getElementById("mQ").value="";
+    const m=document.getElementById("mQMsg"); m.textContent="전송됨 ✅ 담당자에게 전달"; m.style.opacity=1; setTimeout(()=>m.style.opacity=0,2500);
+  } else alert("전송 실패 — 사내망 서버 접속 상태를 확인하세요.");
+});
 
 /* ---------- 날짜별 보기 (목표·진단을 고른 날짜 기준으로) ---------- */
 const BYDATE={}; DATA.days.forEach(d=> BYDATE[d.date]=d);
@@ -427,6 +483,22 @@ if(sel){
   const dh=document.getElementById("datehint"); if(dh) dh.textContent = "← 과거 날짜를 고르면 그날의 목표·진단을 봅니다 (인사이트는 아래 일지에 날짜별로)";
 }
 showDay(DATA.days.length ? DATA.days[DATA.days.length-1].date : "");
+
+/* ---------- 질문 접수 (인박스 → Jandi) ---------- */
+async function postJSON(path, payload){
+  try{ const r=await fetch(path,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload)}); return r.ok; }
+  catch(e){ return false; }
+}
+const qbox=document.getElementById("qbox");
+document.getElementById("qsend").addEventListener("click", async ()=>{
+  const q=(qbox.value||"").trim(); if(!q){ qbox.focus(); return; }
+  const btn=document.getElementById("qsend"); btn.disabled=true;
+  const ok=await postJSON("/api/question", {question:q, name:document.getElementById("qname").value, date:(document.getElementById("datesel")||{}).value||"", insight:qbox.dataset.insight||""});
+  btn.disabled=false;
+  const m=document.getElementById("qmsg");
+  if(ok){ qbox.value=""; qbox.dataset.insight=""; m.textContent="접수됐어요 ✅ 담당자가 확인 후 답합니다"; m.style.opacity=1; setTimeout(()=>m.style.opacity=0, 3000); }
+  else { alert("전송 실패 — 사내망 서버 접속 상태를 확인하세요. (대시보드 파일을 직접 연 경우 동작하지 않습니다)"); }
+});
 
 /* ---------- 용어 사전 (접이식) ---------- */
 document.getElementById("gloss").insertAdjacentHTML("beforeend",

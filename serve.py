@@ -23,6 +23,8 @@ except Exception:
 BASE = Path(__file__).resolve().parent
 ROOT = str(BASE / "report")
 TRACKING = BASE / "data" / "tracking.json"
+QUESTIONS = BASE / "data" / "questions.json"
+JANDI_URL = os.getenv("JANDI_WEBHOOK_URL", "")
 PORT = int(os.getenv("SERVE_PORT", "8080"))
 USER = os.getenv("SERVE_USER", "team")
 PASS = os.getenv("SERVE_PASS", "")
@@ -56,25 +58,35 @@ class Handler(SimpleHTTPRequestHandler):
             return self._deny()
         return super().do_GET()
 
+    def _ok(self):
+        self.send_response(200)
+        self.send_header("Content-Type", "application/json")
+        self.end_headers()
+        self.wfile.write(b'{"ok":true}')
+
+    def _bad(self, code=400):
+        self.send_response(code)
+        self.end_headers()
+
     def do_POST(self):
         if not self._auth_ok():
             return self._deny()
-        if self.path.rstrip("/") != "/api/track":
-            self.send_response(404)
-            self.end_headers()
-            return
+        path = self.path.rstrip("/")
         try:
             length = int(self.headers.get("Content-Length", 0))
             body = json.loads(self.rfile.read(length).decode("utf-8"))
         except Exception:
-            self.send_response(400)
-            self.end_headers()
-            return
+            return self._bad()
+        if path == "/api/track":
+            return self._handle_track(body)
+        if path == "/api/question":
+            return self._handle_question(body)
+        return self._bad(404)
+
+    def _handle_track(self, body):
         iid = body.get("id")
         if not iid:
-            self.send_response(400)
-            self.end_headers()
-            return
+            return self._bad()
         data = {}
         if TRACKING.exists():
             try:
@@ -89,10 +101,55 @@ class Handler(SimpleHTTPRequestHandler):
         data[iid] = item
         TRACKING.parent.mkdir(exist_ok=True)
         TRACKING.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
-        self.send_response(200)
-        self.send_header("Content-Type", "application/json")
-        self.end_headers()
-        self.wfile.write(b'{"ok":true}')
+        self._ok()
+
+    def _handle_question(self, body):
+        q = (body.get("question") or "").strip()
+        if not q:
+            return self._bad()
+        entry = {
+            "question": q,
+            "name": (body.get("name") or "").strip(),
+            "date": body.get("date") or "",
+            "insight": body.get("insight") or "",
+            "answered": False,
+        }
+        items = []
+        if QUESTIONS.exists():
+            try:
+                items = json.loads(QUESTIONS.read_text(encoding="utf-8"))
+            except Exception:
+                items = []
+        items.append(entry)
+        QUESTIONS.parent.mkdir(exist_ok=True)
+        QUESTIONS.write_text(json.dumps(items, ensure_ascii=False, indent=2), encoding="utf-8")
+        self._notify_jandi(entry)
+        self._ok()
+
+    def _notify_jandi(self, entry):
+        if not JANDI_URL:
+            return
+        info = [{"title": "❓ 질문", "description": entry["question"]}]
+        if entry.get("name"):
+            info.append({"title": "보낸 사람", "description": entry["name"]})
+        if entry.get("date"):
+            info.append({"title": "관련 날짜", "description": entry["date"]})
+        if entry.get("insight"):
+            info.append({"title": "관련 인사이트", "description": entry["insight"][:200]})
+        payload = {
+            "body": "💬 [대시보드 질문 접수] — 답변이 필요합니다",
+            "connectColor": "#f5a623",
+            "connectInfo": info,
+        }
+        try:
+            import requests
+            requests.post(
+                JANDI_URL, json=payload,
+                headers={"Accept": "application/vnd.tosslab.jandi-v2+json", "Content-Type": "application/json"},
+                timeout=15,
+            )
+        except Exception as e:  # noqa: BLE001
+            print("[질문 Jandi 전송 실패]", e)
 
     def log_message(self, fmt, *args):
         pass  # 콘솔 로그 억제
