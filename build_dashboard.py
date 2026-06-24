@@ -66,6 +66,7 @@ def build():
     gloss_map.sort(key=lambda x: -len(x[0]))  # 긴 단어 우선 매칭
 
     payload = {
+        "headline": common.env("GOAL_HEADLINE", "🎯 이번 달 목표 : 일단 매출부터 올려보자"),
         "generated": days[-1]["date"] if days else "",
         "currency": currency,
         "stats": stats,
@@ -106,6 +107,8 @@ HTML_TEMPLATE = r"""<!doctype html>
   h2{font-size:16px;margin:30px 0 12px;font-weight:700}
   h2 small{font-weight:500;color:var(--muted);font-size:12px}
   .sub{color:var(--muted);font-size:13px;margin-bottom:8px}
+  .goal-banner{background:linear-gradient(90deg,var(--accent),#3b82f6);color:#fff;border-radius:14px;padding:18px 22px;font-size:20px;font-weight:800;margin:10px 0 12px;box-shadow:var(--shadow);line-height:1.45;letter-spacing:-.2px}
+  @media(max-width:680px){ .goal-banner{font-size:17px;padding:15px 17px} }
   .datebar{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 14px;margin:10px 0;box-shadow:var(--shadow);font-weight:600}
   .datebar select{font:inherit;font-weight:700;color:var(--accent);background:var(--card2);border:1px solid var(--line);border-radius:8px;padding:5px 9px;cursor:pointer}
   h2 small{font-weight:500;color:var(--muted);font-size:12px}
@@ -217,6 +220,7 @@ HTML_TEMPLATE = r"""<!doctype html>
 </head>
 <body>
   <h1>📊 동아사이언스닷컴 광고 리포트 일지</h1>
+  <div class="goal-banner" id="banner"></div>
   <div class="sub" id="sub"></div>
 
   <div class="datebar">📅 날짜별 보기: <select id="datesel"></select> <span class="hint" id="datehint"></span></div>
@@ -267,6 +271,7 @@ const SYM = {USD:"$",KRW:"₩",EUR:"€",JPY:"¥",GBP:"£"}[DATA.currency] || (D
 const money = v => (typeof v==="number") ? SYM + v.toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2}) : "—";
 const esc = s => (s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
 
+document.getElementById("banner").textContent = DATA.headline || "🎯 이번 달 목표";
 document.getElementById("sub").textContent = "마지막 갱신: " + (DATA.generated||"-") + "  ·  통화 " + DATA.currency;
 
 /* ---------- 용어 마우스오버 ---------- */

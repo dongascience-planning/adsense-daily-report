@@ -491,6 +491,42 @@ def main():
     print(record["insight"])
 
 
+def _words(s):
+    return set(re.findall(r"[가-힣A-Za-z0-9]+", (s or "").lower()))
+
+
+def _is_similar(p, others, thresh=0.55):
+    """단어 겹침(Jaccard)으로 어제 인사이트와 사실상 같은지 판단."""
+    pw = _words(p)
+    if not pw:
+        return False
+    for q in others:
+        qw = _words(q)
+        if qw and len(pw & qw) / len(pw | qw) >= thresh:
+            return True
+    return False
+
+
+def new_insights_text(record, d):
+    """어제와 겹치지 않는 '신규' 인사이트만 골라 Jandi용 텍스트로."""
+    today = record.get("insight_points") or [
+        ln.lstrip("•- ").strip() for ln in (record.get("insight", "") or "").split("\n") if ln.strip()
+    ]
+    prev = common.load_json(common.daily_path(d - timedelta(days=1)))
+    prev_points = (prev or {}).get("insight_points", []) if prev else []
+    new = [p for p in today if not _is_similar(p, prev_points)]
+    # ⚠️ 경고를 앞으로, 그다음 최대 4줄만 (나머지는 대시보드에서)
+    new.sort(key=lambda p: 0 if "경고" in p else 1)
+    shown = new[:4]
+    if not shown:
+        return "오늘 신규 인사이트 없음 — 대시보드에서 전체 확인"
+    extra = len(new) - len(shown)
+    text = "\n".join("• " + p for p in shown)
+    if extra > 0:
+        text += f"\n…외 {extra}건은 대시보드에서"
+    return text
+
+
 def build_jandi_payload(d, record, comp, stats, funnel, active=None):
     cur = currency_of(record)
 
@@ -547,7 +583,7 @@ def build_jandi_payload(d, record, comp, stats, funnel, active=None):
 
     info.append({"title": "광고 충족", "description": funnel_desc})
     info.append({"title": "독자 반응", "description": reader_desc})
-    info.append({"title": "💡 인사이트", "description": record.get("insight", "")})
+    info.append({"title": "💡 신규 인사이트", "description": new_insights_text(record, d)})
 
     # 추적 중인 액션의 효과 판정
     if active:
@@ -558,12 +594,6 @@ def build_jandi_payload(d, record, comp, stats, funnel, active=None):
             tag = "  ✅중지제안" if item.get("stop_suggested") else ""
             rows.append(f"• {label} → {verdict}{tag}")
         info.append({"title": "📌 추적 현황", "description": "\n".join(rows)})
-
-    # 인사이트에 쓰인 용어 풀이 (구글애드센스 이해도 ↑)
-    tips = glossary.tips_for(record.get("insight", ""))
-    if tips:
-        tip_text = "\n".join(f"• {term} = {desc}" for term, desc in tips)
-        info.append({"title": "📖 용어 팁", "description": tip_text})
 
     # 누적 리포트(일지) 대시보드 링크
     dash_url = os.getenv("DASHBOARD_URL")
