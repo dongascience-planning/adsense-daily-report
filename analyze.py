@@ -527,6 +527,20 @@ def new_insights_text(record, d):
     return text
 
 
+def track_signal(item):
+    """추적 항목 상태를 신호등 이모지로: 🟩효과 / 🟥중지제안 / ⬜관찰 / ⏳실행대기."""
+    if item.get("stop_suggested"):
+        return "🟥"
+    if not (item.get("exec") or "").strip() or (item.get("exec") or "").strip() == "-":
+        return "⏳"  # 실행 미입력 = 실행 대기
+    v = item.get("verdict") or ""
+    if not v:
+        return "⏳"  # 실행은 있으나 아직 판정 전
+    if "효과 있음" in v:
+        return "🟩"
+    return "⬜"  # 관찰 필요/혼재/판정 불가 등
+
+
 def build_jandi_payload(d, record, comp, stats, funnel, active=None):
     cur = currency_of(record)
 
@@ -585,14 +599,17 @@ def build_jandi_payload(d, record, comp, stats, funnel, active=None):
     info.append({"title": "독자 반응", "description": reader_desc})
     info.append({"title": "💡 신규 인사이트", "description": new_insights_text(record, d)})
 
-    # 추적 중인 액션의 효과 판정
+    # 추적 중인 액션의 효과 판정 (신호등: 🟩효과 🟥중지제안 ⬜관찰 ⏳실행대기)
     if active:
         rows = []
-        for _iid, item in active[:5]:
-            label = item.get("plan") or (item.get("insight", "")[:20] + "…")
-            verdict = item.get("verdict") or "실행 대기"
-            tag = "  ✅중지제안" if item.get("stop_suggested") else ""
-            rows.append(f"• {label} → {verdict}{tag}")
+        for _iid, item in active[:6]:
+            plan = (item.get("plan") or "").strip()
+            exv = (item.get("exec") or "").strip()
+            if exv in ("-", "—"):
+                exv = ""
+            label = plan or exv or (item.get("insight", "") or "").strip()
+            rows.append(f"{track_signal(item)} {label}")
+        rows.append("(🟩효과 🟥중지제안 ⬜관찰 ⏳대기 · 자세한 건 대시보드)")
         info.append({"title": "📌 추적 현황", "description": "\n".join(rows)})
 
     # 누적 리포트(일지) 대시보드 링크

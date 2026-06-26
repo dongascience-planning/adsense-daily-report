@@ -67,6 +67,7 @@ def build():
 
     payload = {
         "headline": common.env("GOAL_HEADLINE", "🎯 이번 달 목표 : 일단 매출부터 올려보자"),
+        "readOnly": str(common.env("DASHBOARD_READONLY", "")).lower() in ("1", "true", "yes"),
         "generated": days[-1]["date"] if days else "",
         "currency": currency,
         "stats": stats,
@@ -253,15 +254,18 @@ HTML_TEMPLATE = r"""<!doctype html>
       <div class="modal-date" id="mDate"></div>
       <div class="modal-ins" id="mIns"></div>
       <div class="modal-verdict" id="mVerdict" style="display:none"></div>
+      <div id="mRoNote" class="hint" style="display:none">👁 보기 전용 — 편집/질문은 사내 서버 대시보드에서</div>
       <label class="ml">🧭 계획</label>
       <textarea id="mPlan" placeholder="이 인사이트에 대해 무엇을 할 계획인지..."></textarea>
       <label class="ml">🔧 실행</label>
       <textarea id="mExec" placeholder="언제 무엇을 실행했는지 (날짜 포함 권장: 예 6/24 본문 광고 2개 추가)..."></textarea>
-      <div class="qrow"><button id="mSave">💾 저장 (추적 시작)</button><button class="ghost" id="mStop">⏹ 추적 중지</button><span class="saved" id="mSaved">저장됨 ✅</span></div>
-      <hr class="modal-hr">
-      <label class="ml">💬 이 인사이트에 질문</label>
-      <textarea id="mQ" placeholder="궁금한 점을 적으면 담당자(광고팀)에게 전달됩니다..."></textarea>
-      <div class="qrow"><input id="mQName" placeholder="이름(선택)"><button id="mQSend">질문 보내기</button><span class="saved" id="mQMsg">전송됨 ✅</span></div>
+      <div class="qrow" id="mSaveRow"><button id="mSave">💾 저장 (추적 시작)</button><button class="ghost" id="mStop">⏹ 추적 중지</button><span class="saved" id="mSaved">저장됨 ✅</span></div>
+      <div id="mAsk">
+        <hr class="modal-hr">
+        <label class="ml">💬 이 인사이트에 질문</label>
+        <textarea id="mQ" placeholder="궁금한 점을 적으면 담당자(광고팀)에게 전달됩니다..."></textarea>
+        <div class="qrow"><input id="mQName" placeholder="이름(선택)"><button id="mQSend">질문 보내기</button><span class="saved" id="mQMsg">전송됨 ✅</span></div>
+      </div>
     </div>
   </div>
 
@@ -272,7 +276,8 @@ const money = v => (typeof v==="number") ? SYM + v.toLocaleString(undefined,{min
 const esc = s => (s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
 
 document.getElementById("banner").textContent = DATA.headline || "🎯 이번 달 목표";
-document.getElementById("sub").textContent = "마지막 갱신: " + (DATA.generated||"-") + "  ·  통화 " + DATA.currency;
+document.getElementById("sub").textContent = "마지막 갱신: " + (DATA.generated||"-") + "  ·  통화 " + DATA.currency + (DATA.readOnly ? "  ·  👁 보기 전용" : "");
+if(DATA.readOnly){ const qc=document.querySelector(".qcard"); if(qc) qc.style.display="none"; }
 
 /* ---------- 용어 마우스오버 ---------- */
 const GMAP = DATA.glossMap || [];
@@ -441,6 +446,12 @@ function openModal(id){
   document.getElementById("mStop").style.display=(t.status!=="stopped" && (t.plan||t.exec))?"inline-block":"none";
   document.getElementById("mQ").value="";
   document.getElementById("mSaved").style.opacity=0; document.getElementById("mQMsg").style.opacity=0;
+  // 보기 전용(정적 호스팅)일 땐 편집/질문 숨김
+  const ro=!!DATA.readOnly;
+  document.getElementById("mRoNote").style.display=ro?"block":"none";
+  document.getElementById("mPlan").readOnly=ro; document.getElementById("mExec").readOnly=ro;
+  document.getElementById("mSaveRow").style.display=ro?"none":"flex";
+  document.getElementById("mAsk").style.display=ro?"none":"block";
   modal.style.display="flex";
 }
 function closeModal(){ modal.style.display="none"; MID=null; }
