@@ -70,6 +70,10 @@ def _to_number(value):
         return value
 
 
+# 메인 사이트만 집계 (m./m2/ncdev(개발) 등 서브도메인 제외). 비우면 전체.
+SITE_FILTER = common.env("ADSENSE_SITE_FILTER", "DOMAIN_NAME==www.dongascience.com")
+
+
 def _generate(svc, account, start, end, metrics, dimensions=None):
     params = {
         "dateRange": "CUSTOM",
@@ -83,6 +87,8 @@ def _generate(svc, account, start, end, metrics, dimensions=None):
     }
     if dimensions:
         params["dimensions"] = dimensions
+    if SITE_FILTER:
+        params["filters"] = [SITE_FILTER]
     return (
         svc.accounts().reports().generate(account=f"accounts/{account}", **params).execute()
     )

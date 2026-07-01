@@ -1,0 +1,425 @@
+{
+  "date": "2026-06-27",
+  "adsense": {
+    "total": {
+      "earnings": 55.31,
+      "page_views": 61910.0,
+      "impressions": 97663.0,
+      "impressions_rpm": 0.57,
+      "clicks": 598.0,
+      "page_views_ctr": 0.0097,
+      "ad_requests": 150374.0,
+      "matched_ad_requests": 117834.0,
+      "ad_requests_coverage": 0.7836
+    },
+    "by_device": {
+      "Connected TV": {
+        "earnings": 0.0,
+        "page_views": 7.0,
+        "impressions": 1.0,
+        "impressions_rpm": 0.62,
+        "clicks": 1.0,
+        "page_views_ctr": 0.1429,
+        "ad_requests": 2.0,
+        "matched_ad_requests": 1.0,
+        "ad_requests_coverage": 0.5
+      },
+      "Desktop": {
+        "earnings": 4.27,
+        "page_views": 22396.0,
+        "impressions": 8739.0,
+        "impressions_rpm": 0.49,
+        "clicks": 16.0,
+        "page_views_ctr": 0.0007,
+        "ad_requests": 26948.0,
+        "matched_ad_requests": 9953.0,
+        "ad_requests_coverage": 0.3693
+      },
+      "High-end mobile devices": {
+        "earnings": 50.12,
+        "page_views": 38584.0,
+        "impressions": 87105.0,
+        "impressions_rpm": 0.58,
+        "clicks": 568.0,
+        "page_views_ctr": 0.0147,
+        "ad_requests": 120863.0,
+        "matched_ad_requests": 105855.0,
+        "ad_requests_coverage": 0.8758
+      },
+      "Tablets": {
+        "earnings": 0.92,
+        "page_views": 923.0,
+        "impressions": 1818.0,
+        "impressions_rpm": 0.51,
+        "clicks": 13.0,
+        "page_views_ctr": 0.0141,
+        "ad_requests": 2561.0,
+        "matched_ad_requests": 2025.0,
+        "ad_requests_coverage": 0.7907
+      }
+    },
+    "currency": "USD"
+  },
+  "monthly": {
+    "days_elapsed": 27,
+    "days_in_month": 30,
+    "mtd": {
+      "earnings": 1206.91,
+      "page_views": 1165506.0,
+      "ad_requests": 3037158.0
+    },
+    "last_month_same_period": {
+      "earnings": 1290.58,
+      "page_views": 1338520.0,
+      "ad_requests": 3163636.0
+    },
+    "last_month_full": {
+      "earnings": 1422.77,
+      "page_views": 1513447.0,
+      "ad_requests": 3481662.0
+    },
+    "last_month_label": "2026-05"
+  },
+  "diagnostics": {
+    "by_device": [
+      {
+        "name": "High-end mobile devices",
+        "requests": 120863.0,
+        "matched": 105855.0,
+        "coverage": 0.8758,
+        "impressions": 87105.0,
+        "earnings": 50.12,
+        "unfilled": 15008.0
+      },
+      {
+        "name": "Desktop",
+        "requests": 26948.0,
+        "matched": 9953.0,
+        "coverage": 0.3693,
+        "impressions": 8739.0,
+        "earnings": 4.27,
+        "unfilled": 16995.0
+      },
+      {
+        "name": "Tablets",
+        "requests": 2561.0,
+        "matched": 2025.0,
+        "coverage": 0.7907,
+        "impressions": 1818.0,
+        "earnings": 0.92,
+        "unfilled": 536.0
+      },
+      {
+        "name": "Connected TV",
+        "requests": 2.0,
+        "matched": 1.0,
+        "coverage": 0.5,
+        "impressions": 1.0,
+        "earnings": 0.0,
+        "unfilled": 1.0
+      }
+    ],
+    "by_country": [
+      {
+        "name": "South Korea",
+        "requests": 130998.0,
+        "matched": 113175.0,
+        "coverage": 0.8639,
+        "impressions": 94316.0,
+        "earnings": 52.71,
+        "unfilled": 17823.0
+      },
+      {
+        "name": "China",
+        "requests": 10422.0,
+        "matched": 102.0,
+        "coverage": 0.0098,
+        "impressions": 71.0,
+        "earnings": 0.01,
+        "unfilled": 10320.0
+      },
+      {
+        "name": "United States",
+        "requests": 3293.0,
+        "matched": 1966.0,
+        "coverage": 0.597,
+        "impressions": 1456.0,
+        "earnings": 1.94,
+        "unfilled": 1327.0
+      },
+      {
+        "name": "Vietnam",
+        "requests": 747.0,
+        "matched": 261.0,
+        "coverage": 0.3494,
+        "impressions": 133.0,
+        "earnings": 0.01,
+        "unfilled": 486.0
+      },
+      {
+        "name": "India",
+        "requests": 371.0,
+        "matched": 84.0,
+        "coverage": 0.2264,
+        "impressions": 46.0,
+        "earnings": 0.01,
+        "unfilled": 287.0
+      },
+      {
+        "name": "Japan",
+        "requests": 312.0,
+        "matched": 235.0,
+        "coverage": 0.7532,
+        "impressions": 174.0,
+        "earnings": 0.05,
+        "unfilled": 77.0
+      },
+      {
+        "name": "United Kingdom",
+        "requests": 306.0,
+        "matched": 171.0,
+        "coverage": 0.5588,
+        "impressions": 137.0,
+        "earnings": 0.06,
+        "unfilled": 135.0
+      },
+      {
+        "name": "Canada",
+        "requests": 296.0,
+        "matched": 219.0,
+        "coverage": 0.7399,
+        "impressions": 171.0,
+        "earnings": 0.15,
+        "unfilled": 77.0
+      },
+      {
+        "name": "Germany",
+        "requests": 218.0,
+        "matched": 129.0,
+        "coverage": 0.5917,
+        "impressions": 113.0,
+        "earnings": 0.04,
+        "unfilled": 89.0
+      },
+      {
+        "name": "Australia",
+        "requests": 217.0,
+        "matched": 185.0,
+        "coverage": 0.8525,
+        "impressions": 142.0,
+        "earnings": 0.11,
+        "unfilled": 32.0
+      }
+    ],
+    "by_ad_unit": [
+      {
+        "name": "피씨 디스플레이 세로(메인&기사 우측_1) 320*640",
+        "requests": 44330.0,
+        "matched": 33286.0,
+        "coverage": 0.7509,
+        "impressions": 18961.0,
+        "earnings": 2.2,
+        "unfilled": 11044.0
+      },
+      {
+        "name": "피씨 인아티클 광고(기사)",
+        "requests": 43485.0,
+        "matched": 41447.0,
+        "coverage": 0.9531,
+        "impressions": 39951.0,
+        "earnings": 45.66,
+        "unfilled": 2038.0
+      },
+      {
+        "name": "닷컴-인기기사-모바일",
+        "requests": 29652.0,
+        "matched": 19053.0,
+        "coverage": 0.6426,
+        "impressions": 17444.0,
+        "earnings": 1.53,
+        "unfilled": 10599.0
+      },
+      {
+        "name": "피씨 디스플레이 수평(메인 연재뉴스) 880*150",
+        "requests": 23871.0,
+        "matched": 20501.0,
+        "coverage": 0.8588,
+        "impressions": 18443.0,
+        "earnings": 5.55,
+        "unfilled": 3370.0
+      },
+      {
+        "name": "닷컴-인기기사-PC",
+        "requests": 8787.0,
+        "matched": 3379.0,
+        "coverage": 0.3845,
+        "impressions": 2715.0,
+        "earnings": 0.14,
+        "unfilled": 5408.0
+      },
+      {
+        "name": "피씨 디스플레이 수평(서브 카테고리&태그&검색) 840*105",
+        "requests": 221.0,
+        "matched": 163.0,
+        "coverage": 0.7376,
+        "impressions": 145.0,
+        "earnings": 0.22,
+        "unfilled": 58.0
+      }
+    ],
+    "by_format": [
+      {
+        "name": "In-page",
+        "requests": 141564.0,
+        "matched": 114455.0,
+        "coverage": 0.8085,
+        "impressions": 94948.0,
+        "earnings": 55.17,
+        "unfilled": 27109.0
+      },
+      {
+        "name": "In-feed",
+        "requests": 8787.0,
+        "matched": 3379.0,
+        "coverage": 0.3845,
+        "impressions": 2715.0,
+        "earnings": 0.14,
+        "unfilled": 5408.0
+      },
+      {
+        "name": "Unfilled fallback term",
+        "requests": 23.0,
+        "matched": 0.0,
+        "coverage": 0.0,
+        "impressions": 0.0,
+        "earnings": 0.0,
+        "unfilled": 23.0
+      }
+    ]
+  },
+  "ga4": {
+    "total": {
+      "bounce_rate": 98.50595021566284,
+      "avg_session_duration": 169.65670452063085,
+      "user_engagement_duration": 1152111.4824091878,
+      "screen_page_views": 103025.0,
+      "sessions": 76972.0
+    },
+    "by_device": {
+      "(other)": {
+        "bounce_rate": 100.0,
+        "avg_session_duration": 12.57369046779141,
+        "user_engagement_duration": 5958.0,
+        "screen_page_views": 0.0,
+        "sessions": 652.0
+      },
+      "smart tv": {
+        "bounce_rate": 100.0,
+        "avg_session_duration": 241.2379005,
+        "user_engagement_duration": 198.0,
+        "screen_page_views": 2.0,
+        "sessions": 2.0
+      },
+      "desktop": {
+        "bounce_rate": 99.80217606330366,
+        "avg_session_duration": 110.0062278829329,
+        "user_engagement_duration": 266774.0,
+        "screen_page_views": 34627.0,
+        "sessions": 31341.0
+      },
+      "tablet": {
+        "bounce_rate": 98.66803278688525,
+        "avg_session_duration": 636.0033454415984,
+        "user_engagement_duration": 48340.0,
+        "screen_page_views": 2697.0,
+        "sessions": 976.0
+      },
+      "mobile": {
+        "bounce_rate": 97.55687370741573,
+        "avg_session_duration": 204.1246991010659,
+        "user_engagement_duration": 1824238.0,
+        "screen_page_views": 65699.0,
+        "sessions": 44001.0
+      }
+    }
+  },
+  "insight_points": [
+    "⚠️ 경고: 어제 예상수익 $55.31로 전일 +141.7%·7일평균 +73.4% 급등 — 페이지뷰(+38.8%)와 노출단가 RPM(+39.0%)이 동시에 뛴, 트래픽과 단가가 함께 오른 보기 드문 좋은 날이다.",
+    "⚠️ 경고: 평균 참여시간이 169.66초로 전일 -27.9% 급락했으나, 이탈률은 98.51%로 거의 변동 없고(-0.4%) 세션(+31.6%)·페이지뷰(+38.8%)가 함께 늘어, 특정 기사 유입 급증으로 가볍게 보고 나간 독자가 늘어난 트래픽 스파이크로 해석된다.",
+    "광고 = 늘었다(수익·노출·단가 모두 상승), 독자 = 떠나지 않았다(이탈률 그대로, 방문 자체는 급증), 따라서 = 좋은 신호 — 광고가 독자를 쫓아낸 정황은 없고 참여시간 하락은 유입 급증에 따른 자연스러운 희석으로 보인다.",
+    "수익의 91%가 모바일($50.12)이고 그중 사실상 전부가 '피씨 인아티클 광고(기사)'(충족률 95%·$45.66)에서 나오므로, 이 효자 단위는 이미 잘 돌고 있어 건드리지 말 것.",
+    "월 누적 $1,206.91로 목표 $2,850의 42%에 그치고 추세 월말 예상도 $1,341.01(목표의 47%)로 $1,508.99 부족 — 남은 3일 필요액 일 $547.70은 어제 최고치의 약 10배라 사실상 도달이 어렵고, 끌어올릴 수 있는 현실적 지렛대는 '채움률(빈 슬롯)'이다.",
+    "전체 깔때기는 요청 150,374 → 매칭 117,834(78%) → 노출 97,663(요청의 65%)로, 부른 광고의 약 35%가 채워지지 않고 버려지고 있다.",
+    "미충족의 진짜 원인은 두 곳 — 중국(요청 10,422·충족 1%·수익 $0.01)에서 1만 건이 통째로 버려지고, 데스크톱(요청 26,948·충족 37%·미충족 16,995·수익 $4.27)은 요청만 많고 절반 넘게 못 채운다.",
+    "광고단위로는 '닷컴-인기기사-PC'(요청 8,787·충족 38%·수익 $0.14)와 '피씨 디스플레이 세로 320*640'(요청 44,330·미충족 11,044·수익 $2.2)이 요청 대비 채움·수익이 가장 약하다."
+  ],
+  "insight": "• ⚠️ 경고: 어제 예상수익 $55.31로 전일 +141.7%·7일평균 +73.4% 급등 — 페이지뷰(+38.8%)와 노출단가 RPM(+39.0%)이 동시에 뛴, 트래픽과 단가가 함께 오른 보기 드문 좋은 날이다.\n• ⚠️ 경고: 평균 참여시간이 169.66초로 전일 -27.9% 급락했으나, 이탈률은 98.51%로 거의 변동 없고(-0.4%) 세션(+31.6%)·페이지뷰(+38.8%)가 함께 늘어, 특정 기사 유입 급증으로 가볍게 보고 나간 독자가 늘어난 트래픽 스파이크로 해석된다.\n• 광고 = 늘었다(수익·노출·단가 모두 상승), 독자 = 떠나지 않았다(이탈률 그대로, 방문 자체는 급증), 따라서 = 좋은 신호 — 광고가 독자를 쫓아낸 정황은 없고 참여시간 하락은 유입 급증에 따른 자연스러운 희석으로 보인다.\n• 수익의 91%가 모바일($50.12)이고 그중 사실상 전부가 '피씨 인아티클 광고(기사)'(충족률 95%·$45.66)에서 나오므로, 이 효자 단위는 이미 잘 돌고 있어 건드리지 말 것.\n• 월 누적 $1,206.91로 목표 $2,850의 42%에 그치고 추세 월말 예상도 $1,341.01(목표의 47%)로 $1,508.99 부족 — 남은 3일 필요액 일 $547.70은 어제 최고치의 약 10배라 사실상 도달이 어렵고, 끌어올릴 수 있는 현실적 지렛대는 '채움률(빈 슬롯)'이다.\n• 전체 깔때기는 요청 150,374 → 매칭 117,834(78%) → 노출 97,663(요청의 65%)로, 부른 광고의 약 35%가 채워지지 않고 버려지고 있다.\n• 미충족의 진짜 원인은 두 곳 — 중국(요청 10,422·충족 1%·수익 $0.01)에서 1만 건이 통째로 버려지고, 데스크톱(요청 26,948·충족 37%·미충족 16,995·수익 $4.27)은 요청만 많고 절반 넘게 못 채운다.\n• 광고단위로는 '닷컴-인기기사-PC'(요청 8,787·충족 38%·수익 $0.14)와 '피씨 디스플레이 세로 320*640'(요청 44,330·미충족 11,044·수익 $2.2)이 요청 대비 채움·수익이 가장 약하다.",
+  "comparisons": {
+    "earnings": {
+      "current": 55.31,
+      "prev": 22.88,
+      "week_avg": 31.891666666666666,
+      "vs_prev_pct": 141.73951048951054,
+      "vs_week_pct": 73.43088581134049
+    },
+    "ad_requests": {
+      "current": 150374.0,
+      "prev": 98231.0,
+      "week_avg": 144809.0,
+      "vs_prev_pct": 53.0820209506164,
+      "vs_week_pct": 3.8429931841252962
+    },
+    "impressions_rpm": {
+      "current": 0.57,
+      "prev": 0.41,
+      "week_avg": 0.5383333333333333,
+      "vs_prev_pct": 39.02439024390244,
+      "vs_week_pct": 5.882352941176462
+    },
+    "page_views": {
+      "current": 61910.0,
+      "prev": 44608.0,
+      "week_avg": 45904.833333333336,
+      "vs_prev_pct": 38.786764705882355,
+      "vs_week_pct": 34.86597271892211
+    },
+    "bounce_rate": {
+      "current": 98.50595021566284,
+      "prev": 98.88556533629604,
+      "week_avg": 96.2806111228274,
+      "vs_prev_pct": -0.383893361323451,
+      "vs_week_pct": 2.311305533776187
+    },
+    "avg_session_duration": {
+      "current": 169.65670452063085,
+      "prev": 235.39262686151613,
+      "week_avg": 194.4702989228439,
+      "vs_prev_pct": -27.926075347958278,
+      "vs_week_pct": -12.759580532170546
+    },
+    "sessions": {
+      "current": 76972.0,
+      "prev": 58505.0,
+      "week_avg": 79171.0,
+      "vs_prev_pct": 31.564823519357322,
+      "vs_week_pct": -2.7775321771860906
+    }
+  },
+  "monthly_stats": {
+    "mtd": 1206.91,
+    "days_elapsed": 27,
+    "days_in_month": 30,
+    "daily_avg": 44.70037037037037,
+    "projection": 1341.0111111111112,
+    "lm_same": 1290.58,
+    "lm_full": 1422.77,
+    "vs_lm_same_pct": -6.483131615242748,
+    "goal": 2850.0,
+    "progress_pct": 42.347719298245615,
+    "projected_pct": 47.05302144249513,
+    "remaining": 1643.09,
+    "days_left": 3,
+    "needed_daily": 547.6966666666666,
+    "projected_gap": -1508.9888888888888
+  }
+}
