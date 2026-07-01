@@ -23,6 +23,7 @@ def load_days():
         if not rec or "date" not in rec:
             continue
         t = (rec.get("adsense") or {}).get("total", {}) or {}
+        ga = (rec.get("ga4") or {}).get("total", {}) or {}
         points = rec.get("insight_points")
         if not points:
             txt = rec.get("insight", "") or ""
@@ -33,6 +34,11 @@ def load_days():
             "points": points,
             "stats": rec.get("monthly_stats"),
             "diagnostics": rec.get("diagnostics", {}),
+            "reader": {
+                "bounce": ga.get("bounce_rate"),
+                "dur": ga.get("avg_session_duration"),
+                "sessions": ga.get("sessions"),
+            },
         })
     return days
 
@@ -136,6 +142,17 @@ HTML_TEMPLATE = r"""<!doctype html>
   .axis{font-size:10px;fill:var(--muted)}
   .empty{color:var(--muted);font-size:13px;padding:10px}
 
+  /* 독자 반응 */
+  .reader-row{display:flex;gap:26px;flex-wrap:wrap}
+  .reader-stat .rl{font-size:12px;color:var(--muted);margin-bottom:2px}
+  .reader-stat .rv{font-size:24px;font-weight:800}
+  .reader-note{font-size:13px;margin-top:10px;border-top:1px dashed var(--line);padding-top:10px}
+  .prio{display:inline-block;font-size:10px;font-weight:800;padding:2px 8px;border-radius:20px;margin-right:6px;white-space:nowrap}
+  .prio-warn{background:#fde8e8;color:#c0392b} .prio-admin{background:#e7f7ee;color:#0f7a43}
+  .prio-site{background:#e7effd;color:#1d4ed8} .prio-check{background:#fdf3e0;color:#9a6700}
+  .prio-info{background:var(--card2);color:var(--muted)}
+  .ins-date{font-size:11px;color:var(--muted);margin-left:8px;white-space:nowrap}
+
   /* 인사이트 일지 */
   .loghdr{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:10px;font-size:12px;color:var(--muted);
     padding:0 4px 6px;font-weight:600}
@@ -232,11 +249,16 @@ HTML_TEMPLATE = r"""<!doctype html>
   <h2>최근 7일 수익</h2>
   <div class="card" id="weekChart"></div>
 
-  <h2>🔍 충족률 진단 <small>— 부른 광고가 어디서 안 채워지나 (빨강 = 낮음)</small></h2>
-  <div class="card" id="diag"></div>
+  <h2>🙂 독자 반응 <small>— 광고가 독자를 쫓아내지 않는지 (매일 체크)</small></h2>
+  <div class="card" id="readerCard"></div>
 
-  <h2>📝 인사이트 체크리스트 <small>— 🔴 = 진행 중인 액션 있음 · 인사이트를 클릭하면 계획·실행·질문 입력</small></h2>
+  <h2>📝 해볼 만한 것 <small>— 우선순위 순 (⚠️경고·🟢바로·🔵개발·🟡확인) · 클릭하면 계획·실행·질문</small></h2>
   <div id="log"></div>
+  <details class="gloss" id="infofold"><summary>📋 데이터 진단·참고 (펼치기)</summary><div id="infolog" style="margin-top:8px"></div></details>
+
+  <details class="gloss" id="diagfold"><summary>🔍 충족률 진단 (펼치기) — 수익이 흔들리거나 원인 팔 때만</summary>
+    <div class="card" id="diag" style="margin-top:10px;box-shadow:none;border:none"></div>
+  </details>
 
   <details class="gloss" id="gloss"><summary>📖 용어 사전 (펼치기)</summary></details>
 
@@ -402,8 +424,38 @@ function renderDiag(D){
   document.getElementById("diag").innerHTML = html || `<div class="empty">진단 데이터가 아직 없습니다 (다음 수집부터 표시).</div>`;
 }
 
-/* ---------- 인사이트 체크리스트 (한 줄씩 + 🔴 배지 + 클릭→모달) ---------- */
+/* ---------- 독자 반응 (광고가 독자를 쫓아내는지) ---------- */
+function renderReader(r){
+  const box=document.getElementById("readerCard");
+  if(!r || (r.bounce==null && r.dur==null)){ box.innerHTML=`<div class="empty">독자 데이터 없음</div>`; return; }
+  const b=r.bounce, dur=r.dur, ses=r.sessions;
+  const bClass = (typeof b==="number") ? (b<60?"good":(b<80?"warn":"bad")) : "";
+  let note;
+  if(typeof b!=="number") note="데이터가 쌓이면 판단할 수 있어요.";
+  else if(b<60) note="✅ 이탈률 낮음 — 광고가 독자를 쫓아내는 신호 없음. 안심하고 광고 늘려도 됨.";
+  else if(b<80) note="🟡 이탈률 보통 — 광고 늘릴 때 이 수치가 오르는지 지켜보세요.";
+  else note="⚠️ 이탈률 높음 — 광고 배치·속도가 독자 경험을 해치는지 점검 필요.";
+  box.innerHTML = `<div class="reader-row">
+    <div class="reader-stat"><div class="rl">이탈률</div><div class="rv ${bClass}">${typeof b==="number"?b.toFixed(0)+"%":"—"}</div></div>
+    <div class="reader-stat"><div class="rl">평균 참여시간</div><div class="rv">${typeof dur==="number"?Math.round(dur)+"s":"—"}</div></div>
+    <div class="reader-stat"><div class="rl">세션</div><div class="rv">${typeof ses==="number"?Math.round(ses).toLocaleString():"—"}</div></div>
+  </div>
+  <div class="reader-note" style="color:var(--muted)">${note}</div>`;
+}
+
+/* ---------- 인사이트: 해볼 만한 것 우선순위 순 (중복 최신만) ---------- */
 const log=document.getElementById("log");
+const PRIO_META = {0:["prio-warn","⚠️ 경고"],1:["prio-admin","🟢 바로 할 것"],2:["prio-site","🔵 개발 필요"],3:["prio-check","🟡 확인"],4:["prio-info","참고"]};
+function insightPriority(p){
+  if(/⚠️|경고/.test(p)) return 0;
+  if(p.includes("[관리자]")) return 1;
+  if(p.includes("[사이트]")) return 2;
+  if(p.includes("[확인]")) return 3;
+  return 4;
+}
+function stripTag(t){ return t.replace(/^\s*(\[관리자\]|\[사이트\]|\[확인\])\s*/,"").replace(/^\s*⚠️\s*경고[:：]?\s*/,""); }
+function iwords(s){ return new Set((s.toLowerCase().match(/[가-힣a-z0-9]+/g)||[])); }
+function isimilar(a,b){ const A=iwords(a),B=iwords(b); if(!A.size||!B.size) return false; let x=0; A.forEach(w=>{if(B.has(w))x++;}); const u=new Set([...A,...B]).size; return x/u>=0.5; }
 function statusBadge(id){
   const t=(DATA.tracking||{})[id];
   if(t && t.status!=="stopped" && (t.plan||t.exec)){
@@ -411,22 +463,26 @@ function statusBadge(id){
   }
   return `<span class="b-add">＋ 계획·실행·질문</span>`;
 }
+function makeRow(it){
+  ID2INFO[it.id]={date:it.date, insight:it.text};
+  const m=PRIO_META[it.prio];
+  const row=document.createElement("div"); row.className="ins"; row.dataset.id=it.id;
+  row.innerHTML=`<div class="ins-text"><span class="prio ${m[0]}">${m[1]}</span>${richText(stripTag(it.text))}<span class="ins-date">${it.date.slice(5)}</span></div><div class="ins-status">${statusBadge(it.id)}</div>`;
+  row.addEventListener("click", ()=> openModal(it.id));
+  return row;
+}
 function renderLog(){
   log.innerHTML="";
-  DATA.days.slice().reverse().forEach(d=>{
-    if(!d.points||!d.points.length) return;
-    const grp=document.createElement("div"); grp.className="daygrp";
-    grp.innerHTML=`<div class="dayhdr">${d.date}</div>`;
-    d.points.forEach((p, idx)=>{
-      const id=d.date+"#"+idx; ID2INFO[id]={date:d.date, insight:p};
-      const row=document.createElement("div"); row.className="ins"; row.dataset.id=id;
-      row.innerHTML=`<div class="ins-text"><span class="bullet">•</span>${richText(p)}</div><div class="ins-status">${statusBadge(id)}</div>`;
-      row.addEventListener("click", ()=> openModal(id));
-      grp.appendChild(row);
-    });
-    log.appendChild(grp);
-  });
-  if(!log.children.length) log.innerHTML=`<div class="empty">아직 인사이트가 없습니다. 내일부터 쌓입니다.</div>`;
+  const infolog=document.getElementById("infolog"); if(infolog) infolog.innerHTML="";
+  const all=[];
+  DATA.days.slice().reverse().forEach(d=>{ (d.points||[]).forEach((p,idx)=>{ all.push({date:d.date, id:d.date+"#"+idx, text:p, prio:insightPriority(p)}); }); });
+  const kept=[]; all.forEach(it=>{ if(!kept.some(k=>isimilar(k.text,it.text))) kept.push(it); });  // 중복 제거(최신 유지)
+  const warns   = kept.filter(x=>x.prio===0).slice(0,3);                 // 최근 경고 3개만
+  const actions = kept.filter(x=>x.prio>=1 && x.prio<=3).sort((a,b)=>a.prio-b.prio);  // 해볼 만한 것
+  const info    = kept.filter(x=>x.prio===4);                            // 진단·참고
+  [...warns, ...actions].forEach(it=> log.appendChild(makeRow(it)));
+  if(!log.children.length) log.innerHTML=`<div class="empty">지금 바로 해볼 액션이 없어요. 데이터가 쌓이면 표시됩니다.</div>`;
+  if(infolog) info.forEach(it=> infolog.appendChild(makeRow(it)));
 }
 renderLog();
 
@@ -491,6 +547,7 @@ DATA.days.slice().reverse().forEach(d=> sel.add(new Option(d.date, d.date)));
 function showDay(date){
   const d=BYDATE[date]||{};
   renderGoal(d.stats);
+  renderReader(d.reader);
   renderDiag(d.diagnostics);
   const g=document.getElementById("goalday"); if(g) g.textContent = date ? "("+date+" 기준)" : "";
 }
