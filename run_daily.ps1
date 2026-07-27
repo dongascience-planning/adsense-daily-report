@@ -25,15 +25,15 @@ $venvPy = Join-Path $PSScriptRoot ".venv\Scripts\python.exe"
 $py = if (Test-Path $venvPy) { $venvPy } else { "python" }
 
 $steps = @(
-    @{ n = "1/5 AdSense collect";    f = "collect_adsense.py" },
-    @{ n = "2/5 GA4 collect";        f = "collect_ga4.py" },
-    @{ n = "3/5 Analyze + insight";  f = "analyze.py" },
-    @{ n = "4/5 Build dashboard";    f = "build_dashboard.py" },
-    @{ n = "5/5 Jandi send";         f = "send_jandi.py" }
+    @{ n = "1/4 AdSense collect";    f = "collect_adsense.py" },
+    @{ n = "2/4 GA4 collect";        f = "collect_ga4.py" },
+    @{ n = "3/4 Analyze + insight";  f = "analyze.py" },
+    @{ n = "4/4 Build dashboard";    f = "build_dashboard.py" }
 )
 
-# 원페이지(광고수익_원페이지.html) 는 매일 아침 별도로 갱신한다.
-# best-effort: 실패해도 위 핵심 파이프라인(수집→대시보드→Jandi)에는 영향 없음.
+# Jandi 전송은 클라우드 CI(.github/workflows/daily.yml)가 담당한다.
+# 로컬은 사내 LAN 서빙용 report/ 만 생성 → 이중 전송 방지 위해 send_jandi 제외.
+# 원페이지도 매일 갱신(best-effort: 실패해도 위 파이프라인엔 영향 없음).
 $onepager = "build_onepager.py"
 
 Log "Pipeline start (python=$py)"

@@ -45,13 +45,14 @@ jobs:
           MONTHLY_REVENUE_GOAL: ${{ secrets.MONTHLY_REVENUE_GOAL }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           ANTHROPIC_MODEL: ${{ secrets.ANTHROPIC_MODEL }}
-          DASHBOARD_URL: "https://chans-ex.github.io/ds-adsense-monitor/"
+          DASHBOARD_URL: "https://dongascience-planning.github.io/adsense-daily-report/"
           DASHBOARD_READONLY: "1"
         run: |
           python collect_adsense.py
           python collect_ga4.py
           python analyze.py
           python build_dashboard.py
+          python build_onepager.py || echo "onepager 갱신 실패 — 비치명, 계속"
           python send_jandi.py
 
       - name: Commit data/journal back
@@ -62,11 +63,10 @@ jobs:
           git commit -m "data: $(date -u +%F) automated run" || echo "no data changes"
           git push
 
-      - name: Deploy dashboard to GitHub Pages (public repo)
+      - name: Deploy report to GitHub Pages (조직 repo, gh-pages)
         uses: peaceiris/actions-gh-pages@v3
         with:
-          personal_token: ${{ secrets.PAGES_TOKEN }}
-          external_repository: chans-ex/ds-adsense-monitor
+          github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_branch: gh-pages
           publish_dir: ./report
 
