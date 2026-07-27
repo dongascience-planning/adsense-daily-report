@@ -299,49 +299,42 @@
   },
   "ga4": {
     "total": {
-      "bounce_rate": 99.04979442667884,
-      "avg_session_duration": 242.9743292095249,
-      "user_engagement_duration": 881428.0822978528,
-      "screen_page_views": 64152.0,
-      "sessions": 43780.0
+      "bounce_rate": 42.059578722534035,
+      "avg_session_duration": 107.02269598770707,
+      "user_engagement_duration": 922054.9354904678,
+      "screen_page_views": 67729.0,
+      "sessions": 44009.0
     },
     "by_device": {
-      "(other)": {
-        "bounce_rate": 100.0,
-        "avg_session_duration": 7.274896421052631,
-        "user_engagement_duration": 35.0,
-        "screen_page_views": 0.0,
-        "sessions": 19.0
-      },
       "desktop": {
-        "bounce_rate": 99.68661483758211,
-        "avg_session_duration": 222.19195494744773,
-        "user_engagement_duration": 252378.0,
-        "screen_page_views": 22506.0,
-        "sessions": 16593.0
+        "bounce_rate": 60.41518386714117,
+        "avg_session_duration": 86.08592616387901,
+        "user_engagement_duration": 265685.0,
+        "screen_page_views": 23848.0,
+        "sessions": 16860.0
       },
       "mobile": {
-        "bounce_rate": 98.66875190723222,
-        "avg_session_duration": 238.77032569816143,
-        "user_engagement_duration": 1309583.0,
-        "screen_page_views": 39317.0,
-        "sessions": 26216.0
+        "bounce_rate": 30.713440470282855,
+        "avg_session_duration": 117.98097682150627,
+        "user_engagement_duration": 1375228.0,
+        "screen_page_views": 41428.0,
+        "sessions": 26197.0
       },
       "tablet": {
-        "bounce_rate": 98.42436974789915,
-        "avg_session_duration": 725.6764105199579,
-        "user_engagement_duration": 72673.0,
-        "screen_page_views": 2329.0,
+        "bounce_rate": 29.20168067226891,
+        "avg_session_duration": 176.26624244432773,
+        "user_engagement_duration": 76070.0,
+        "screen_page_views": 2453.0,
         "sessions": 952.0
       }
     }
   },
   "insight_points": [
     "어제 예상수익은 $86.49 수준입니다.",
-    "광고 요청은 7일평균 대비 줄었고, 이탈률 신호로는 독자가 떠나는 쪽입니다.",
+    "광고 요청은 7일평균 대비 줄었고, 이탈률 신호로는 독자가 머무는 쪽입니다.",
     "(자동 인사이트 생성에 실패해 규칙 기반 요약으로 대체했습니다.)"
   ],
-  "insight": "• 어제 예상수익은 $86.49 수준입니다.\n• 광고 요청은 7일평균 대비 줄었고, 이탈률 신호로는 독자가 떠나는 쪽입니다.\n• (자동 인사이트 생성에 실패해 규칙 기반 요약으로 대체했습니다.)",
+  "insight": "• 어제 예상수익은 $86.49 수준입니다.\n• 광고 요청은 7일평균 대비 줄었고, 이탈률 신호로는 독자가 머무는 쪽입니다.\n• (자동 인사이트 생성에 실패해 규칙 기반 요약으로 대체했습니다.)",
   "comparisons": {
     "earnings": {
       "current": 86.49,
@@ -372,25 +365,25 @@
       "vs_week_pct": 15.66465662459413
     },
     "bounce_rate": {
-      "current": 99.04979442667884,
+      "current": 42.059578722534035,
       "prev": 98.80654513682036,
       "week_avg": 98.86294871663281,
-      "vs_prev_pct": 0.24618742566258953,
-      "vs_week_pct": 0.18899467643998552
+      "vs_prev_pct": -57.43239613904839,
+      "vs_week_pct": -57.45668193340274
     },
     "avg_session_duration": {
-      "current": 242.9743292095249,
+      "current": 107.02269598770707,
       "prev": 249.80294885984353,
       "week_avg": 360.48638230338736,
-      "vs_prev_pct": -2.7336024980833735,
-      "vs_week_pct": -32.59819478977257
+      "vs_prev_pct": -57.1571526772672,
+      "vs_week_pct": -70.3115842257708
     },
     "sessions": {
-      "current": 43780.0,
+      "current": 44009.0,
       "prev": 50358.0,
       "week_avg": 36132.857142857145,
-      "vs_prev_pct": -13.062472695500219,
-      "vs_week_pct": 21.16395840746451
+      "vs_prev_pct": -12.607728662774534,
+      "vs_week_pct": 21.79773059739848
     }
   },
   "monthly_stats": {
