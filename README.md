@@ -19,12 +19,16 @@ GA4 API ─────┘
 | `analyze.py` | 데이터 통합 + 전일/7일평균 비교 + 월목표/충족 깔때기 + `claude -p` 인사이트 |
 | `glossary.py` | 용어 사전 (인사이트에 쓰인 단어 풀이) |
 | `build_dashboard.py` | 누적 리포트(일지) `report/dashboard.html` 생성 |
+| `build_onepager.py` | 월간 원페이지 갱신 (`templates/` 원본 → `report/` 생성) |
 | `send_jandi.py` | Jandi Incoming Webhook 전송 |
+| `serve.py` / `serve.ps1` | `report/` 를 사내 LAN 에 서빙 |
 | `run_daily.ps1` / `run_daily.sh` | 전체 파이프라인 (Win / mac·Linux) |
 | `setup.ps1` | venv 생성 + 의존성 설치 |
-| `register_schedule.ps1` | Windows 작업 스케줄러 매일 09:00 등록 |
+| `register_schedule.ps1` | Windows 작업 스케줄러 매일 08:00 등록 |
+| `CLAUDE.md` | Claude Code 용 프로젝트 맥락·규칙 (작업 전 자동 로딩) |
+| `templates/` | 손수 만든 발표용 HTML 원본(원페이지·2주 성과보고) — git 추적 |
 
-`data/YYYY-MM-DD.json` 에 일별 결과가 누적되어 추세 비교에 쓰입니다.
+`data/YYYY-MM-DD.json` 에 일별 결과가 누적되어 추세 비교에 쓰입니다. (`report/` 는 생성물이라 커밋하지 않음)
 
 ## 최초 설정 (회사 PC, Windows)
 
@@ -56,7 +60,7 @@ powershell -ExecutionPolicy Bypass -File .\run_daily.ps1
 ```
 Jandi 토픽에 리포트가 도착하는지 확인하세요.
 
-### 5. 매일 09:00 자동 실행 등록
+### 5. 매일 아침 자동 실행 등록 (08:00)
 ```powershell
 powershell -ExecutionPolicy Bypass -File .\register_schedule.ps1
 ```
