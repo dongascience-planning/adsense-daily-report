@@ -10,14 +10,18 @@
 
 기사 읽기를 방해하면 안 된다. 모바일(전체 유입 90%+) 본문 인아티클 광고 밀도는 **≤30%**, 광고 조정 시 **이탈률(bounceRate)을 항상 함께 본다**. 수익이 올라도 이탈률이 나빠지면 되돌린다.
 
-## 매일 아침 파이프라인 — 두 러너
-공통 단계: `collect_adsense.py` → `collect_ga4.py` → `analyze.py`(`claude -p` 인사이트) → `build_dashboard.py` → `build_onepager.py`.
+## 매일 아침 파이프라인 — 두 러너 (역할 분리)
 `collect_adsense`는 `www.dongascience.com` 필터(`ADSENSE_SITE_FILTER`) 기준.
 
-- **클라우드 CI (`.github/workflows/daily.yml`, 매일 09:00 KST) = 정본.** 위 공통 단계 + **`send_jandi.py`(Jandi 전송)** + `data/` 커밋 + **GitHub Pages 배포**(조직 repo `gh-pages`, `report/`).
-- **로컬 (`run_daily.ps1`, Windows 스케줄러 08:00) = 사내 LAN 서빙용.** 공통 단계까지만 → `report/` 생성해 `serve.py`가 LAN에 서빙. **`send_jandi`는 하지 않는다(이중 전송 방지, Jandi는 클라우드만).**
+- **클라우드 CI (`.github/workflows/daily.yml`, 매일 09:00 KST) = Jandi 정본 + 데이터 이력.**
+  `collect_adsense.py` → `collect_ga4.py` → `analyze.py` → **`send_jandi.py`(Jandi 전송)** → `data/` 커밋.
+  대시보드/원페이지 빌드·GitHub Pages는 **하지 않는다**(Pages 미사용). Jandi 링크는 사내 LAN 주소(`DASHBOARD_URL`).
+- **로컬 (`run_daily.ps1`, Windows 스케줄러 08:00) = 사내 LAN 서빙용 리포트 생성.**
+  `collect` → `analyze` → `build_dashboard.py` → `build_onepager.py` → `report/` 생성 → `serve.py`가 LAN 서빙.
+  **`send_jandi`는 하지 않는다**(이중 전송 방지 — Jandi는 클라우드만).
 
-> ⚠️ `send_jandi.py`는 실제 메시지를 보낸다. **테스트로 함부로 실행 금지.** Jandi 전송처를 로컬↔클라우드 옮길 땐 반드시 한쪽만 켠다.
+> ⚠️ `send_jandi.py`는 실제 메시지를 보낸다. **테스트로 함부로 실행 금지.** Jandi 전송처를 옮길 땐 반드시 한쪽만 켠다.
+> ⚠️ 로컬에서 `auth_adsense.py` 재인증하면 새 토큰 발급 → GitHub Secret `TOKEN_ADSENSE_JSON`도 **반드시 갱신**(안 하면 클라우드 `invalid_grant`).
 
 ## 원페이지 (회의용 월간 보고, `광고수익_원페이지.html`)
 - **디자인 원본은 `templates/광고수익_원페이지.html`(git 추적).** `build_onepager.py`가 `/*@DATA_START@*/…/*@DATA_END@*/` 블록의 데이터만 갈아끼워 **`report/`(gitignore, 생성물)** 로 출력한다. **레이아웃은 report/ 파일이 아니라 templates/ 원본을 고친다.**
