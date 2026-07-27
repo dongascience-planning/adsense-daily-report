@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>동아사이언스닷컴 광고 수익 성과보고 (7월)</title>
+<style>
+  :root{
+    --navy:#1e3a5f; --navy2:#2b4d78; --accent:#e85d3a; --ink:#1b2333; --muted:#5b6780;
+    --line:#e3e8f0; --card:#fff; --bg:#f4f7fb; --good:#0f9d58; --up:#0f9d58; --down:#c0392b;
+    --w1:#c7d3e6; --w2:#8fb0dd; --w3:#4f83c9; --w4:#e85d3a;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Malgun Gothic","맑은 고딕",sans-serif;
+    line-height:1.6;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:960px;margin:0 auto;padding:0 20px 60px}
+  header{background:linear-gradient(120deg,var(--navy),var(--navy2));color:#fff;padding:34px 0 30px;margin-bottom:26px}
+  header .wrap{padding-top:0;padding-bottom:0}
+  .htitle{font-size:26px;font-weight:800;letter-spacing:-.4px;margin:0}
+  .hsub{font-size:14px;opacity:.85;margin-top:8px}
+  .hbadge{display:inline-block;background:var(--accent);color:#fff;font-size:12px;font-weight:800;
+    border-radius:20px;padding:4px 12px;margin-bottom:14px}
+  h2{font-size:18px;margin:34px 0 14px;font-weight:800;letter-spacing:-.3px;display:flex;align-items:center;gap:8px}
+  h2 .bar{width:5px;height:20px;background:var(--accent);border-radius:3px;display:inline-block}
+  .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+  .kpi{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 16px 14px;box-shadow:0 1px 3px rgba(16,24,40,.05)}
+  .kpi .lbl{font-size:12px;color:var(--muted);font-weight:700}
+  .kpi .val{font-size:25px;font-weight:800;letter-spacing:-.5px;margin-top:4px;color:var(--navy)}
+  .kpi .sub{font-size:12px;color:var(--muted);margin-top:3px}
+  .kpi .sub b{color:var(--up)}
+  .callout{background:#fdf3f0;border:1px solid #f6cabb;border-left:5px solid var(--accent);
+    border-radius:12px;padding:16px 18px;font-size:15px;font-weight:600;color:#7a2c17}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px;box-shadow:0 1px 3px rgba(16,24,40,.05)}
+  /* 주차 막대 */
+  .wkchart{display:flex;gap:20px;flex-wrap:wrap}
+  .wkcol{flex:1;min-width:150px}
+  .wkchart .ttl{font-size:13px;font-weight:800;color:var(--muted);margin-bottom:12px;text-align:center}
+  .bars{display:flex;align-items:flex-end;justify-content:space-around;height:170px;gap:10px;
+    border-bottom:2px solid var(--line);padding:0 4px}
+  .bcol{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%}
+  .bval{font-size:12px;font-weight:800;margin-bottom:5px;color:var(--ink)}
+  .brect{width:100%;max-width:46px;border-radius:6px 6px 0 0}
+  .blbl{font-size:11px;color:var(--muted);margin-top:6px;font-weight:600;text-align:center;line-height:1.25}
+  table{width:100%;border-collapse:collapse;margin-top:6px;font-size:13.5px}
+  th,td{padding:9px 8px;text-align:right;border-bottom:1px solid var(--line)}
+  th{background:var(--navy);color:#fff;font-weight:700;font-size:12px}
+  th:first-child,td:first-child{text-align:left}
+  tr:last-child td{font-weight:800;background:#f0f5fb}
+  td .up{color:var(--up);font-weight:800} td .down{color:var(--down);font-weight:800}
+  /* 이번주 vs 지난주 */
+  .vs{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+  .vsc{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;text-align:center;box-shadow:0 1px 3px rgba(16,24,40,.05)}
+  .vsc .m{font-size:12px;color:var(--muted);font-weight:700}
+  .vsc .flow{font-size:20px;font-weight:800;margin:8px 0 4px;letter-spacing:-.5px}
+  .vsc .delta{font-size:13px;font-weight:800;border-radius:20px;padding:3px 11px;display:inline-block}
+  .vsc .delta.up{background:#e7f6ee;color:var(--up)} .vsc .delta.down{background:#fdeaea;color:var(--down)}
+  .vsc .delta.flat{background:#eef1f6;color:var(--muted)}
+  /* 타임라인 */
+  .tl{border-left:3px solid var(--line);margin-left:8px;padding-left:20px}
+  .tl .ev{position:relative;margin-bottom:16px}
+  .tl .ev::before{content:"";position:absolute;left:-27px;top:4px;width:12px;height:12px;border-radius:50%;background:var(--accent);border:2px solid #fff;box-shadow:0 0 0 2px var(--accent)}
+  .tl .d{font-size:12px;font-weight:800;color:var(--accent)}
+  .tl .t{font-size:14px;margin-top:2px}
+  .spark{display:flex;align-items:flex-end;height:90px;gap:2px}
+  .spark .s{flex:1;background:var(--w3);border-radius:2px 2px 0 0;min-height:2px}
+  .spark .s.hi{background:var(--accent)}
+  .note{font-size:12.5px;color:var(--muted);margin-top:10px}
+  .concl{background:var(--navy);color:#fff;border-radius:14px;padding:20px 22px}
+  .concl b{color:#ffd9cc}
+  .concl li{margin:6px 0}
+  @media(max-width:720px){ .kpis{grid-template-columns:repeat(2,1fr)} .vs{grid-template-columns:1fr} .wkcol{min-width:120px} }
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <div class="hbadge">뉴스팀 회의 · 성과보고</div>
+    <h1 class="htitle">동아사이언스닷컴 광고 수익 성과보고</h1>
+    <div class="hsub">기간 : 2026. 7. 1 ~ 7. 27 (데이터 7/26까지 · 26일)　|　서비스기획팀 × 광고팀</div>
+  </div>
+</header>
+<div class="wrap">
+
+  <div class="kpis">
+    <div class="kpi"><div class="lbl">7월 누적 수익</div><div class="val">$1,883</div><div class="sub">지난달 전체 $1,354 <b>이미 초과</b> (5일 남음)</div></div>
+    <div class="kpi"><div class="lbl">일평균 수익</div><div class="val">$72 → $86</div><div class="sub">1주 $28 → 최근 <b>약 3배</b></div></div>
+    <div class="kpi"><div class="lbl">방문당 수익(효율)</div><div class="val">$0.81 → $2.09</div><div class="sub"><b>매주 상승 · 2.6배</b> (트래픽 무관)</div></div>
+    <div class="kpi"><div class="lbl">월말 예상</div><div class="val">≈ $2,300</div><div class="sub">지난달 대비 <b>약 1.7배</b> 전망</div></div>
+  </div>
+
+  <h2 style="margin-top:30px"><span class="bar"></span>핵심 메시지</h2>
+  <div class="callout">
+    7/6~7/7 광고 최적화 이후 수익이 <b>구조적으로</b> 올라섰습니다. 트래픽에 좌우되지 않는 <b>‘방문당 수익’이 매주 계속 상승($0.81→$2.09)</b>해, 광고 효율 개선이 일시적이 아님을 보여줍니다. 여기에 <b>뉴스팀의 기사 트래픽</b>이 곱해져 총수익이 크게 뛰었습니다. (매출 = 광고 효율 × 기사 트래픽)
+  </div>
+
+  <h2><span class="bar"></span>주차별 성과</h2>
+  <div class="card">
+    <div class="wkchart">
+      <div class="wkcol">
+        <div class="ttl">일평균 수익 ($)</div>
+        <div class="bars" id="barsA"></div>
+      </div>
+      <div class="wkcol">
+        <div class="ttl">방문당 수익 ($/1,000명) — 효율</div>
+        <div class="bars" id="barsB"></div>
+      </div>
+    </div>
+    <table style="margin-top:22px">
+      <thead><tr><th>주차</th><th>총수익</th><th>일평균</th><th>방문당 수익</th><th>충족률</th></tr></thead>
+      <tbody>
+        <tr><td>1주 (7/1~7/7)</td><td>$194</td><td>$27.8</td><td>$0.81</td><td>69%</td></tr>
+        <tr><td>2주 (7/8~7/14)</td><td>$631</td><td>$90.2</td><td>$1.61</td><td>76%</td></tr>
+        <tr><td>3주 (7/15~7/21)</td><td>$635</td><td>$90.6</td><td>$1.90</td><td>84%</td></tr>
+        <tr><td>4주 (7/22~7/26·5일)</td><td>$422</td><td>$84.5</td><td class="up">$2.09 ▲</td><td>82%</td></tr>
+      </tbody>
+    </table>
+    <div class="note">※ ‘방문당 수익’은 방문자 수를 나눈 값이라 트래픽 변동과 무관한 순수 광고 효율입니다. 1주→4주 계속 상승 = 최적화 효과가 지속되고 있다는 증거.</div>
+  </div>
+
+  <h2><span class="bar"></span>이번 주 (7/22~7/26) vs 지난주 (7/15~7/21)</h2>
+  <div class="vs">
+    <div class="vsc"><div class="m">방문당 수익 (효율)</div><div class="flow">$1.90 → $2.09</div><span class="delta up">▲ +10% 상승</span></div>
+    <div class="vsc"><div class="m">일평균 수익</div><div class="flow">$90.6 → $84.5</div><span class="delta flat">≈ 트래픽 변동, 효율은 개선</span></div>
+    <div class="vsc"><div class="m">충족률</div><div class="flow">84% → 82%</div><span class="delta flat">≈ 유지</span></div>
+  </div>
+  <div class="note">지난주 대비 총수익 일평균은 소폭 낮지만(방문자 수 변동), <b>방문당 수익은 오히려 최고치</b>를 찍어 광고 효율은 계속 좋아지고 있습니다.</div>
+
+  <h2><span class="bar"></span>주요 히스토리</h2>
+  <div class="card">
+    <div class="tl">
+      <div class="ev"><div class="d">7/6 (일)</div><div class="t">AdSense <b>자동광고 보수적 재ON</b> — 광고 개수·간격 최소 설정, 모바일 전면광고 30분 간격 (도배 방지)</div></div>
+      <div class="ev"><div class="d">7/7 (월) 저녁</div><div class="t"><b>기사 페이지 개발 배포</b> — ① 본문 인아티클 1개→최대 3개 다중삽입(5문단 간격) ② 고정 360×640 광고→반응형 전환 ③ 모바일 배너 깨짐 수정</div></div>
+      <div class="ev"><div class="d">7/8~</div><div class="t">배포 다음날부터 <b>일수익 $32→$93로 급등</b>, 이후 $85~150대 유지</div></div>
+      <div class="ev"><div class="d">상시</div><div class="t">매일 AdSense·GA4 자동 수집 → 분석 → <b>잔디 리포트 + 대시보드</b> (목표·효과 자동 추적)</div></div>
+    </div>
+  </div>
+
+  <h2><span class="bar"></span>일별 수익 추이 (7/1~7/26)</h2>
+  <div class="card">
+    <div class="spark" id="spark"></div>
+    <div class="note">회색 구간(7/1~7/7) = 최적화 전 · 주황 구간(7/8~) = 최적화 후. 최고 $152 (7/16).</div>
+  </div>
+
+  <h2><span class="bar"></span>결론 &amp; 다음 단계</h2>
+  <div class="concl">
+    <ul style="margin:0;padding-left:18px">
+      <li>광고 최적화로 <b>수익 구조가 한 단계 올라섰고</b>, 방문당 효율은 지금도 상승 중.</li>
+      <li>남은 과제 = <b>‘가장 잘 나온 설정’ 찾기</b> : 방문당 수익 기준으로 한 번에 하나씩 튜닝 (이탈률 유지 조건).</li>
+      <li>다음 레버는 <b>트래픽(기사)</b> — 광고 효율이 2배로 올라, <b>기사 한 편의 매출 기여도 그만큼 커졌습니다.</b> 뉴스팀과의 협업이 매출로 직결됩니다.</li>
+    </ul>
+  </div>
+
+</div>
+<script>
+  var weeks=["1주","2주","3주","4주*"];
+  var davg=[27.8,90.2,90.6,84.5];
+  var rpm=[0.81,1.61,1.90,2.09];
+  var colors=["var(--w1)","var(--w2)","var(--w3)","var(--w4)"];
+  function drawBars(id,vals,fmt){
+    var max=Math.max.apply(null,vals), box=document.getElementById(id), h="";
+    for(var i=0;i<vals.length;i++){
+      var pct=Math.round(vals[i]/max*100);
+      h+='<div class="bcol"><div class="bval">'+fmt(vals[i])+'</div>'+
+         '<div class="brect" style="height:'+pct+'%;background:'+colors[i]+'"></div>'+
+         '<div class="blbl">'+weeks[i]+'</div></div>';
+    }
+    box.innerHTML=h;
+  }
+  drawBars("barsA",davg,function(v){return "$"+v.toFixed(0);});
+  drawBars("barsB",rpm,function(v){return "$"+v.toFixed(2);});
+
+  var daily=[39.42,33.22,20.01,9.52,26.76,33.92,31.68,93.19,76.86,74.68,59.00,122.81,110.61,94.18,116.03,152.29,134.96,70.72,50.99,52.78,56.69,106.99,48.27,40.86,139.68,86.49];
+  var dmax=Math.max.apply(null,daily), sp=document.getElementById("spark"), sh="";
+  for(var j=0;j<daily.length;j++){
+    var p=Math.round(daily[j]/dmax*100);
+    sh+='<div class="s'+(j>=7?' hi':'')+'" style="height:'+p+'%" title="7/'+(j+1)+": $"+daily[j]+'"></div>';
+  }
+  sp.innerHTML=sh;
+</script>
+</body>
+</html>

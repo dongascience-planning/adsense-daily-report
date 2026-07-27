@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>광고 수익 곡선 원페이지 (7월)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css">
+<style>
+  :root{
+    --bg:#ffffff; --ink:#111316; --ink-soft:#454b56; --dim:#8b919e; --faint:#c2c6ce;
+    --purple:#6d3bf0; --purple-soft:#a87dff; --purple-wash:#f4f0fe; --purple-line:#e4dbfb;
+    --line:#eceef3; --line2:#d6dae1; --gray:#b7bdc9;
+    --serif:"Nanum Myeongjo","Iropke Batang","Malgun Gothic",serif;
+    --sans:"Pretendard Variable","Pretendard","Malgun Gothic","맑은 고딕",sans-serif;
+    --mono:"SF Mono",ui-monospace,Consolas,Menlo,monospace;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{height:100%;background:#e9ebf0;font-family:var(--sans);color:var(--ink);-webkit-font-smoothing:antialiased}
+  .stage{position:fixed;inset:0;display:flex;align-items:center;justify-content:center}
+  .slide{width:1280px;height:720px;flex:none;background:var(--bg);position:relative;overflow:hidden;
+    box-shadow:0 24px 70px rgba(20,20,30,.28);transform-origin:center center;padding:36px 48px 0}
+  .grid-bg{position:absolute;inset:0;z-index:0;
+    background-image:linear-gradient(rgba(20,20,30,.028) 1px,transparent 1px),linear-gradient(90deg,rgba(20,20,30,.028) 1px,transparent 1px);
+    background-size:58px 58px;mask:radial-gradient(circle at 40% 40%,#000 55%,transparent 92%)}
+  .inner{position:relative;z-index:2;height:100%;display:flex;flex-direction:column}
+  .em{color:var(--purple)}
+
+  /* ── header ── */
+  .head{display:flex;justify-content:space-between;align-items:flex-start}
+  .eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.38em;text-transform:uppercase;color:var(--purple);font-weight:700}
+  h1{font-family:var(--serif);font-size:31px;font-weight:800;line-height:1.18;margin-top:9px;letter-spacing:-.01em}
+  .meta{font-family:var(--mono);font-size:11.5px;color:var(--dim);margin-top:9px;letter-spacing:.01em}
+  /* ── 이번 달 성적표 (우상단) ── */
+  .score{flex:none;width:300px;border:1px solid var(--purple-line);background:var(--purple-wash);
+    border-radius:15px;padding:13px 17px 15px;box-shadow:0 6px 20px rgba(109,59,240,.09)}
+  .score-top{font-family:var(--mono);font-size:10.5px;letter-spacing:.11em;text-transform:uppercase;color:var(--dim)}
+  .score-top b{color:var(--purple);font-weight:700}
+  .score-big{font-family:var(--serif);font-weight:800;font-size:34px;line-height:1;margin-top:6px;color:var(--ink)}
+  .score-sub{font-size:12px;color:var(--dim);margin-top:7px}
+  .score-sub b{color:var(--purple);font-weight:800}
+  .bar{position:relative;height:10px;background:#eceef3;border-radius:6px;margin:24px 0 6px}
+  .bar .fill{position:absolute;left:0;top:0;height:100%;border-radius:6px 0 0 6px;background:linear-gradient(90deg,#c7ccd6,#b7bdc9)}   /* 지난달 수준까지 = 회색(4~6월 평균 톤) */
+  .bar .exceed{position:absolute;top:0;height:100%;border-radius:0 6px 6px 0;background:linear-gradient(90deg,#8b5cf6,#6d3bf0)}       /* 초과분 = 진한 보라(7월 톤) */
+  .bar .mark{position:absolute;top:-5px;width:2px;height:20px;background:#7b818d;border-radius:1px}
+  .bar .markl{position:absolute;top:-17px;transform:translateX(-50%);font-family:var(--mono);font-size:9px;color:#8b919e;white-space:nowrap}
+  .beat{margin-top:14px;background:var(--purple-wash);border:1px solid var(--purple-line);border-radius:9px;padding:7px 11px;font-size:12.5px;color:var(--purple);font-weight:700;text-align:center;letter-spacing:-.01em}
+  .beat b{font-weight:800}
+  .beat.neg{background:#f2f3f6;border-color:#e0e3e9;color:#6b7280}
+
+  /* ── body: chart + cards ── */
+  .body{flex:1;display:flex;flex-direction:column;margin-top:10px;min-height:0}
+  .legend{display:flex;gap:20px;font-size:12.5px;color:var(--ink-soft);font-weight:600;margin-bottom:6px}
+  .legend i{display:inline-block;width:22px;height:0;vertical-align:middle;margin-right:7px}
+  .legend .jul i{border-top:3px solid var(--purple)}
+  .legend .jun i{border-top:3px solid var(--gray);opacity:.85}
+  .legend .ev{color:var(--purple);font-weight:800}
+  .chartwrap{flex:none;height:250px;position:relative}
+  svg{width:100%;height:100%;display:block;overflow:visible}
+
+  /* ── 하단: 무엇을 했나 4카드 (가로줄) ── */
+  .cardhead{display:flex;align-items:baseline;gap:13px;margin-top:16px}
+  .cardhead .rlead{font-family:var(--mono);font-size:10.5px;letter-spacing:.15em;color:var(--purple);font-weight:700;text-transform:uppercase;flex:none}
+  .cardhead .rt{font-family:var(--serif);font-size:18px;font-weight:800;line-height:1.2}
+  .cardhead .rt .em{color:var(--purple)}
+  .cardrow{display:flex;gap:12px;margin-top:11px}
+  .card{flex:1;display:flex;flex-direction:column;gap:5px;background:#fff;border:1px solid var(--line2);
+    border-radius:13px;padding:12px 15px;box-shadow:0 2px 10px rgba(20,20,30,.04)}
+  .card.core{background:var(--purple-wash);border-color:var(--purple-line);box-shadow:0 4px 16px rgba(109,59,240,.10)}
+  .card .no{font-family:var(--mono);font-size:12px;font-weight:700;color:var(--dim)}
+  .card.core .no{color:var(--purple)}
+  .card .tx b{display:block;font-size:14px;font-weight:800;color:var(--ink);letter-spacing:-.01em}
+  .card .tx span{display:block;font-size:11.5px;color:var(--ink-soft);margin-top:3px;line-height:1.4}
+
+  /* ── foot ── */
+  .foot{margin:14px -48px 0;height:52px;background:var(--ink);color:#fff;
+    display:flex;align-items:center;justify-content:center;gap:10px;
+    font-family:var(--serif);font-size:16px;font-weight:800;letter-spacing:-.01em}
+  .foot .em{color:var(--purple-soft)}
+  .foot .thin{font-family:var(--sans);font-weight:500;color:#a9adb8;font-size:13px}
+</style>
+</head>
+<body>
+<div class="stage">
+  <div class="slide" id="slide">
+    <div class="grid-bg"></div>
+    <div class="inner">
+
+      <div class="head">
+        <div>
+          <div class="eyebrow">ADSENSE · DONGASCIENCE.COM</div>
+          <h1>7월 광고 수익, <span class="em">최적화 전과 후</span></h1>
+          <div class="meta" id="meta"></div>
+        </div>
+        <div class="score">
+          <div class="score-top" id="scoreTop"></div>
+          <div class="score-big" id="scoreBig"></div>
+          <div class="score-sub" id="scoreSub"></div>
+          <div class="bar">
+            <div class="fill" id="barFill"></div>
+            <div class="exceed" id="barExceed"></div>
+            <div class="mark" id="barMark"></div>
+            <div class="markl" id="barMarkL">지난달</div>
+          </div>
+          <div class="beat" id="beat"></div>
+        </div>
+      </div>
+
+      <div class="body">
+        <div class="legend">
+          <span class="jul"><i></i>7월 일별 수익</span>
+          <span class="jun"><i></i>4~6월 일별 평균</span>
+          <span class="ev">● 7/6 자동광고 ON&nbsp;&nbsp;● 7/7 개발 배포</span>
+        </div>
+        <div class="chartwrap"><svg id="chart" viewBox="0 0 1184 250" preserveAspectRatio="xMidYMid meet"></svg></div>
+
+        <div class="cardhead">
+          <span class="rlead">무엇을 했나 · 7/6~7/7</span>
+          <span class="rt">읽기를 해치지 않는 선에서 <span class="em">4가지</span></span>
+        </div>
+        <div class="cardrow">
+          <div class="card core">
+            <div class="no">01</div>
+            <div class="tx"><b>본문 인아티클 확대</b><span>기사당 1개 → 최대 3개(5문단마다). 가장 잘 버는 광고</span></div>
+          </div>
+          <div class="card">
+            <div class="no">02</div>
+            <div class="tx"><b>고정 광고 → 반응형</b><span>360×640 고정 → 여러 크기 수용, 충족률↑</span></div>
+          </div>
+          <div class="card">
+            <div class="no">03</div>
+            <div class="tx"><b>자동광고 보수적 재ON</b><span>개수·간격 최소, 모바일 전면광고 30분 간격</span></div>
+          </div>
+          <div class="card">
+            <div class="no">04</div>
+            <div class="tx"><b>모바일 배너 정비</b><span>기사 상세의 깨진 배너 크기 수정</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="foot" id="foot"></div>
+
+    </div>
+  </div>
+</div>
+<script>
+  /*@DATA_START@*/
+  var DATA={"year": 2026, "asOfDay": 27, "daysLeft": 4, "goal": 2850.0, "lastMonth": 1353.79, "july": [39.41, 33.22, 20.01, 9.52, 26.76, 33.92, 31.68, 93.19, 76.84, 74.67, 58.99, 122.8, 110.61, 94.18, 116.03, 152.29, 134.96, 70.72, 50.99, 52.78, 56.69, 106.99, 48.27, 40.86, 139.68, 86.49, 54.52], "avg3": [51.1, 32.7, 30.6, 86.1, 67.0, 51.4, 37.2, 45.2, 42.6, 38.9, 36.6, 45.1, 39.8, 38.9, 35.0, 45.3, 68.6, 62.9, 71.6, 41.2, 27.4, 42.9, 64.5, 38.5, 24.9, 28.9, 40.2, 41.1, 38.4, 32.3, 44.8]};
+  /*@DATA_END@*/
+
+  var MONTH=7, DAYS=31, SPLIT=8;             // July story: 최적화 경계 = 7/8
+  var july=DATA.july, avg3=DATA.avg3;
+
+  // ── 파생값 ──
+  function sum(a){ return a.reduce(function(s,v){return s+v;},0); }
+  function mean(a){ return a.length ? sum(a)/a.length : 0; }
+  function won(v){ return "$"+Math.round(v).toLocaleString("en-US"); }
+  var mtd=sum(july);
+  var before=mean(july.slice(0,SPLIT-1));    // 7/1~7/7
+  var after =mean(july.slice(SPLIT-1));      // 7/8~집계일
+  var avg3mean=mean(avg3.slice(0,DAYS));
+  var peak=Math.max.apply(null,july), peakDay=july.indexOf(peak)+1;
+  var goal=DATA.goal, lastMonth=DATA.lastMonth;
+  var pct=Math.round(mtd/goal*100);
+  var lmpct=Math.max(0,Math.min(100,Math.round(lastMonth/goal*100)));
+  var remain=goal-mtd, over=mtd-lastMonth;
+  var growth=lastMonth>0 ? Math.round(over/lastMonth*100) : 0;   // 지난달 전체 대비 성장률
+  var ratio3=Math.round(after/avg3mean*10)/10;   // 지난 3개월 평균 대비
+  var ratioB=Math.round(after/before*10)/10;     // 실행 전 평균 대비
+  var lastDay=july.length;
+
+  // ── 성적표 / meta / foot 채우기 ──
+  document.getElementById("meta").innerHTML="일별 예상 수익 (USD)　·　"+DATA.year+". "+MONTH+". 1 ~ "+MONTH+". "+DATA.asOfDay+" 집계";
+  document.getElementById("scoreTop").innerHTML="7월 누적 · <b>"+MONTH+"/"+DATA.asOfDay+"</b> 기준"+(DATA.daysLeft>0?" · 남은 "+DATA.daysLeft+"일":" · 마감");
+  document.getElementById("scoreBig").textContent=won(mtd);
+  document.getElementById("scoreSub").innerHTML="목표 "+won(goal)+"의 <b>"+pct+"%</b>　·　"+(remain>0?"목표까지 −"+won(remain):"목표 달성 ✔");
+  document.getElementById("barFill").style.width=Math.min(100,pct)+"%";
+  var _ex=document.getElementById("barExceed");
+  if(pct>lmpct){ _ex.style.left=lmpct+"%"; _ex.style.width=(Math.min(100,pct)-lmpct)+"%"; } else { _ex.style.display="none"; }
+  document.getElementById("barMark").style.left=lmpct+"%";
+  document.getElementById("barMarkL").style.left=lmpct+"%";
+  var beat=document.getElementById("beat");
+  if(over>=0){ beat.className="beat"; beat.innerHTML='▲ 지난달 총수입 <b>이미 돌파</b>　·　<b>+'+won(over)+' (+'+growth+'%)</b>'; }
+  else { beat.className="beat neg"; beat.innerHTML='지난달 총수입까지 <b>−'+won(-over)+'</b> 남음'; }
+  document.getElementById("foot").innerHTML='실행 이후 일평균 <span class="em">'+won(before)+' → '+won(after)+'</span> · 지난 3개월의 약 '+ratio3+'배'
+    +'<span class="thin">— 주말엔 트래픽↓로 저조한 날도 있지만, 평균은 올랐습니다</span>';
+
+  // ── 차트 파라미터 ──
+  var W=1184, H=250, PADL=50, PADR=22, PADT=26, PADB=26;
+  var YMAX=Math.max(170, Math.ceil(peak*1.06/10)*10);
+  var YTICKS=[]; for(var yt=0; yt<=YMAX-10; yt+=40) YTICKS.push(yt);
+  var XTICKS=[]; for(var xt=1; xt<=DAYS; xt+=2) XTICKS.push(xt);
+  var plotW=W-PADL-PADR, plotH=H-PADT-PADB;
+  function X(day){ return PADL + (day-1)/(DAYS-1)*plotW; }
+  function Y(v){ return PADT + (1 - v/YMAX)*plotH; }
+  function smooth(vals){
+    var p=vals.map(function(v,i){return [X(i+1),Y(v)];});
+    if(p.length<2) return "";
+    var d="M"+p[0][0]+","+p[0][1];
+    for(var i=0;i<p.length-1;i++){
+      var p0=p[i-1]||p[i], p1=p[i], p2=p[i+1], p3=p[i+2]||p2;
+      var c1x=p1[0]+(p2[0]-p0[0])/6, c1y=p1[1]+(p2[1]-p0[1])/6;
+      var c2x=p2[0]-(p3[0]-p1[0])/6, c2y=p2[1]-(p3[1]-p1[1])/6;
+      d+="C"+c1x+","+c1y+" "+c2x+","+c2y+" "+p2[0]+","+p2[1];
+    }
+    return d;
+  }
+  var NS="http://www.w3.org/2000/svg";
+  function el(n,a){ var e=document.createElementNS(NS,n); for(var k in a) e.setAttribute(k,a[k]); return e; }
+  function label(x,y,txt,anchor,color,size,weight){
+    var t=el("text",{x:x,y:y,"text-anchor":anchor||"middle","font-size":size||12,"font-weight":weight||700,fill:color||"#6d3bf0","font-family":"var(--sans)"}); t.textContent=txt; svg.appendChild(t);
+  }
+  function pill(cx,cy,txt,bg,border,fg,fs){
+    fs=fs||13;
+    var t=el("text",{x:cx,y:cy+fs*0.35,"text-anchor":"middle","font-size":fs,"font-weight":800,fill:fg,"font-family":"var(--sans)"});
+    t.textContent=txt; svg.appendChild(t);
+    var w=t.getComputedTextLength(), px=9, h=fs+10;
+    var r=el("rect",{x:cx-w/2-px,y:cy-h/2,width:w+2*px,height:h,rx:h/2,fill:bg,stroke:border||"none","stroke-width":1});
+    svg.insertBefore(r,t);
+  }
+  var svg=document.getElementById("chart");
+
+  var defs=el("defs",{});
+  defs.innerHTML='<linearGradient id="jg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#6d3bf0" stop-opacity="0.20"/><stop offset="1" stop-color="#6d3bf0" stop-opacity="0"/></linearGradient>'
+    +'<linearGradient id="gg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#b7bdc9" stop-opacity="0.22"/><stop offset="1" stop-color="#b7bdc9" stop-opacity="0"/></linearGradient>';
+  svg.appendChild(defs);
+
+  // y gridlines + labels
+  YTICKS.forEach(function(v){
+    svg.appendChild(el("line",{x1:PADL,y1:Y(v),x2:W-PADR,y2:Y(v),stroke:"#eceef3","stroke-width":1}));
+    var t=el("text",{x:PADL-8,y:Y(v)+4,"text-anchor":"end","font-size":11,fill:"#a2a8b3","font-family":"var(--mono)"}); t.textContent="$"+v; svg.appendChild(t);
+  });
+  XTICKS.forEach(function(day){
+    var t=el("text",{x:X(day),y:H-8,"text-anchor":"middle","font-size":10.5,fill:"#a2a8b3","font-family":"var(--mono)"}); t.textContent=day; svg.appendChild(t);
+  });
+
+  // ── 4~6월 평균: soft area + thin line (배경 컨텍스트) ──
+  var gpath=smooth(avg3);
+  svg.appendChild(el("path",{d:gpath+" L"+X(DAYS)+","+Y(0)+" L"+X(1)+","+Y(0)+" Z",fill:"url(#gg)",stroke:"none"}));
+  svg.appendChild(el("path",{d:gpath,fill:"none",stroke:"#b7bdc9","stroke-width":1.8,"stroke-linecap":"round","stroke-linejoin":"round",opacity:0.8}));
+  label(X(DAYS-2), Y(avg3[DAYS-3])-9, "4~6월 평균 ($"+Math.round(avg3mean)+"/일)", "end", "#9aa0ad", 11, 700);
+
+  // ── 실행 밴드 7/6~7/7 ──
+  svg.appendChild(el("rect",{x:X(6),y:PADT,width:X(7)-X(6),height:plotH,fill:"#6d3bf0",opacity:0.08}));
+  svg.appendChild(el("line",{x1:X(6.5),y1:PADT,x2:X(6.5),y2:H-PADB,stroke:"#c3aef8","stroke-width":1,"stroke-dasharray":"4 4"}));
+  label(X(6.5), PADT-8, "7/6~7/7 실행", "middle", "#6d3bf0", 11.5, 800);
+
+  // ── July 일별 수익 (hero) ──
+  var jpath=smooth(july);
+  svg.appendChild(el("path",{d:jpath+" L"+X(lastDay)+","+Y(0)+" L"+X(1)+","+Y(0)+" Z",fill:"url(#jg)",stroke:"none"}));
+  svg.appendChild(el("path",{d:jpath,fill:"none",stroke:"#6d3bf0","stroke-width":2.8,"stroke-linecap":"round","stroke-linejoin":"round"}));
+
+  // ── 이전/이후 일평균 세그먼트 ──
+  svg.appendChild(el("line",{x1:X(1),y1:Y(before),x2:X(SPLIT-1),y2:Y(before),stroke:"#9aa0ad","stroke-width":1.5,"stroke-dasharray":"5 4"}));
+  pill(X(3.4), Y(before)-15, "이전 평균 "+won(before), "#f1f2f5", "#e0e3e9", "#6b7280", 11.5);
+  svg.appendChild(el("line",{x1:X(SPLIT),y1:Y(after),x2:X(lastDay),y2:Y(after),stroke:"#6d3bf0","stroke-width":1.8,"stroke-dasharray":"6 5"}));
+  pill(X((SPLIT+lastDay)/2), Y(after)-15, "이후 평균 "+won(after)+" · "+ratioB+"배 ↑", "#ffffff", "#c9b6f7", "#6d3bf0", 14);
+
+  // 급등 시작점 (7/7 저녁 배포 → 7/8)
+  [[SPLIT-1,july[SPLIT-2]],[SPLIT,july[SPLIT-1]]].forEach(function(pt){ if(pt[1]!=null) svg.appendChild(el("circle",{cx:X(pt[0]),cy:Y(pt[1]),r:4.5,fill:"#fff",stroke:"#6d3bf0","stroke-width":2.6})); });
+
+  // 일별 최고
+  label(X(peakDay), Y(peak)-9, "최고 "+won(peak), "middle", "#6d3bf0", 10.5, 800);
+
+  // ── scale to fit ──
+  function fit(){ var s=document.getElementById("slide"); var k=Math.min(innerWidth/1280,innerHeight/720); s.style.transform="scale("+k+")"; }
+  addEventListener("resize",fit); fit();
+</script>
+</body>
+</html>
