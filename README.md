@@ -87,6 +87,34 @@ powershell -ExecutionPolicy Bypass -File .\register_schedule.ps1
 - ±20% 이상 급변 시 맨 앞에 **⚠️ 경고** 한 줄
 - `claude -p` 실패 시 규칙 기반 백업 인사이트로 대체 (파이프라인 중단 없음)
 
+## 월간 원페이지 (회의용 보고)
+`build_onepager.py` 가 매일 아침(파이프라인 6번째 best-effort 스텝) **7월 광고 최적화 캠페인 원페이지**를 갱신한다.
+- **디자인 원본**: `templates/광고수익_원페이지.html` (git 추적) — 레이아웃은 여기를 고친다.
+- **생성물**: `report/광고수익_원페이지.html` (gitignore) — 원본에 그날까지의 실적 데이터만 주입해 출력.
+- 대시보드 상단 버튼(📈)으로 열 수 있고, `templates/광고수익_성과보고_2주.html`(2주 성과보고)도 함께 report/로 복사된다.
+
+## 협업 (dongascience-planning 조직) · Claude Code
+이 저장소는 **`dongascience-planning` 조직**의 **비공개(private)** repo다. (과거 개인 repo `chans-ex` 에서 이관 — 이제 조직 repo에서만 작업)
+
+Claude Code는 "프로젝트" 개념 없이 **저장소 폴더 단위**로 동작한다. 협업은 곧 **Git 협업**이다:
+1. `git clone` 후 각자 로컬에서 `claude` 실행 → 루트의 **`CLAUDE.md` 가 자동 로딩**되어 두 사람의 Claude가 같은 규칙·맥락으로 일한다.
+2. **인증·비밀키는 공유하지 않는다** — 각자 위 *최초 설정* 절차로 본인 `.env` / `token_adsense.json` / `ga4-key.json` 을 로컬에 만든다. (`.gitignore` 로 커밋 차단됨)
+3. 코드 변경은 브랜치 → PR 로 주고받는다. (실시간 세션 공유가 아니라 Git 으로 동기화)
+
+### 새 팀원 온보딩 요약
+```powershell
+git clone https://github.com/dongascience-planning/adsense-daily-report.git
+cd adsense-daily-report
+powershell -ExecutionPolicy Bypass -File .\setup.ps1   # venv + 의존성
+copy .env.example .env                                  # 값 채우기
+.\.venv\Scripts\python.exe auth_adsense.py              # 본인 Google 인증(1회)
+# ga4-key.json 배치 후
+.\.venv\Scripts\python.exe build_dashboard.py           # 리포트 로컬 생성 확인
+claude                                                  # CLAUDE.md 자동 로딩됨
+```
+
+> ⚠️ **최우선 규칙**: 광고를 과하게 가려 기사 읽기를 방해하지 않는다(모바일 인아티클 ≤30%, 이탈률 함께 감시). 자세한 맥락은 `CLAUDE.md` 참고.
+
 ### 월 목표 변경
 `.env` 의 `MONTHLY_REVENUE_GOAL`(USD) 값을 바꾸면 됩니다. 비우면 목표 라인이 생략됩니다.
 (현재 $2,850 = 지난달 실적 $1,422.77의 약 2배)

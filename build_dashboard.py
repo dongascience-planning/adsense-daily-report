@@ -15,6 +15,59 @@ REPORT_DIR = common.BASE_DIR / "report"
 JOURNAL = common.DATA_DIR / "journal.json"
 TRACKING = common.DATA_DIR / "tracking.json"
 
+# 📅 7월 실행 계획 (WBS · 일별 할 일 + 체크할 데이터). do=할 일, chk=확인할 데이터
+PLAN = [
+    {"week": "1주차 · 배포·설정 완료(자동광고 7/6, 개발 7/7) → 매일 감시·조정", "days": [
+        {"date": "7/7", "label": "✅ 완료 — 자동광고 7/6 · 개발 7/7 반영",
+         "do": ["[콘솔·7/6] 자동광고 보수적 재ON (개수·간격 최소) + 모바일 전면광고 30분 간격",
+                "[개발·7/7] 본문 인아티클 1개 → 최대 3개(5문단마다) 다중삽입 (배포·코드검증 완료)",
+                "[개발·7/7] 고정 360×640 광고 → 반응형 전환 (배포·코드검증 완료)",
+                "[개발·7/7] 모바일 기사 상세 배너 깨짐 수정 (배포 완료)"],
+         "chk": ["여러 개를 한 번에 켰으니 → 이제 '도배 안 나나'와 '무엇이 효과였나'가 핵심"]},
+        {"date": "7/3", "label": "7/2~7/6 · 매일 감시 (도배·이탈 방어)",
+         "do": ["⚠️ 수동 본문광고 + 자동광고가 겹쳐 도배(>30%) 안 나는지 실제 모바일로 매일 확인",
+                "이탈률 오르면 → 자동광고 개수 더 낮추거나 전면광고 간격 늘리기 (수동 3개는 유지)"],
+         "chk": ["수익↑ 와 이탈률 유지가 '동시에' 되나 (매일)"]},
+    ]},
+    {"week": "2주차 (7/7~7/11) · 무엇이 효과였는지 가려내기 + 과한 것 덜기", "days": [
+        {"date": "7/7", "label": "7/7~7/9 · 원인 분리",
+         "do": ["한꺼번에 켜서 원인이 섞임 → 이탈률이 나쁘면 하나씩 꺼보며 범인 찾기",
+                "잘 되면 유지, 과하면(특히 자동광고·전면광고) 덜어내기"],
+         "chk": ["어떤 조합이 수익↑ & 이탈률 유지인가"]},
+        {"date": "7/10", "label": "7/10~7/11 · 1차 효과 판정",
+         "do": ["대시보드 추적에서 7/1 액션들의 효과 판정 확인"],
+         "chk": ["7/1 대비 일수익·이탈률 변화 / 목표 페이스"]},
+    ]},
+    {"week": "3주차 (7/14~7/18) · 최적 설정 찾기 (판정 기준: 방문당 수익)", "days": [
+        {"date": "7/14", "label": "7/14~7/16 · 한 번에 하나씩 바꿔 비교",
+         "do": ["설정을 한 번에 '하나만' 바꾼다 (예: 본문 광고 3개→2개) → 3~5일 관찰",
+                "판정은 '총수익'이 아니라 '방문당 수익(1,000명당)'으로 — 트래픽 영향 제거",
+                "(여유 있으면) PC 인아티클도 본문 2곳으로 확대해 같은 방식으로 비교"],
+         "chk": ["방문당 수익이 오르면서 이탈률은 안 오르는 설정이 '이긴' 것"],
+         "notelabel": "📏 '가장 잘 나온 설정' 판정하는 법 (펼치기)",
+         "note": (
+            "<b>📏 '가장 잘 나온 설정'을 판정하는 법</b> (안 그러면 트래픽에 속아요)<br><br>"
+            "· <b>기준 지표</b>: 총수익(❌) → <b>방문당 수익(⭕)</b>. 매일 방문자 수가 달라서 총수익으론 설정 효과를 못 가림.<br>"
+            "· <b>방법</b>: 한 번에 하나만 바꾸고 <b>3~5일</b> 관찰 → 바꾸기 전후 방문당 수익 비교.<br>"
+            "· <b>승리 조건</b>: <b>이탈률 안 오르면서 방문당 수익이 오른</b> 설정 = 채택.<br>"
+            "· <b>자동광고</b>: AdSense <b>'실험(Experiments)'</b> 기능으로 A/B — 트래픽 절반씩 나눠 구글이 승자를 알려줌.<br><br>"
+            "→ 대시보드 '독자 반응' 카드의 <b>방문당 수익</b> 숫자를 보면 돼요."
+         )},
+        {"date": "7/17", "label": "7/17~7/18 · 최적 설정 고정",
+         "do": ["방문당 수익 최대 + 이탈률 유지였던 설정을 확정·고정",
+                "자동광고는 실험(Experiments) A/B 승자 확인 후 반영"],
+         "chk": ["고정 후 방문당 수익·이탈률이 안정적으로 유지되는가"]},
+    ]},
+    {"week": "4주차 (7/21~7/30) · 굳히기 + 결산", "days": [
+        {"date": "7/21", "label": "7/21~7/25 · 안정화",
+         "do": ["방문당 수익 최대였던 설정 고정 · 매일 방문당 수익·이탈률 이상치만 감시"],
+         "chk": ["방문당 수익·목표 페이스 유지되나"]},
+        {"date": "7/28", "label": "7/28~7/30 · 월말 결산",
+         "do": ["목표 $2,850 대비 결산", "8월 계획 수립 (축 = 트래픽 확대)"],
+         "chk": ["월 수익 vs 목표 · 다음 달 레버는?"]},
+    ]},
+]
+
 
 def load_days():
     days = []
@@ -83,6 +136,7 @@ def build():
         "diagnostics": diagnostics,
         "glossRef": gloss_ref,
         "glossMap": gloss_map,
+        "plan": PLAN,
     }
 
     html = HTML_TEMPLATE.replace("/*__DATA__*/", json.dumps(payload, ensure_ascii=False))
@@ -116,12 +170,42 @@ HTML_TEMPLATE = r"""<!doctype html>
   .sub{color:var(--muted);font-size:13px;margin-bottom:8px}
   .goal-banner{background:linear-gradient(90deg,var(--accent),#3b82f6);color:#fff;border-radius:14px;padding:18px 22px;font-size:20px;font-weight:800;margin:10px 0 12px;box-shadow:var(--shadow);line-height:1.45;letter-spacing:-.2px}
   @media(max-width:680px){ .goal-banner{font-size:17px;padding:15px 17px} }
+  .report-link{display:inline-block;margin:6px 0 4px;padding:9px 16px;background:linear-gradient(90deg,#6d3bf0,#8b5cf6);color:#fff;font-weight:800;border-radius:10px;text-decoration:none;box-shadow:var(--shadow)}
+  .report-link:hover{filter:brightness(1.07)}
   .datebar{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 14px;margin:10px 0;box-shadow:var(--shadow);font-weight:600}
   .datebar select{font:inherit;font-weight:700;color:var(--accent);background:var(--card2);border:1px solid var(--line);border-radius:8px;padding:5px 9px;cursor:pointer}
   h2 small{font-weight:500;color:var(--muted);font-size:12px}
   .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;
     box-shadow:var(--shadow);overflow-x:auto}
   .good{color:var(--good)} .warn{color:var(--warn)} .bad{color:var(--bad)}
+
+  /* 📅 실행 계획 (WBS 체크리스트) */
+  .plan-prog{font-size:13px;color:var(--muted);margin:0 0 12px}
+  .plan-prog b{color:var(--accent);font-size:15px}
+  .plan-week{margin:16px 0 6px;font-weight:800;font-size:14px;color:var(--txt);
+    padding:7px 12px;background:var(--card2);border-radius:9px;border-left:4px solid var(--accent)}
+  .plan-day{border:1px solid var(--line);border-radius:11px;padding:12px 14px;margin:8px 0;background:var(--card)}
+  .plan-day.today{border-color:var(--accent);box-shadow:0 0 0 2px rgba(37,99,235,.15);background:#f5f8ff}
+  .plan-day.done{opacity:.6}
+  .plan-dhead{display:flex;align-items:center;gap:8px;font-weight:800;font-size:14px;margin-bottom:8px}
+  .plan-today-chip{background:var(--accent);color:#fff;font-size:11px;font-weight:800;border-radius:20px;padding:2px 9px}
+  .plan-task{display:flex;align-items:flex-start;gap:9px;padding:5px 0;cursor:pointer;font-size:14px;line-height:1.45}
+  .plan-task input{margin-top:3px;width:17px;height:17px;flex:none;cursor:pointer;accent-color:var(--accent)}
+  .plan-task.checked span{text-decoration:line-through;color:var(--muted)}
+  .plan-chk{margin-top:7px;padding-top:7px;border-top:1px dashed var(--line)}
+  .plan-chk .lbl{font-size:11px;font-weight:800;color:var(--warn);letter-spacing:.3px}
+  .plan-chk div{font-size:13px;color:var(--muted);padding:2px 0}
+  .plan-note{margin-top:9px}
+  .plan-note summary{cursor:pointer;font-size:12px;font-weight:800;color:var(--accent);
+    background:#eef4ff;border:1px solid #cfe0ff;border-radius:8px;padding:7px 11px;list-style:none;display:inline-block}
+  .plan-note summary::-webkit-details-marker{display:none}
+  .plan-note summary::before{content:"▸ ";}
+  .plan-note[open] summary::before{content:"▾ ";}
+  .plan-note-body{font-size:13px;line-height:1.65;color:var(--txt);margin-top:9px;
+    background:var(--card2);border-radius:10px;padding:13px 15px}
+  .plan-note-body code{background:#fff;border:1px solid var(--line);border-radius:5px;
+    padding:1px 5px;font-size:12px;font-family:ui-monospace,Consolas,monospace;color:#b3005e}
+  .plan-note-body u{text-decoration:none;font-weight:800;color:var(--accent)}
 
   /* 목표 진행 그래프 */
   .goalnum{font-size:15px;color:var(--muted)} .goalnum b{font-size:22px;color:var(--txt)}
@@ -241,10 +325,19 @@ HTML_TEMPLATE = r"""<!doctype html>
   <div class="goal-banner" id="banner"></div>
   <div class="sub" id="sub"></div>
 
+  <a class="report-link" href="광고수익_성과보고_2주.html" target="_blank">📊 2주 성과보고 발표자료 열기 →</a>
+  <a class="report-link" href="광고수익_원페이지.html" target="_blank" style="margin-left:8px">📈 월간 광고수익 리포트 (원페이지) →</a>
+
   <div class="datebar">📅 날짜별 보기: <select id="datesel"></select> <span class="hint" id="datehint"></span></div>
 
   <h2>🎯 이번 달 목표 <small id="goalday"></small></h2>
   <div class="card" id="goalCard"></div>
+
+  <h2>📅 7월 실행 계획 <small>— 오늘 할 일 · 확인할 데이터 (체크하면 저장됨)</small></h2>
+  <div class="card" id="planCard"></div>
+
+  <h2>✅ 진행 중인 액션 <small>— 실행한 조치와 효과 (데이터로 자동 판정)</small></h2>
+  <div id="trackCard"></div>
 
   <h2>최근 7일 수익</h2>
   <div class="card" id="weekChart"></div>
@@ -264,7 +357,7 @@ HTML_TEMPLATE = r"""<!doctype html>
 
   <h2>💬 질문 / 요청 남기기</h2>
   <div class="card qcard">
-    <div class="hint">자동 답변이 아니라, 담당자(광고팀)가 Jandi로 받아 확인 후 답합니다. (특정 인사이트 질문은 그 인사이트를 클릭하세요)</div>
+    <div class="hint">자동 답변이 아니라, 담당자(서비스기획팀)가 Jandi로 받아 확인 후 답합니다. (특정 인사이트 질문은 그 인사이트를 클릭하세요)</div>
     <textarea id="qbox" placeholder="인사이트와 무관한 일반 질문·요청을 적어주세요..."></textarea>
     <div class="qrow"><input id="qname" placeholder="이름(선택)"><button id="qsend">보내기</button><span class="saved" id="qmsg">접수됐어요 ✅</span></div>
   </div>
@@ -285,7 +378,7 @@ HTML_TEMPLATE = r"""<!doctype html>
       <div id="mAsk">
         <hr class="modal-hr">
         <label class="ml">💬 이 인사이트에 질문</label>
-        <textarea id="mQ" placeholder="궁금한 점을 적으면 담당자(광고팀)에게 전달됩니다..."></textarea>
+        <textarea id="mQ" placeholder="궁금한 점을 적으면 담당자(서비스기획팀)에게 전달됩니다..."></textarea>
         <div class="qrow"><input id="mQName" placeholder="이름(선택)"><button id="mQSend">질문 보내기</button><span class="saved" id="mQMsg">전송됨 ✅</span></div>
       </div>
     </div>
@@ -331,16 +424,19 @@ function renderGoal(s){
   const vs = (typeof s.vs_lm_same_pct === "number") ? s.vs_lm_same_pct : null;
   const beatLast = vs != null && vs >= 0;
 
-  // 기분 이모지: 목표 80%+ 예상 → 신남, 지난달 넘으면 → 안도, 둘 다 아니면 → 슬픔
+  // 기분 이모지: 새 달 시작 → 출발, 목표 80%+ 예상 → 신남, 지난달 넘으면 → 안도, 둘 다 아니면 → 슬픔
   let mood, msg, dance = "";
-  if(projPct >= 80){ mood = "🥳"; dance = "mood-dance"; msg = "목표가 손에 잡혀요 — 신나서 춤춰요!"; }
+  if(s.fresh){ mood = "🚀"; msg = "새 달 시작! 목표를 향해 0부터 달려요"; }
+  else if(projPct >= 80){ mood = "🥳"; dance = "mood-dance"; msg = "목표가 손에 잡혀요 — 신나서 춤춰요!"; }
   else if(beatLast){ mood = "😌"; msg = "휴~ 그래도 지난달보다는 앞서 있어요"; }
   else { mood = "😢"; msg = "목표도 지난달도 아직… 분발이 필요해요"; }
 
   const lastLine = (vs != null)
     ? ` · 지난달 동기 ${money(s.lm_same)} 대비 <b class="${beatLast?'good':'bad'}">${vs>=0?'+':''}${vs.toFixed(1)}%</b>`
     : "";
-  const remNote = ok
+  const remNote = s.fresh
+    ? `아직 이번 달 집계 데이터가 없어요 — <b>내일부터</b> 채워집니다`
+    : ok
     ? `이 추세면 목표를 <b class="good">초과</b> 달성할 것으로 보입니다 🎉`
     : `이 추세면 월말 <b>${money(s.projection)}</b>, 목표까지 <b class="warn">${money(s.goal - s.projection)}</b> 부족`;
   gc.innerHTML =
@@ -425,22 +521,25 @@ function renderDiag(D){
 }
 
 /* ---------- 독자 반응 (광고가 독자를 쫓아내는지) ---------- */
-function renderReader(r){
+function renderReader(r, earnings){
   const box=document.getElementById("readerCard");
   if(!r || (r.bounce==null && r.dur==null)){ box.innerHTML=`<div class="empty">독자 데이터 없음</div>`; return; }
   const b=r.bounce, dur=r.dur, ses=r.sessions;
+  const rpm = (typeof earnings==="number" && typeof ses==="number" && ses>0) ? earnings/ses*1000 : null;
   const bClass = (typeof b==="number") ? (b<60?"good":(b<80?"warn":"bad")) : "";
   let note;
   if(typeof b!=="number") note="데이터가 쌓이면 판단할 수 있어요.";
-  else if(b<60) note="✅ 이탈률 낮음 — 광고가 독자를 쫓아내는 신호 없음. 안심하고 광고 늘려도 됨.";
+  else if(b<60) note="✅ 이탈률 낮음 — 광고가 독자를 쫓아내는 신호 없음.";
   else if(b<80) note="🟡 이탈률 보통 — 광고 늘릴 때 이 수치가 오르는지 지켜보세요.";
-  else note="⚠️ 이탈률 높음 — 광고 배치·속도가 독자 경험을 해치는지 점검 필요.";
+  else note="🟡 이탈률 높음 — 뉴스 특성상 높을 수 있어요. 중요한 건 '광고 바꾼 뒤 더 오르는지'예요.";
   box.innerHTML = `<div class="reader-row">
+    <div class="reader-stat"><div class="rl">방문당 수익 <span style="font-weight:400;font-size:11px">(1,000명당)</span></div><div class="rv good">${rpm!=null?money(rpm):"—"}</div></div>
     <div class="reader-stat"><div class="rl">이탈률</div><div class="rv ${bClass}">${typeof b==="number"?b.toFixed(0)+"%":"—"}</div></div>
     <div class="reader-stat"><div class="rl">평균 참여시간</div><div class="rv">${typeof dur==="number"?Math.round(dur)+"s":"—"}</div></div>
     <div class="reader-stat"><div class="rl">세션</div><div class="rv">${typeof ses==="number"?Math.round(ses).toLocaleString():"—"}</div></div>
   </div>
-  <div class="reader-note" style="color:var(--muted)">${note}</div>`;
+  <div class="reader-note" style="color:var(--muted)">${note}</div>
+  <div class="reader-note" style="color:var(--muted);margin-top:6px">💡 <b>방문당 수익</b> = 트래픽과 무관한 '광고 효율' 지표. 설정을 바꿨을 때 <b>이 값이 오르고 이탈률은 안 오르면</b> = 더 좋은 설정이에요. (총수익은 트래픽에 휘둘려서 설정 판단엔 부적합)</div>`;
 }
 
 /* ---------- 인사이트: 해볼 만한 것 우선순위 순 (중복 최신만) ---------- */
@@ -540,16 +639,127 @@ document.getElementById("mQSend").addEventListener("click", async ()=>{
   } else alert("전송 실패 — 사내망 서버 접속 상태를 확인하세요.");
 });
 
+/* ---------- 📅 실행 계획 (WBS 체크리스트) ---------- */
+const PLAN = DATA.plan || [];
+const PLAN_KEY = "ds_plan_checks_v1";
+function planState(){ try{ return JSON.parse(localStorage.getItem(PLAN_KEY)||"{}"); }catch(e){ return {}; } }
+function planSave(st){ try{ localStorage.setItem(PLAN_KEY, JSON.stringify(st)); }catch(e){} }
+function todayMD(){ const t=new Date(); return (t.getMonth()+1)+"/"+t.getDate(); }
+function renderPlan(){
+  const box=document.getElementById("planCard"); if(!box) return;
+  const st=planState(); const today=todayMD();
+  let total=0, done=0;
+  let html="";
+  PLAN.forEach((wk, wi)=>{
+    html += '<div class="plan-week">'+esc(wk.week)+'</div>';
+    (wk.days||[]).forEach((day, di)=>{
+      const tasks=day.do||[]; const checks=day.chk||[];
+      let dchecked=0;
+      const isToday = day.date===today;
+      let tHtml="";
+      tasks.forEach((t, ti)=>{
+        const id="w"+wi+"d"+di+"t"+ti; total++;
+        const on=!!st[id]; if(on){ done++; dchecked++; }
+        tHtml += '<label class="plan-task'+(on?' checked':'')+'"><input type="checkbox" data-id="'+id+'"'+(on?' checked':'')+'><span>'+richText(t)+'</span></label>';
+      });
+      let cHtml="";
+      if(checks.length){
+        cHtml = '<div class="plan-chk"><span class="lbl">📊 확인할 데이터</span>'+
+          checks.map(c=>'<div>· '+richText(c)+'</div>').join("")+'</div>';
+      }
+      let nHtml="";
+      if(day.note){
+        const nlabel = day.notelabel || "📩 개발 요청서 보기 (개발팀 전달용)";
+        nHtml = '<details class="plan-note"><summary>'+esc(nlabel)+'</summary>'+
+          '<div class="plan-note-body">'+day.note+'</div></details>';
+      }
+      const allDone = tasks.length && dchecked===tasks.length;
+      html += '<div class="plan-day'+(isToday?' today':'')+(allDone?' done':'')+'">'+
+        '<div class="plan-dhead">'+esc(day.label||day.date)+
+        (isToday?' <span class="plan-today-chip">오늘</span>':'')+'</div>'+
+        tHtml + cHtml + nHtml + '</div>';
+    });
+  });
+  const pct = total ? Math.round(done/total*100) : 0;
+  const prog = '<div class="plan-prog">전체 진행 <b>'+done+'/'+total+'</b> ('+pct+'%) · 오늘 날짜는 파란 테두리로 표시돼요</div>';
+  box.innerHTML = prog + html;
+  box.querySelectorAll('input[type=checkbox]').forEach(cb=>{
+    cb.addEventListener("change", ()=>{
+      const s=planState(); if(cb.checked) s[cb.dataset.id]=1; else delete s[cb.dataset.id];
+      planSave(s); renderPlan();
+    });
+  });
+}
+renderPlan();
+
+/* ---------- ✅ 진행 중인 액션 (tracking.json 직접 렌더) ---------- */
+function renderTracking(){
+  const box=document.getElementById("trackCard"); if(!box) return;
+  const all=Object.entries(DATA.tracking||{})
+    .filter(([id,t])=> t && t.status!=="stopped" && (t.plan||t.exec))
+    .sort((a,b)=> String(b[1].date||"").localeCompare(String(a[1].date||"")) || String(a[0]).localeCompare(String(b[0])));
+  function card([id,t]){
+    let sig;
+    if(t.stop_suggested) sig='<span class="good">🟩 효과 확인</span>';
+    else if(t.verdict) sig='⬜ 관찰 중';
+    else if(t.exec) sig='⏳ 효과 집계 대기';
+    else sig='⏳ 실행 대기';
+    const verd = t.verdict
+      ? `<div class="track-verdict">📈 ${richText(t.verdict)}${t.stop_suggested?' <b class="good">(중지 제안)</b>':''}</div>` : "";
+    const execLine = t.exec ? `<div class="track-pe"><b>실행</b> ${richText(t.exec)}</div>` : "";
+    return `<div class="track-item${t.stop_suggested?' stopflag':''}">
+       <div class="track-ins">📅 ${esc(t.date||"")} · <b>${sig}</b></div>
+       <div class="track-pe" style="font-weight:600">${richText(t.insight||"")}</div>
+       ${execLine}${verd}</div>`;
+  }
+  const done=all.filter(([id,t])=>t.stop_suggested);                 // 효과 확인 → 접기
+  const rest=all.filter(([id,t])=>!t.stop_suggested);
+  const ongoing=rest.filter(([id,t])=>t.exec);                       // 실행됨·지켜보는 중 = 메인
+  const pending=rest.filter(([id,t])=>!t.exec);                      // 미실행 계획 → 접기
+  let html = ongoing.length ? ongoing.map(card).join("")
+    : '<div class="empty">지금 지켜보는 중인 액션이 없어요.</div>';
+  if(pending.length){
+    html += `<details class="gloss" style="margin-top:10px"><summary>⏳ 미실행 계획 ${pending.length}건 (검토 필요 · 펼치기)</summary>`
+          + `<div style="margin-top:10px">${pending.map(card).join("")}</div></details>`;
+  }
+  if(done.length){
+    html += `<details class="gloss" style="margin-top:10px"><summary>✅ 효과 확인 완료 ${done.length}건 (펼치기)</summary>`
+          + `<div style="margin-top:10px">${done.map(card).join("")}</div></details>`;
+  }
+  box.innerHTML = html;
+}
+renderTracking();
+
+/* ---------- 새 달 감지: 데이터는 지난달인데 오늘이 새 달이면 목표를 0부터 리셋 ---------- */
+function freshMonthStats(goal){
+  const now=new Date();
+  const y=now.getFullYear(), mo=now.getMonth()+1, day=now.getDate();
+  const dim=new Date(y, mo, 0).getDate();          // 이번 달 총 일수
+  const daysLeft=Math.max(0, dim-day);             // 오늘 이후 남은 일수
+  return { fresh:true, goal:goal, mtd:0, progress_pct:0,
+    projection:0, projected_pct:0, projected_gap: (goal!=null? -goal : 0),
+    vs_lm_same_pct:null, lm_same:null,
+    days_elapsed:day, days_in_month:dim, days_left:daysLeft,
+    needed_daily: (goal!=null && daysLeft>0) ? goal/daysLeft : 0 };
+}
+const GEN_MONTH=(DATA.generated||"").slice(0,7);   // 최신 데이터의 연-월 (예: 2026-06)
+const _now=new Date();
+const CUR_MONTH=_now.getFullYear()+"-"+String(_now.getMonth()+1).padStart(2,"0");
+const NEW_MONTH = !!GEN_MONTH && CUR_MONTH > GEN_MONTH;   // 새 달로 넘어왔고 아직 데이터 없음
+const GOAL_VAL = (DATA.stats && DATA.stats.goal!=null) ? DATA.stats.goal : null;
+const FRESH_STATS = NEW_MONTH ? freshMonthStats(GOAL_VAL) : null;
+
 /* ---------- 날짜별 보기 (목표·진단을 고른 날짜 기준으로) ---------- */
 const BYDATE={}; DATA.days.forEach(d=> BYDATE[d.date]=d);
 const sel=document.getElementById("datesel");
 DATA.days.slice().reverse().forEach(d=> sel.add(new Option(d.date, d.date)));
 function showDay(date){
   const d=BYDATE[date]||{};
-  renderGoal(d.stats);
-  renderReader(d.reader);
+  renderGoal(NEW_MONTH ? FRESH_STATS : d.stats);   // 새 달이면 목표는 항상 0부터
+  renderReader(d.reader, d.earnings);
   renderDiag(d.diagnostics);
-  const g=document.getElementById("goalday"); if(g) g.textContent = date ? "("+date+" 기준)" : "";
+  const g=document.getElementById("goalday");
+  if(g) g.textContent = NEW_MONTH ? "("+CUR_MONTH.replace("-","년 ")+"월 · 새 달 시작)" : (date ? "("+date+" 기준)" : "");
 }
 if(sel){
   sel.addEventListener("change", ()=> showDay(sel.value));

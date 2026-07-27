@@ -1,0 +1,49 @@
+{
+  "date": "2026-07-11",
+  "ga4": {
+    "total": {
+      "bounce_rate": 98.9975115535016,
+      "avg_session_duration": 336.0756405976775,
+      "user_engagement_duration": 760068.3321957578,
+      "screen_page_views": 68151.0,
+      "sessions": 42195.0
+    },
+    "by_device": {
+      "(other)": {
+        "bounce_rate": 100.0,
+        "avg_session_duration": 18.049679827586207,
+        "user_engagement_duration": 888.0,
+        "screen_page_views": 0.0,
+        "sessions": 116.0
+      },
+      "smart tv": {
+        "bounce_rate": 100.0,
+        "avg_session_duration": 5.533288,
+        "user_engagement_duration": 0.0,
+        "screen_page_views": 1.0,
+        "sessions": 1.0
+      },
+      "desktop": {
+        "bounce_rate": 99.42760352783132,
+        "avg_session_duration": 306.7308790074178,
+        "user_engagement_duration": 334412.0,
+        "screen_page_views": 24902.0,
+        "sessions": 17121.0
+      },
+      "mobile": {
+        "bounce_rate": 98.70414002019523,
+        "avg_session_duration": 317.26566067801247,
+        "user_engagement_duration": 1104087.0,
+        "screen_page_views": 39054.0,
+        "sessions": 23768.0
+      },
+      "tablet": {
+        "bounce_rate": 98.57022708158117,
+        "avg_session_duration": 1165.9400810681245,
+        "user_engagement_duration": 87109.0,
+        "screen_page_views": 4194.0,
+        "sessions": 1189.0
+      }
+    }
+  }
+}

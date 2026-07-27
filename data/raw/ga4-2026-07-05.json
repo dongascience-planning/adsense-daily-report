@@ -1,0 +1,42 @@
+{
+  "date": "2026-07-05",
+  "ga4": {
+    "total": {
+      "bounce_rate": 98.4445737938171,
+      "avg_session_duration": 396.2621351455181,
+      "user_engagement_duration": 575170.1394709611,
+      "screen_page_views": 60011.0,
+      "sessions": 30924.0
+    },
+    "by_device": {
+      "(other)": {
+        "bounce_rate": 100.0,
+        "avg_session_duration": 8.860574916666666,
+        "user_engagement_duration": 14.0,
+        "screen_page_views": 0.0,
+        "sessions": 12.0
+      },
+      "desktop": {
+        "bounce_rate": 99.44954128440368,
+        "avg_session_duration": 417.0274303826087,
+        "user_engagement_duration": 306208.0,
+        "screen_page_views": 23266.0,
+        "sessions": 12535.0
+      },
+      "tablet": {
+        "bounce_rate": 97.90322580645162,
+        "avg_session_duration": 1442.772743783871,
+        "user_engagement_duration": 47594.0,
+        "screen_page_views": 2829.0,
+        "sessions": 620.0
+      },
+      "mobile": {
+        "bounce_rate": 97.7529988173678,
+        "avg_session_duration": 345.32556171363404,
+        "user_engagement_duration": 783845.0,
+        "screen_page_views": 33916.0,
+        "sessions": 17757.0
+      }
+    }
+  }
+}
