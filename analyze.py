@@ -46,6 +46,54 @@ def build_record(d):
     }
 
 
+# GA4 는 D-2 부터 확정본이다(collect_ga4 참고). 최근 며칠을 매일 다시 받으므로
+# 기존 일별 레코드에도 그 값을 반영해 과거에 잘못 저장된 값을 치유한다.
+GA4_BACKFILL_DAYS = 4
+
+
+def refresh_ga4_in_records(d):
+    """재조회분(D-2~D-5)을 기존 일별 레코드의 ga4 키에 반영.
+
+    AdSense 수치는 건드리지 않는다(수익 금액 불변). 바뀐 날짜 목록을 반환.
+    """
+    updated = []
+    for off in range(1, 1 + GA4_BACKFILL_DAYS):
+        rd = d - timedelta(days=off)
+        raw = common.load_json(common.RAW_DIR / f"ga4-{rd.isoformat()}.json")
+        rec = common.load_json(common.daily_path(rd))
+        if not raw or not rec:
+            continue
+        new_ga4 = raw.get("ga4") or {}
+        if new_ga4 and new_ga4 != rec.get("ga4"):
+            rec["ga4"] = new_ga4
+            common.save_json(common.daily_path(rd), rec)
+            updated.append(rd.isoformat())
+    return updated
+
+
+def latest_settled_record(d):
+    """GA4 가 확정된 가장 최근 일별 레코드를 (날짜, 레코드) 로 반환.
+
+    어제(D-1)는 GA4 가 아직 확정되지 않아 비어 있다. 독자 반응은 이 레코드
+    안에서만 계산해, 방문당 수익이 서로 다른 날짜를 나누는 것을 막는다.
+    """
+    for off in range(1, 9):
+        rd = d - timedelta(days=off)
+        rec = common.load_json(common.daily_path(rd))
+        if isinstance(get(rec or {}, ["ga4", "total", "bounce_rate"]), (int, float)):
+            return rd, rec
+    return None, None
+
+
+def visit_rpm(rec):
+    """방문당 수익(1,000명당) — 같은 레코드 안의 earnings ÷ sessions 로만 계산."""
+    earn = get(rec or {}, ["adsense", "total", "earnings"])
+    ses = get(rec or {}, ["ga4", "total", "sessions"])
+    if isinstance(earn, (int, float)) and isinstance(ses, (int, float)) and ses > 0:
+        return earn / ses * 1000
+    return None
+
+
 def diagnostics_brief(record):
     """충족률 진단(기기/국가/광고단위)을 프롬프트용 텍스트로."""
     diag = record.get("diagnostics") or {}
@@ -200,8 +248,9 @@ def device_earnings_summary(record):
     return " / ".join(parts) if parts else "데이터 없음"
 
 
-def build_prompt(record, comp, stats, funnel):
+def build_prompt(record, comp, stats, funnel, comp_reader=None, reader_date=None):
     cur = currency_of(record)
+    cr = comp_reader or comp
 
     def line(label, b, unit="", is_money=False):
         v = b["current"]
@@ -219,9 +268,15 @@ def build_prompt(record, comp, stats, funnel):
         f"- 기기별 수익: {device_earnings_summary(record)}",
         line("노출 RPM(단가)", comp["impressions_rpm"], is_money=True),
         line("페이지뷰", comp["page_views"]),
-        line("이탈률", comp["bounce_rate"], unit="%"),
-        line("평균 참여시간(초)", comp["avg_session_duration"], unit="s"),
-        line("세션수", comp["sessions"]),
+    ]
+
+    # 독자 지표는 GA4 확정본 기준(수익보다 하루 이전일 수 있음)
+    if reader_date and reader_date.isoformat() != record["date"]:
+        lines.append(f"[아래 독자 지표는 {reader_date.isoformat()} 기준 — GA4 확정본]")
+    lines += [
+        line("이탈률", cr["bounce_rate"], unit="%"),
+        line("평균 참여시간(초)", cr["avg_session_duration"], unit="s"),
+        line("세션수", cr["sessions"]),
     ]
 
     # 광고 충족 깔때기
@@ -368,10 +423,10 @@ def generate_insight(prompt):
     return run_claude(prompt) or call_anthropic_api(prompt)
 
 
-def fallback_insight(comp):
+def fallback_insight(comp, comp_reader=None):
     """claude -p 실패 시 규칙 기반 백업 인사이트."""
     ad = comp["ad_requests"]["vs_week_pct"]
-    bounce = comp["bounce_rate"]["vs_week_pct"]
+    bounce = (comp_reader or comp)["bounce_rate"]["vs_week_pct"]
     ad_dir = "늘었" if (ad or 0) >= 0 else "줄었"
     reader = "떠나는" if (bounce or 0) > 0 else "머무는"
     earn = comp["earnings"]["current"]
@@ -463,27 +518,40 @@ def judge_tracking_items(today):
 
 def main():
     d = common.yesterday()
+
+    # 1) GA4 재조회분을 과거 레코드에 먼저 반영 → 이후 비교·7일평균이 확정값 기준이 된다
+    healed = refresh_ga4_in_records(d)
+    if healed:
+        print(f"[GA4 치유] 확정본 반영: {', '.join(healed)}")
+
     record = build_record(d)
     comp = compute_comparisons(record, d)
     goal = goal_amount()
     stats = monthly_stats(record, goal)
     funnel = ad_funnel(record)
 
-    prompt = build_prompt(record, comp, stats, funnel)
-    raw_insight = generate_insight(prompt) or fallback_insight(comp)
+    # 2) 독자 반응은 GA4 확정본(보통 D-2) 레코드 안에서만 계산
+    reader_date, reader_rec = latest_settled_record(d)
+    comp_reader = compute_comparisons(reader_rec, reader_date) if reader_rec else None
+
+    prompt = build_prompt(record, comp, stats, funnel, comp_reader, reader_date)
+    raw_insight = generate_insight(prompt) or fallback_insight(comp, comp_reader)
     points = to_points(raw_insight)
 
     record["insight_points"] = points
     record["insight"] = "\n".join("• " + p for p in points)
     record["comparisons"] = comp
     record["monthly_stats"] = stats
+    if reader_date:
+        record["reader_date"] = reader_date.isoformat()   # 독자 지표 기준일(GA4 확정본)
     common.save_json(common.daily_path(d), record)
 
     # 추적 중인 액션(계획·실행)의 효과를 데이터로 판정
     active = judge_tracking_items(d)
 
     # Jandi payload 미리 계산해 send 단계로 전달
-    payload = build_jandi_payload(d, record, comp, stats, funnel, active)
+    payload = build_jandi_payload(d, record, comp, stats, funnel, active,
+                                  comp_reader, reader_date, reader_rec)
     common.save_json(common.DATA_DIR / f"_jandi-{d.isoformat()}.json", payload)
 
     print(f"[분석] {d} 완료 → {common.daily_path(d)}")
@@ -541,7 +609,8 @@ def track_signal(item):
     return "⬜"  # 관찰 필요/혼재/판정 불가 등
 
 
-def build_jandi_payload(d, record, comp, stats, funnel, active=None):
+def build_jandi_payload(d, record, comp, stats, funnel, active=None,
+                        comp_reader=None, reader_date=None, reader_rec=None):
     cur = currency_of(record)
 
     earn = comp["earnings"]
@@ -551,14 +620,22 @@ def build_jandi_payload(d, record, comp, stats, funnel, active=None):
         else "데이터 없음"
     )
 
-    bounce = comp["bounce_rate"]
-    dur = comp["avg_session_duration"]
-    reader_desc = (
-        f"이탈률 {bounce['current']:.0f}% (7일평균 {common.fmt_pct(bounce['vs_week_pct'])}) / "
-        f"평균참여 {dur['current']:.0f}s (7일평균 {common.fmt_pct(dur['vs_week_pct'])})"
-        if isinstance(bounce["current"], (int, float)) and isinstance(dur["current"], (int, float))
-        else "데이터 없음"
-    )
+    # 독자 반응은 GA4 확정본 기준. 어제(D-1)는 아직 확정되지 않아 값이 없다.
+    cr = comp_reader or comp
+    bounce = cr["bounce_rate"]
+    dur = cr["avg_session_duration"]
+    if isinstance(bounce["current"], (int, float)) and isinstance(dur["current"], (int, float)):
+        reader_desc = (
+            f"이탈률 {bounce['current']:.0f}% (7일평균 {common.fmt_pct(bounce['vs_week_pct'])}) / "
+            f"평균참여 {dur['current']:.0f}s (7일평균 {common.fmt_pct(dur['vs_week_pct'])})"
+        )
+        rpm = visit_rpm(reader_rec if reader_rec is not None else record)
+        if rpm is not None:
+            reader_desc += f"\n방문당 수익(1,000명당) {money(rpm, cur)}"
+        if reader_date and reader_date != d:
+            reader_desc += f"\n※ 기준일 {reader_date.isoformat()} — GA4 확정본 (수익은 {d.isoformat()})"
+    else:
+        reader_desc = "데이터 없음"
 
     # 광고 충족 깔때기
     if funnel.get("requests") is not None:
