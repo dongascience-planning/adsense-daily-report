@@ -64,7 +64,7 @@
     "days_elapsed": 28,
     "days_in_month": 31,
     "mtd": {
-      "earnings": 2073.4,
+      "earnings": 2073.41,
       "page_views": 1107872.0,
       "ad_requests": 3741518.0
     },
@@ -394,20 +394,20 @@
     }
   },
   "monthly_stats": {
-    "mtd": 2073.4,
+    "mtd": 2073.41,
     "days_elapsed": 28,
     "days_in_month": 31,
-    "daily_avg": 74.05,
-    "projection": 2295.5499999999997,
+    "daily_avg": 74.05035714285714,
+    "projection": 2295.5610714285713,
     "lm_same": 1257.06,
     "lm_full": 1353.81,
-    "vs_lm_same_pct": 64.94041652745295,
+    "vs_lm_same_pct": 64.94121203442954,
     "goal": 2850.0,
-    "progress_pct": 72.75087719298246,
-    "projected_pct": 80.54561403508771,
-    "remaining": 776.5999999999999,
+    "progress_pct": 72.75122807017543,
+    "projected_pct": 80.54600250626565,
+    "remaining": 776.5900000000001,
     "days_left": 3,
-    "needed_daily": 258.8666666666666,
-    "projected_gap": -554.4500000000003
+    "needed_daily": 258.8633333333334,
+    "projected_gap": -554.4389285714287
   }
 }
