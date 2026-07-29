@@ -4,7 +4,12 @@ name: Daily AdSense Report
 on:
   schedule:
     - cron: "0 0 * * *"      # 매일 00:00 UTC = 09:00 KST
-  workflow_dispatch: {}        # 수동 실행 버튼 (Actions 탭)
+  workflow_dispatch:           # 수동 실행 버튼 (Actions 탭)
+    inputs:
+      skip_jandi:
+        description: "Jandi 전송 건너뛰기 (배포 테스트용)"
+        type: boolean
+        default: false
 
 permissions:
   contents: write              # 데이터/일지를 저장소에 다시 커밋
@@ -53,7 +58,7 @@ jobs:
           python analyze.py
           python build_dashboard.py
           python build_onepager.py || echo "onepager 갱신 실패 — 비치명, 계속"
-          python send_jandi.py
+          if [ "${{ inputs.skip_jandi }}" != "true" ]; then python send_jandi.py; else echo "Jandi 건너뜀 (수동 테스트)"; fi
 
       - name: Commit data/journal back
         run: |
