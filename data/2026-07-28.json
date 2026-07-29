@@ -64,7 +64,7 @@
     "days_elapsed": 28,
     "days_in_month": 31,
     "mtd": {
-      "earnings": 2073.41,
+      "earnings": 2073.4,
       "page_views": 1107872.0,
       "ad_requests": 3741518.0
     },
@@ -299,49 +299,42 @@
   },
   "ga4": {
     "total": {
-      "bounce_rate": 99.40383038974586,
-      "avg_session_duration": 134.7621664126781,
-      "user_engagement_duration": 2487193.4032477695,
-      "screen_page_views": 171342.0,
-      "sessions": 147609.0
+      "bounce_rate": 14.87419402404858,
+      "avg_session_duration": 58.302509721839435,
+      "user_engagement_duration": 2623464.8630008446,
+      "screen_page_views": 181939.0,
+      "sessions": 149198.0
     },
     "by_device": {
-      "(other)": {
-        "bounce_rate": 100.0,
-        "avg_session_duration": 36.402502138888885,
-        "user_engagement_duration": 4529.0,
-        "screen_page_views": 0.0,
-        "sessions": 468.0
-      },
-      "desktop": {
-        "bounce_rate": 99.62077434267552,
-        "avg_session_duration": 89.60507726962042,
-        "user_engagement_duration": 2746134.0,
-        "screen_page_views": 115495.0,
-        "sessions": 110752.0
-      },
       "mobile": {
-        "bounce_rate": 98.73966128397007,
-        "avg_session_duration": 253.0753712910876,
-        "user_engagement_duration": 1770816.0,
-        "screen_page_views": 52852.0,
-        "sessions": 35546.0
+        "bounce_rate": 25.573113732472734,
+        "avg_session_duration": 111.41573717716447,
+        "user_engagement_duration": 1779750.0,
+        "screen_page_views": 55502.0,
+        "sessions": 35944.0
       },
       "tablet": {
-        "bounce_rate": 98.57651245551602,
-        "avg_session_duration": 1133.2308248279953,
-        "user_engagement_duration": 53088.0,
-        "screen_page_views": 2995.0,
-        "sessions": 843.0
+        "bounce_rate": 25.323910482921086,
+        "avg_session_duration": 242.4918588928151,
+        "user_engagement_duration": 56085.0,
+        "screen_page_views": 3201.0,
+        "sessions": 849.0
+      },
+      "desktop": {
+        "bounce_rate": 11.374049197099772,
+        "avg_session_duration": 39.92718295612295,
+        "user_engagement_duration": 2912653.0,
+        "screen_page_views": 123236.0,
+        "sessions": 112405.0
       }
     }
   },
   "insight_points": [
     "어제 예상수익은 $122.49 수준입니다.",
-    "광고 요청은 7일평균 대비 늘었고, 이탈률 신호로는 독자가 떠나는 쪽입니다.",
+    "광고 요청은 7일평균 대비 늘었고, 이탈률 신호로는 독자가 머무는 쪽입니다.",
     "(자동 인사이트 생성에 실패해 규칙 기반 요약으로 대체했습니다.)"
   ],
-  "insight": "• 어제 예상수익은 $122.49 수준입니다.\n• 광고 요청은 7일평균 대비 늘었고, 이탈률 신호로는 독자가 떠나는 쪽입니다.\n• (자동 인사이트 생성에 실패해 규칙 기반 요약으로 대체했습니다.)",
+  "insight": "• 어제 예상수익은 $122.49 수준입니다.\n• 광고 요청은 7일평균 대비 늘었고, 이탈률 신호로는 독자가 머무는 쪽입니다.\n• (자동 인사이트 생성에 실패해 규칙 기반 요약으로 대체했습니다.)",
   "comparisons": {
     "earnings": {
       "current": 122.49,
@@ -372,42 +365,42 @@
       "vs_week_pct": 144.7356270312675
     },
     "bounce_rate": {
-      "current": 99.40383038974586,
+      "current": 14.87419402404858,
       "prev": 32.67549498585755,
       "week_avg": 81.31346613018319,
-      "vs_prev_pct": 204.21522438380612,
-      "vs_week_pct": 22.247685556288953
+      "vs_prev_pct": -54.47905523547124,
+      "vs_week_pct": -81.70758826067637
     },
     "avg_session_duration": {
-      "current": 134.7621664126781,
+      "current": 58.302509721839435,
       "prev": 113.14546431743378,
       "week_avg": 280.57224304483003,
-      "vs_prev_pct": 19.105230797938024,
-      "vs_week_pct": -51.9688173889868
+      "vs_prev_pct": -48.47119142286642,
+      "vs_week_pct": -79.2201434150691
     },
     "sessions": {
-      "current": 147609.0,
+      "current": 149198.0,
       "prev": 46668.0,
       "week_avg": 40451.28571428572,
-      "vs_prev_pct": 216.2959629724865,
-      "vs_week_pct": 264.9055830822965
+      "vs_prev_pct": 219.70086568955173,
+      "vs_week_pct": 268.83376477526764
     }
   },
   "monthly_stats": {
-    "mtd": 2073.41,
+    "mtd": 2073.4,
     "days_elapsed": 28,
     "days_in_month": 31,
-    "daily_avg": 74.05035714285714,
-    "projection": 2295.5610714285713,
+    "daily_avg": 74.05,
+    "projection": 2295.5499999999997,
     "lm_same": 1257.06,
     "lm_full": 1353.81,
-    "vs_lm_same_pct": 64.94121203442954,
+    "vs_lm_same_pct": 64.94041652745295,
     "goal": 2850.0,
-    "progress_pct": 72.75122807017543,
-    "projected_pct": 80.54600250626565,
-    "remaining": 776.5900000000001,
+    "progress_pct": 72.75087719298246,
+    "projected_pct": 80.54561403508771,
+    "remaining": 776.5999999999999,
     "days_left": 3,
-    "needed_daily": 258.8633333333334,
-    "projected_gap": -554.4389285714287
+    "needed_daily": 258.8666666666666,
+    "projected_gap": -554.4500000000003
   }
 }
