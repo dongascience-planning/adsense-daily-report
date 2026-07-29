@@ -152,6 +152,7 @@ HTML_TEMPLATE = r"""<!doctype html>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
 <title>동아사이언스닷컴 광고 리포트 일지</title>
 <style>
   :root{
