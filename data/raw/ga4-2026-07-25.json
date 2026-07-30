@@ -2,47 +2,40 @@
   "date": "2026-07-25",
   "ga4": {
     "total": {
-      "bounce_rate": 98.80654513682036,
-      "avg_session_duration": 249.80294885984353,
-      "user_engagement_duration": 1401359.955161047,
-      "screen_page_views": 71934.0,
-      "sessions": 50358.0
+      "bounce_rate": 35.01487163431434,
+      "avg_session_duration": 122.09470699039214,
+      "user_engagement_duration": 2321316.0,
+      "screen_page_views": 75706.0,
+      "sessions": 51104.0
     },
     "by_device": {
-      "(other)": {
-        "bounce_rate": 100.0,
-        "avg_session_duration": 3.5454545454545454e-06,
-        "user_engagement_duration": 17.0,
-        "screen_page_views": 0.0,
-        "sessions": 11.0
-      },
-      "smart tv": {
-        "bounce_rate": 100.0,
-        "avg_session_duration": 1471.1380085,
-        "user_engagement_duration": 118.0,
-        "screen_page_views": 9.0,
-        "sessions": 2.0
-      },
       "desktop": {
-        "bounce_rate": 99.65185907255257,
-        "avg_session_duration": 222.18933368723017,
-        "user_engagement_duration": 260708.0,
-        "screen_page_views": 19316.0,
-        "sessions": 14362.0
+        "bounce_rate": 59.70641944093271,
+        "avg_session_duration": 86.54217402486304,
+        "user_engagement_duration": 273355.0,
+        "screen_page_views": 20359.0,
+        "sessions": 14238.0
       },
       "tablet": {
-        "bounce_rate": 98.57006673021925,
-        "avg_session_duration": 547.6995961410868,
-        "user_engagement_duration": 65113.0,
-        "screen_page_views": 2171.0,
-        "sessions": 1049.0
+        "bounce_rate": 26.520912547528518,
+        "avg_session_duration": 250.62283302471485,
+        "user_engagement_duration": 65919.0,
+        "screen_page_views": 2264.0,
+        "sessions": 1052.0
       },
       "mobile": {
-        "bounce_rate": 98.46567813591344,
-        "avg_session_duration": 252.2188852081067,
-        "user_engagement_duration": 1910949.0,
-        "screen_page_views": 50438.0,
-        "sessions": 34934.0
+        "bounce_rate": 25.449569976544172,
+        "avg_session_duration": 132.40855982237798,
+        "user_engagement_duration": 1981912.0,
+        "screen_page_views": 53072.0,
+        "sessions": 35812.0
+      },
+      "smart tv": {
+        "bounce_rate": 0.0,
+        "avg_session_duration": 934.933785,
+        "user_engagement_duration": 130.0,
+        "screen_page_views": 11.0,
+        "sessions": 2.0
       }
     }
   }

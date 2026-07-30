@@ -1,0 +1,300 @@
+{
+  "date": "2026-07-29",
+  "adsense": {
+    "total": {
+      "earnings": 39.97,
+      "page_views": 74459.0,
+      "impressions": 45603.0,
+      "impressions_rpm": 0.88,
+      "clicks": 593.0,
+      "page_views_ctr": 0.008,
+      "ad_requests": 262282.0,
+      "matched_ad_requests": 49758.0,
+      "ad_requests_coverage": 0.1897
+    },
+    "by_device": {
+      "Connected TV": {
+        "earnings": 0.0,
+        "page_views": 5.0,
+        "impressions": 2.0,
+        "impressions_rpm": 0.1,
+        "clicks": 0.0,
+        "page_views_ctr": 0.0,
+        "ad_requests": 5.0,
+        "matched_ad_requests": 3.0,
+        "ad_requests_coverage": 0.6
+      },
+      "Desktop": {
+        "earnings": 3.02,
+        "page_views": 54089.0,
+        "impressions": 10038.0,
+        "impressions_rpm": 0.3,
+        "clicks": 37.0,
+        "page_views_ctr": 0.0007,
+        "ad_requests": 217451.0,
+        "matched_ad_requests": 12274.0,
+        "ad_requests_coverage": 0.0564
+      },
+      "High-end mobile devices": {
+        "earnings": 36.34,
+        "page_views": 19727.0,
+        "impressions": 34343.0,
+        "impressions_rpm": 1.06,
+        "clicks": 545.0,
+        "page_views_ctr": 0.0276,
+        "ad_requests": 42882.0,
+        "matched_ad_requests": 36049.0,
+        "ad_requests_coverage": 0.8407
+      },
+      "Tablets": {
+        "earnings": 0.61,
+        "page_views": 638.0,
+        "impressions": 1220.0,
+        "impressions_rpm": 0.5,
+        "clicks": 11.0,
+        "page_views_ctr": 0.0172,
+        "ad_requests": 1944.0,
+        "matched_ad_requests": 1432.0,
+        "ad_requests_coverage": 0.7366
+      }
+    },
+    "currency": "USD"
+  },
+  "monthly": {
+    "days_elapsed": 29,
+    "days_in_month": 31,
+    "mtd": {
+      "earnings": 2113.37,
+      "page_views": 1182331.0,
+      "ad_requests": 4003775.0
+    },
+    "last_month_same_period": {
+      "earnings": 1311.38,
+      "page_views": 1181552.0,
+      "ad_requests": 3180756.0
+    },
+    "last_month_full": {
+      "earnings": 1353.81,
+      "page_views": 1219051.0,
+      "ad_requests": 3298127.0
+    },
+    "last_month_label": "2026-06"
+  },
+  "diagnostics": {
+    "by_device": [
+      {
+        "name": "Desktop",
+        "requests": 217451.0,
+        "matched": 12274.0,
+        "coverage": 0.0564,
+        "impressions": 10038.0,
+        "earnings": 3.02,
+        "unfilled": 205177.0
+      },
+      {
+        "name": "High-end mobile devices",
+        "requests": 42882.0,
+        "matched": 36049.0,
+        "coverage": 0.8407,
+        "impressions": 34343.0,
+        "earnings": 36.34,
+        "unfilled": 6833.0
+      },
+      {
+        "name": "Tablets",
+        "requests": 1944.0,
+        "matched": 1432.0,
+        "coverage": 0.7366,
+        "impressions": 1220.0,
+        "earnings": 0.61,
+        "unfilled": 512.0
+      },
+      {
+        "name": "Connected TV",
+        "requests": 5.0,
+        "matched": 3.0,
+        "coverage": 0.6,
+        "impressions": 2.0,
+        "earnings": 0.0,
+        "unfilled": 2.0
+      }
+    ],
+    "by_country": [
+      {
+        "name": "Singapore",
+        "requests": 82956.0,
+        "matched": 937.0,
+        "coverage": 0.0113,
+        "impressions": 389.0,
+        "earnings": 0.11,
+        "unfilled": 82019.0
+      },
+      {
+        "name": "Vietnam",
+        "requests": 56783.0,
+        "matched": 619.0,
+        "coverage": 0.0109,
+        "impressions": 292.0,
+        "earnings": 0.03,
+        "unfilled": 56164.0
+      },
+      {
+        "name": "South Korea",
+        "requests": 54404.0,
+        "matched": 40429.0,
+        "coverage": 0.7431,
+        "impressions": 38407.0,
+        "earnings": 32.56,
+        "unfilled": 13975.0
+      },
+      {
+        "name": "Bangladesh",
+        "requests": 7660.0,
+        "matched": 176.0,
+        "coverage": 0.023,
+        "impressions": 112.0,
+        "earnings": 0.0,
+        "unfilled": 7484.0
+      },
+      {
+        "name": "Pakistan",
+        "requests": 5463.0,
+        "matched": 42.0,
+        "coverage": 0.0077,
+        "impressions": 18.0,
+        "earnings": 0.0,
+        "unfilled": 5421.0
+      },
+      {
+        "name": "United States",
+        "requests": 5139.0,
+        "matched": 3596.0,
+        "coverage": 0.6997,
+        "impressions": 3295.0,
+        "earnings": 5.09,
+        "unfilled": 1543.0
+      },
+      {
+        "name": "France",
+        "requests": 4181.0,
+        "matched": 238.0,
+        "coverage": 0.0569,
+        "impressions": 171.0,
+        "earnings": 0.03,
+        "unfilled": 3943.0
+      },
+      {
+        "name": "China",
+        "requests": 4163.0,
+        "matched": 100.0,
+        "coverage": 0.024,
+        "impressions": 57.0,
+        "earnings": 0.01,
+        "unfilled": 4063.0
+      },
+      {
+        "name": "Brazil",
+        "requests": 2927.0,
+        "matched": 146.0,
+        "coverage": 0.0499,
+        "impressions": 111.0,
+        "earnings": 0.02,
+        "unfilled": 2781.0
+      },
+      {
+        "name": "Philippines",
+        "requests": 2337.0,
+        "matched": 115.0,
+        "coverage": 0.0492,
+        "impressions": 80.0,
+        "earnings": 0.01,
+        "unfilled": 2222.0
+      }
+    ],
+    "by_ad_unit": [
+      {
+        "name": "피씨 인아티클 광고(기사)",
+        "requests": 112244.0,
+        "matched": 39607.0,
+        "coverage": 0.3529,
+        "impressions": 36786.0,
+        "earnings": 38.63,
+        "unfilled": 72637.0
+      },
+      {
+        "name": "닷컴-인기기사-PC",
+        "requests": 74810.0,
+        "matched": 1901.0,
+        "coverage": 0.0254,
+        "impressions": 1261.0,
+        "earnings": 0.06,
+        "unfilled": 72909.0
+      },
+      {
+        "name": "닷컴-인기기사-모바일",
+        "requests": 42182.0,
+        "matched": 4764.0,
+        "coverage": 0.1129,
+        "impressions": 4467.0,
+        "earnings": 0.51,
+        "unfilled": 37418.0
+      },
+      {
+        "name": "피씨 디스플레이 세로(메인&기사 우측_1) 320*640",
+        "requests": 32485.0,
+        "matched": 3160.0,
+        "coverage": 0.0973,
+        "impressions": 2785.0,
+        "earnings": 0.58,
+        "unfilled": 29325.0
+      },
+      {
+        "name": "피씨 디스플레이 수평(메인 연재뉴스) 880*150",
+        "requests": 292.0,
+        "matched": 182.0,
+        "coverage": 0.6233,
+        "impressions": 170.0,
+        "earnings": 0.12,
+        "unfilled": 110.0
+      },
+      {
+        "name": "피씨 디스플레이 수평(서브 카테고리&태그&검색) 840*105",
+        "requests": 250.0,
+        "matched": 125.0,
+        "coverage": 0.5,
+        "impressions": 118.0,
+        "earnings": 0.04,
+        "unfilled": 125.0
+      }
+    ],
+    "by_format": [
+      {
+        "name": "In-page",
+        "requests": 187453.0,
+        "matched": 47838.0,
+        "coverage": 0.2552,
+        "impressions": 44326.0,
+        "earnings": 39.89,
+        "unfilled": 139615.0
+      },
+      {
+        "name": "In-feed",
+        "requests": 74810.0,
+        "matched": 1901.0,
+        "coverage": 0.0254,
+        "impressions": 1261.0,
+        "earnings": 0.06,
+        "unfilled": 72909.0
+      },
+      {
+        "name": "Unfilled fallback term",
+        "requests": 19.0,
+        "matched": 19.0,
+        "coverage": 1.0,
+        "impressions": 16.0,
+        "earnings": 0.02,
+        "unfilled": 0.0
+      }
+    ]
+  }
+}
