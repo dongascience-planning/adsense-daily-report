@@ -1,7 +1,14 @@
-"""GA4 Data API → 어제 독자 반응(전체 + deviceCategory별) 수집.
+"""GA4 Data API → 독자 반응(전체 + deviceCategory별) 수집.
 
-서비스 계정 JSON 키 사용(무인 실행). 출력: data/raw/ga4-YYYY-MM-DD.json
+GA4 는 해당 일자가 끝난 뒤 하루 이상 지나야 지표가 확정된다. 아침 실행 시점의
+전날(D-1) 데이터는 참여 세션이 덜 잡혀 이탈률이 실제의 2~3배로 부풀려진다.
+(실측: D-1 +9시간 → 99%, +12시간 → 33%, 확정 후 재조회와 일치)
+
+그래서 D-2 이후만 신뢰하고, 최근 며칠을 매일 다시 받아 덮어쓴다(자기 치유).
+출력: data/raw/ga4-YYYY-MM-DD.json
 """
+from datetime import date, timedelta
+
 from google.analytics.data_v1beta import BetaAnalyticsDataClient
 from google.analytics.data_v1beta.types import (
     DateRange,
@@ -88,21 +95,32 @@ def _aggregate(by_device):
     return {
         "bounce_rate": weighted("bounce_rate"),
         "avg_session_duration": weighted("avg_session_duration"),
-        "user_engagement_duration": weighted("user_engagement_duration"),
+        # 합계 지표 — 가중평균이 아니라 단순 합. (기기별 합이 전체보다 커지는 오류 수정)
+        "user_engagement_duration": sum(d.get("user_engagement_duration", 0) or 0 for d in devices),
         "screen_page_views": total_pv,
         "sessions": sum(d.get("sessions", 0) or 0 for d in devices),
     }
 
 
+SETTLE_DAYS = 2      # D-2 부터 확정본으로 본다
+BACKFILL_DAYS = 4    # D-2 ~ D-5 를 매일 다시 받아 덮어쓴다
+
+
 def main():
     property_id = common.env("GA4_PROPERTY_ID", required=True)
-    d = common.yesterday()
-    data = fetch(property_id, d)
-    out = common.RAW_DIR / f"ga4-{d.isoformat()}.json"
-    common.save_json(out, {"date": d.isoformat(), "ga4": data})
-    t = data["total"]
-    print(f"[GA4] {d} 수집 완료 → {out}")
-    print(f"  이탈률 {t.get('bounce_rate')}, 평균참여 {t.get('avg_session_duration')}s")
+    today = date.today()
+    for back in range(SETTLE_DAYS, SETTLE_DAYS + BACKFILL_DAYS):
+        d = today - timedelta(days=back)
+        try:
+            data = fetch(property_id, d)
+        except Exception as e:  # noqa: BLE001
+            print(f"[GA4] {d} 수집 실패 (건너뜀): {str(e)[:120]}")
+            continue
+        out = common.RAW_DIR / f"ga4-{d.isoformat()}.json"
+        common.save_json(out, {"date": d.isoformat(), "ga4": data})
+        t = data["total"]
+        print(f"[GA4] {d} 수집 완료 → {out}")
+        print(f"  이탈률 {t.get('bounce_rate')}, 평균참여 {t.get('avg_session_duration')}s")
 
 
 if __name__ == "__main__":

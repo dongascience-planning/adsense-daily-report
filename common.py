@@ -57,18 +57,23 @@ def load_json(path):
 
 
 def load_history(before_date, days=30):
-    """before_date 이전(미포함)의 일별 레코드를 날짜순으로 반환."""
+    """before_date 이전(미포함) days일 구간의 일별 레코드를 날짜순으로 반환.
+
+    개수 기준(records[-days:])이 아니라 날짜 구간 기준이다. 결측일이 있으면
+    7일 구간의 레코드가 6개일 수 있고, 그게 정확한 동작이다.
+    """
+    cutoff = before_date - timedelta(days=days)
     records = []
     for f in sorted(DATA_DIR.glob("*.json")):
         try:
             d = datetime.strptime(f.stem, "%Y-%m-%d").date()
         except ValueError:
             continue
-        if d < before_date:
+        if cutoff <= d < before_date:
             rec = load_json(f)
             if rec:
                 records.append(rec)
-    return records[-days:]
+    return records
 
 
 def pct_change(current, baseline):

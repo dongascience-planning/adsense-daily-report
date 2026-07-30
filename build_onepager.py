@@ -57,6 +57,11 @@ def prev_month(year, month, back):
 def build_data():
     # 이번 달(7월) 일별 — 데이터 있는 마지막 날까지
     cur = daily_earnings(TARGET_YEAR, TARGET_MONTH)
+    # AdSense 는 집계 중인 당일치도 돌려준다. 미완성 하루가 곡선 끝을 떨어뜨리고
+    # 평균을 끌어내리므로, 이번 달을 그릴 때는 어제까지만 쓴다.
+    today = date.today()
+    if (TARGET_YEAR, TARGET_MONTH) == (today.year, today.month):
+        cur = {d: v for d, v in cur.items() if d < today.day}
     if not cur:
         raise SystemExit("[원페이지] 이번 달 AdSense 데이터가 아직 없습니다.")
     as_of = max(cur)
