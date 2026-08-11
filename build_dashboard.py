@@ -173,6 +173,14 @@ HTML_TEMPLATE = r"""<!doctype html>
   @media(max-width:680px){ .goal-banner{font-size:17px;padding:15px 17px} }
   .report-link{display:inline-block;margin:6px 0 4px;padding:9px 16px;background:linear-gradient(90deg,#6d3bf0,#8b5cf6);color:#fff;font-weight:800;border-radius:10px;text-decoration:none;box-shadow:var(--shadow)}
   .report-link:hover{filter:brightness(1.07)}
+  .archive{margin:6px 0 2px;font-size:13px;color:var(--muted)}
+  .archive summary{cursor:pointer;font-weight:700;color:var(--muted);list-style:none}
+  .archive summary::-webkit-details-marker{display:none}
+  .archive summary::before{content:"▸ ";color:var(--muted)}
+  .archive[open] summary::before{content:"▾ "}
+  .archive .links{margin:6px 0 0 4px}
+  .archive a{color:var(--accent);text-decoration:none;font-weight:700}
+  .archive a:hover{text-decoration:underline}
   .datebar{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 14px;margin:10px 0;box-shadow:var(--shadow);font-weight:600}
   .datebar select{font:inherit;font-weight:700;color:var(--accent);background:var(--card2);border:1px solid var(--line);border-radius:8px;padding:5px 9px;cursor:pointer}
   h2 small{font-weight:500;color:var(--muted);font-size:12px}
@@ -326,8 +334,13 @@ HTML_TEMPLATE = r"""<!doctype html>
   <div class="goal-banner" id="banner"></div>
   <div class="sub" id="sub"></div>
 
-  <a class="report-link" href="광고수익_성과보고_2주.html" target="_blank">📊 2주 성과보고 발표자료 열기 →</a>
-  <a class="report-link" href="광고수익_원페이지.html" target="_blank" style="margin-left:8px">📈 월간 광고수익 리포트 (원페이지) →</a>
+  <details class="archive">
+    <summary>📁 월별 갈무리 (지난 리포트)</summary>
+    <div class="links">
+      <a href="광고수익_원페이지.html" target="_blank">7월 성과 원페이지</a> ·
+      <a href="광고수익_성과보고_2주.html" target="_blank">7월 2주 성과보고</a>
+    </div>
+  </details>
 
   <div class="datebar">📅 날짜별 보기: <select id="datesel"></select> <span class="hint" id="datehint"></span></div>
 
