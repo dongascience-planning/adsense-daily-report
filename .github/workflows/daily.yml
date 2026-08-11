@@ -50,7 +50,7 @@ jobs:
           MONTHLY_REVENUE_GOAL: ${{ secrets.MONTHLY_REVENUE_GOAL }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           ANTHROPIC_MODEL: ${{ secrets.ANTHROPIC_MODEL }}
-          DASHBOARD_URL: "https://dongascience-planning.github.io/adsense-report-view/"
+          DASHBOARD_URL: "https://dongascience-planning.github.io/adsense-daily-report/"
           DASHBOARD_READONLY: "1"
         run: |
           python collect_adsense.py
@@ -68,11 +68,10 @@ jobs:
           git commit -m "data: $(date -u +%F) automated run" || echo "no data changes"
           git push
 
-      - name: Deploy report to public view repo (Pages)
+      - name: Deploy report to GitHub Pages (자기 repo gh-pages)
         uses: peaceiris/actions-gh-pages@v3
         with:
-          personal_token: ${{ secrets.PAGES_TOKEN }}
-          external_repository: dongascience-planning/adsense-report-view
+          github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_branch: gh-pages
           publish_dir: ./report
 
