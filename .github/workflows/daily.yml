@@ -10,6 +10,14 @@ on:
         description: "Jandi 전송 건너뛰기 (배포 테스트용)"
         type: boolean
         default: false
+      backfill_start:
+        description: "GA4 백필 시작일 YYYY-MM-DD (비우면 백필 안 함)"
+        type: string
+        default: ""
+      backfill_end:
+        description: "GA4 백필 종료일 YYYY-MM-DD (D-2까지만 유효)"
+        type: string
+        default: ""
 
 permissions:
   contents: write              # 데이터/일지를 저장소에 다시 커밋
@@ -55,6 +63,9 @@ jobs:
         run: |
           python collect_adsense.py
           python collect_ga4.py
+          if [ -n "${{ inputs.backfill_start }}" ]; then
+            BACKFILL_START="${{ inputs.backfill_start }}" BACKFILL_END="${{ inputs.backfill_end }}" python backfill_ga4.py
+          fi
           python analyze.py
           python build_dashboard.py
           python build_onepager.py || echo "onepager 갱신 실패 — 비치명, 계속"
