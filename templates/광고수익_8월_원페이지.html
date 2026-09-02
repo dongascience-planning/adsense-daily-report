@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex,nofollow">
+<title>광고 수익 원페이지 (8월)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css">
+<style>
+  :root{
+    --bg:#ffffff; --ink:#111316; --ink-soft:#454b56; --dim:#8b919e; --faint:#c2c6ce;
+    --purple:#6d3bf0; --purple-soft:#a87dff; --purple-wash:#f4f0fe; --purple-line:#e4dbfb;
+    --line:#eceef3; --line2:#d6dae1; --gray:#b7bdc9;
+    --serif:"Nanum Myeongjo","Iropke Batang","Malgun Gothic",serif;
+    --sans:"Pretendard Variable","Pretendard","Malgun Gothic","맑은 고딕",sans-serif;
+    --mono:"SF Mono",ui-monospace,Consolas,Menlo,monospace;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{height:100%;background:#e9ebf0;font-family:var(--sans);color:var(--ink);-webkit-font-smoothing:antialiased}
+  .stage{position:fixed;inset:0;display:flex;align-items:center;justify-content:center}
+  .slide{width:1280px;height:720px;flex:none;background:var(--bg);position:relative;overflow:hidden;
+    box-shadow:0 24px 70px rgba(20,20,30,.28);transform-origin:center center;padding:36px 48px 0}
+  .grid-bg{position:absolute;inset:0;z-index:0;
+    background-image:linear-gradient(rgba(20,20,30,.028) 1px,transparent 1px),linear-gradient(90deg,rgba(20,20,30,.028) 1px,transparent 1px);
+    background-size:58px 58px;mask:radial-gradient(circle at 40% 40%,#000 55%,transparent 92%)}
+  .inner{position:relative;z-index:2;height:100%;display:flex;flex-direction:column}
+  .em{color:var(--purple)}
+
+  .head{display:flex;justify-content:space-between;align-items:flex-start}
+  .eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.38em;text-transform:uppercase;color:var(--purple);font-weight:700}
+  h1{font-family:var(--serif);font-size:31px;font-weight:800;line-height:1.18;margin-top:9px;letter-spacing:-.01em}
+  .meta{font-family:var(--mono);font-size:11.5px;color:var(--dim);margin-top:9px;letter-spacing:.01em}
+  .score{flex:none;width:308px;border:1px solid var(--purple-line);background:var(--purple-wash);
+    border-radius:15px;padding:13px 17px 15px;box-shadow:0 6px 20px rgba(109,59,240,.09)}
+  .score-top{font-family:var(--mono);font-size:10.5px;letter-spacing:.11em;text-transform:uppercase;color:var(--dim)}
+  .score-top b{color:var(--purple);font-weight:700}
+  .score-big{font-family:var(--serif);font-weight:800;font-size:34px;line-height:1;margin-top:6px;color:var(--ink)}
+  .score-sub{font-size:12px;color:var(--dim);margin-top:7px}
+  .score-sub b{color:var(--purple);font-weight:800}
+  .keep{margin-top:12px;background:#eafaf1;border:1px solid #bfe8cf;border-radius:9px;padding:7px 11px;font-size:12px;color:#15803d;font-weight:700;text-align:center;letter-spacing:-.01em}
+  .keep b{font-weight:800}
+
+  .body{flex:1;display:flex;flex-direction:column;margin-top:10px;min-height:0}
+  .legend{display:flex;gap:20px;font-size:12.5px;color:var(--ink-soft);font-weight:600;margin-bottom:6px}
+  .legend i{display:inline-block;width:22px;height:0;vertical-align:middle;margin-right:7px}
+  .legend .aug i{border-top:3px solid var(--purple)}
+  .legend .jun i{border-top:3px solid var(--gray);opacity:.85}
+  .legend .jul i{border-top:2px dashed #9aa0ad}
+  .chartwrap{flex:none;height:250px;position:relative}
+  svg{width:100%;height:100%;display:block;overflow:visible}
+
+  .cardhead{display:flex;align-items:baseline;gap:13px;margin-top:16px}
+  .cardhead .rlead{font-family:var(--mono);font-size:10.5px;letter-spacing:.15em;color:var(--purple);font-weight:700;text-transform:uppercase;flex:none}
+  .cardhead .rt{font-family:var(--serif);font-size:18px;font-weight:800;line-height:1.2}
+  .cardhead .rt .em{color:var(--purple)}
+  .cardrow{display:flex;gap:12px;margin-top:11px}
+  .card{flex:1;display:flex;flex-direction:column;gap:5px;background:#fff;border:1px solid var(--line2);
+    border-radius:13px;padding:12px 15px;box-shadow:0 2px 10px rgba(20,20,30,.04)}
+  .card.core{background:var(--purple-wash);border-color:var(--purple-line);box-shadow:0 4px 16px rgba(109,59,240,.10)}
+  .card .no{font-family:var(--mono);font-size:12px;font-weight:700;color:var(--dim)}
+  .card.core .no{color:var(--purple)}
+  .card .tx b{display:block;font-size:14px;font-weight:800;color:var(--ink);letter-spacing:-.01em}
+  .card .tx span{display:block;font-size:11.5px;color:var(--ink-soft);margin-top:3px;line-height:1.4}
+
+  .foot{margin:14px -48px 0;height:52px;background:var(--ink);color:#fff;
+    display:flex;align-items:center;justify-content:center;gap:10px;
+    font-family:var(--serif);font-size:16px;font-weight:800;letter-spacing:-.01em}
+  .foot .em{color:var(--purple-soft)}
+  .foot .thin{font-family:var(--sans);font-weight:500;color:#a9adb8;font-size:13px}
+</style>
+</head>
+<body>
+<div class="stage">
+  <div class="slide" id="slide">
+    <div class="grid-bg"></div>
+    <div class="inner">
+
+      <div class="head">
+        <div>
+          <div class="eyebrow">ADSENSE · DONGASCIENCE.COM</div>
+          <h1>8월 광고 수익, <span class="em">유지를 넘어 성장</span></h1>
+          <div class="meta" id="meta"></div>
+        </div>
+        <div class="score">
+          <div class="score-top" id="scoreTop"></div>
+          <div class="score-big" id="scoreBig"></div>
+          <div class="score-sub" id="scoreSub"></div>
+          <div class="keep" id="keep"></div>
+        </div>
+      </div>
+
+      <div class="body">
+        <div class="legend">
+          <span class="aug"><i></i>8월 일별 수익</span>
+          <span class="jul"><i></i>7월 일평균</span>
+          <span class="jun"><i></i>4~6월 일별 평균</span>
+        </div>
+        <div class="chartwrap"><svg id="chart" viewBox="0 0 1184 250" preserveAspectRatio="xMidYMid meet"></svg></div>
+
+        <div class="cardhead">
+          <span class="rlead">8월 결산 · 4가지</span>
+          <span class="rt">지키고 → <span class="em">오히려 더 벌었다</span></span>
+        </div>
+        <div class="cardrow">
+          <div class="card core">
+            <div class="no">01</div>
+            <div class="tx"><b>일평균 성장</b><span>7월 $69 → 8월 $81 · 총 $2,525 (+17%)</span></div>
+          </div>
+          <div class="card">
+            <div class="no">02</div>
+            <div class="tx"><b>충족률 안정</b><span>평균 84.5% · 60%↓ 하루도 없음 (게재제한 회복)</span></div>
+          </div>
+          <div class="card">
+            <div class="no">03</div>
+            <div class="tx"><b>트래픽 소폭↑ 기여</b><span>페이지뷰 39k/일 — 효율 위에 트래픽 얹힘</span></div>
+          </div>
+          <div class="card">
+            <div class="no">04</div>
+            <div class="tx"><b>다음 레버 = 트래픽</b><span>효율은 천장 근처, 방문 늘면 그대로 수익↑</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="foot">
+        7월에 올린 수준을 넘어 <span class="em">8월 +17% 성장</span>
+        <span class="thin">— 4~6월 평균 $45의 약 1.8배 · 효율 유지 + 트래픽 소폭↑</span>
+      </div>
+
+    </div>
+  </div>
+</div>
+<script>
+  var aug=[48.7,97.01,177.74,86.99,68.03,56.02,69.26,100.0,103.09,68.63,49.15,41.06,39.65,71.02,65.75,116.35,88.7,48.13,31.95,49.59,108.92,127.77,156.46,125.11,49.89,163.02,116.27,41.08,35.15,64.16,60.79];
+  var avg3=[51.1,32.7,30.6,86.1,67.0,51.4,37.2,45.2,42.6,38.9,36.6,45.1,39.8,38.9,35.0,45.3,68.6,62.9,71.6,41.2,27.4,42.9,64.5,38.5,24.9,28.9,40.2,41.1,38.4,32.3,44.8];
+  var JUL_AVG=69.45, JUL_TOTAL=2153.09;   // 7월 참조(일평균·총액)
+  var MONTH=8, DAYS=31, ASOF=31, DAYSLEFT=0;
+
+  function sum(a){return a.reduce(function(s,v){return s+v;},0);}
+  function mean(a){return a.length?sum(a)/a.length:0;}
+  function won(v){return "$"+Math.round(v).toLocaleString("en-US");}
+  var mtd=sum(aug), augAvg=mean(aug), avg3mean=mean(avg3.slice(0,DAYS));
+  var ratio3=Math.round(augAvg/avg3mean*10)/10;
+  var peak=Math.max.apply(null,aug), peakDay=aug.indexOf(peak)+1;
+
+  document.getElementById("meta").innerHTML="일별 예상 수익 (USD)　·　2026. 8. 1 ~ 8. "+ASOF+" 집계";
+  var mom=Math.round((mtd-JUL_TOTAL)/JUL_TOTAL*100);
+  document.getElementById("scoreTop").innerHTML="8월 마감 · <b>8/1~8/31</b>";
+  document.getElementById("scoreBig").textContent=won(mtd);
+  document.getElementById("scoreSub").innerHTML="일평균 <b>"+won(augAvg)+"</b> · 7월 "+won(JUL_AVG)+" → 유지·성장";
+  document.getElementById("keep").innerHTML="▲ 7월 대비 <b>+"+mom+"%</b> · 충족률 안정 <b>(평균 84.5%)</b>";
+
+  var W=1184,H=250,PADL=50,PADR=22,PADT=26,PADB=26,YMAX=200;
+  var YTICKS=[0,50,100,150,200], XTICKS=[];
+  for(var xt=1;xt<=DAYS;xt+=2) XTICKS.push(xt);
+  var plotW=W-PADL-PADR, plotH=H-PADT-PADB;
+  function X(day){return PADL+(day-1)/(DAYS-1)*plotW;}
+  function Y(v){return PADT+(1-v/YMAX)*plotH;}
+  function smooth(vals){
+    var p=vals.map(function(v,i){return [X(i+1),Y(v)];});
+    if(p.length<2) return "";
+    var d="M"+p[0][0]+","+p[0][1];
+    for(var i=0;i<p.length-1;i++){
+      var p0=p[i-1]||p[i],p1=p[i],p2=p[i+1],p3=p[i+2]||p2;
+      var c1x=p1[0]+(p2[0]-p0[0])/6,c1y=p1[1]+(p2[1]-p0[1])/6;
+      var c2x=p2[0]-(p3[0]-p1[0])/6,c2y=p2[1]-(p3[1]-p1[1])/6;
+      d+="C"+c1x+","+c1y+" "+c2x+","+c2y+" "+p2[0]+","+p2[1];
+    }
+    return d;
+  }
+  var NS="http://www.w3.org/2000/svg";
+  function el(n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);return e;}
+  function label(x,y,txt,anchor,color,size,weight){var t=el("text",{x:x,y:y,"text-anchor":anchor||"middle","font-size":size||12,"font-weight":weight||700,fill:color||"#6d3bf0","font-family":"var(--sans)"});t.textContent=txt;svg.appendChild(t);}
+  function pill(cx,cy,txt,bg,border,fg,fs){fs=fs||13;var t=el("text",{x:cx,y:cy+fs*0.35,"text-anchor":"middle","font-size":fs,"font-weight":800,fill:fg,"font-family":"var(--sans)"});t.textContent=txt;svg.appendChild(t);var w=t.getComputedTextLength(),px=9,h=fs+10;var r=el("rect",{x:cx-w/2-px,y:cy-h/2,width:w+2*px,height:h,rx:h/2,fill:bg,stroke:border||"none","stroke-width":1});svg.insertBefore(r,t);}
+  var svg=document.getElementById("chart");
+
+  var defs=el("defs",{});
+  defs.innerHTML='<linearGradient id="ag" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#6d3bf0" stop-opacity="0.20"/><stop offset="1" stop-color="#6d3bf0" stop-opacity="0"/></linearGradient>'
+    +'<linearGradient id="gg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#b7bdc9" stop-opacity="0.22"/><stop offset="1" stop-color="#b7bdc9" stop-opacity="0"/></linearGradient>';
+  svg.appendChild(defs);
+
+  YTICKS.forEach(function(v){
+    svg.appendChild(el("line",{x1:PADL,y1:Y(v),x2:W-PADR,y2:Y(v),stroke:"#eceef3","stroke-width":1}));
+    var t=el("text",{x:PADL-8,y:Y(v)+4,"text-anchor":"end","font-size":11,fill:"#a2a8b3","font-family":"var(--mono)"});t.textContent="$"+v;svg.appendChild(t);
+  });
+  XTICKS.forEach(function(day){var t=el("text",{x:X(day),y:H-8,"text-anchor":"middle","font-size":10.5,fill:"#a2a8b3","font-family":"var(--mono)"});t.textContent=day;svg.appendChild(t);});
+
+  // 4~6월 평균 (배경 컨텍스트)
+  var gpath=smooth(avg3);
+  svg.appendChild(el("path",{d:gpath+" L"+X(DAYS)+","+Y(0)+" L"+X(1)+","+Y(0)+" Z",fill:"url(#gg)",stroke:"none"}));
+  svg.appendChild(el("path",{d:gpath,fill:"none",stroke:"#b7bdc9","stroke-width":1.6,"stroke-linecap":"round","stroke-linejoin":"round",opacity:0.75}));
+  label(X(DAYS-2),Y(avg3[DAYS-3])-8,"4~6월 평균 ($"+Math.round(avg3mean)+"/일)","end","#9aa0ad",11,700);
+
+  // 7월 일평균 참조선
+  svg.appendChild(el("line",{x1:PADL,y1:Y(JUL_AVG),x2:W-PADR,y2:Y(JUL_AVG),stroke:"#9aa0ad","stroke-width":1.4,"stroke-dasharray":"6 5"}));
+  label(PADL+4,Y(JUL_AVG)-6,"7월 일평균 $"+Math.round(JUL_AVG),"start","#8b919e",11,700);
+
+  // 8월 일별 (hero)
+  var apath=smooth(aug);
+  svg.appendChild(el("path",{d:apath+" L"+X(aug.length)+","+Y(0)+" L"+X(1)+","+Y(0)+" Z",fill:"url(#ag)",stroke:"none"}));
+  svg.appendChild(el("path",{d:apath,fill:"none",stroke:"#6d3bf0","stroke-width":2.8,"stroke-linecap":"round","stroke-linejoin":"round"}));
+
+  // 8월 일평균 (유지 강조)
+  svg.appendChild(el("line",{x1:X(1),y1:Y(augAvg),x2:X(aug.length),y2:Y(augAvg),stroke:"#6d3bf0","stroke-width":1.8,"stroke-dasharray":"7 4"}));
+  pill(X(9),Y(augAvg)-15,"8월 일평균 $"+Math.round(augAvg)+" · 유지·성장","#ffffff","#c9b6f7","#6d3bf0",13.5);
+
+  // 최고
+  label(X(peakDay),Y(peak)-9,"최고 $"+Math.round(peak),"middle","#6d3bf0",10.5,800);
+
+  function fit(){var s=document.getElementById("slide");var k=Math.min(innerWidth/1280,innerHeight/720);s.style.transform="scale("+k+")";}
+  addEventListener("resize",fit);fit();
+</script>
+</body>
+</html>

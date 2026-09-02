@@ -25,7 +25,7 @@ TARGET_MONTH = 7
 TEMPLATE = common.BASE_DIR / "templates" / "광고수익_원페이지.html"
 OUT = common.BASE_DIR / "report" / "광고수익_원페이지.html"
 # 정적 발표자료(2주 성과보고)도 서빙되게 report/ 로 복사.
-STATIC_PAGES = ["광고수익_성과보고_2주.html"]
+STATIC_PAGES = ["광고수익_성과보고_2주.html", "광고수익_8월_원페이지.html"]
 
 _svc = ca.service()
 _acct = common.env("ADSENSE_ACCOUNT", required=True)
