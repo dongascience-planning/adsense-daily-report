@@ -270,7 +270,45 @@
       }
     ]
   },
-  "ga4": {},
+  "ga4": {
+    "total": {
+      "bounce_rate": 39.762020613084445,
+      "avg_session_duration": 119.42716132750918,
+      "user_engagement_duration": 1873011.0,
+      "screen_page_views": 76451.0,
+      "sessions": 45214.0
+    },
+    "by_device": {
+      "smart tv": {
+        "bounce_rate": 66.66666666666666,
+        "avg_session_duration": 336.77111633333334,
+        "user_engagement_duration": 8.0,
+        "screen_page_views": 2.0,
+        "sessions": 3.0
+      },
+      "desktop": {
+        "bounce_rate": 42.53872633390706,
+        "avg_session_duration": 102.78231811751292,
+        "user_engagement_duration": 952477.0,
+        "screen_page_views": 34482.0,
+        "sessions": 23240.0
+      },
+      "mobile": {
+        "bounce_rate": 37.18670586476656,
+        "avg_session_duration": 127.25406339254572,
+        "user_engagement_duration": 801253.0,
+        "screen_page_views": 36572.0,
+        "sessions": 20069.0
+      },
+      "tablet": {
+        "bounce_rate": 32.965299684542586,
+        "avg_session_duration": 239.8772279900105,
+        "user_engagement_duration": 119273.0,
+        "screen_page_views": 5395.0,
+        "sessions": 1902.0
+      }
+    }
+  },
   "insight_points": [
     "어제 예상수익은 $32.76 수준입니다.",
     "광고 요청은 7일평균 대비 줄었고, 이탈률 신호로는 독자가 머무는 쪽입니다.",
