@@ -321,6 +321,25 @@ HTML_TEMPLATE = r"""<!doctype html>
   <h2>📅 9월 실행 계획 <small>— 할 일 · 확인할 데이터 (체크하면 저장됨)</small></h2>
   <div class="card" id="planCard"></div>
 
+  <h2>📊 트래픽 → 수익 기준표 <small>— 7~8월 실측 · 1,000 PV당 ≈ $1.9 (충족률 정상 기준)</small></h2>
+  <div class="card">
+    <div style="overflow-x:auto">
+    <table class="diagtbl">
+      <thead><tr><th>일 페이지뷰</th><th>예상 일수익</th><th>월 환산 (×30)</th></tr></thead>
+      <tbody>
+        <tr><td>25,000</td><td>$47</td><td>$1,410</td></tr>
+        <tr><td>30,000</td><td>$56</td><td>$1,690</td></tr>
+        <tr><td>35,000</td><td>$66</td><td>$1,980</td></tr>
+        <tr style="font-weight:800;background:var(--card2)"><td>40,000 (8월 평균)</td><td>$75</td><td>$2,260</td></tr>
+        <tr><td>45,000</td><td>$85</td><td>$2,540</td></tr>
+        <tr style="font-weight:800"><td>50,000</td><td>$94</td><td>$2,820</td></tr>
+        <tr><td>55,000</td><td>$103</td><td>$3,100</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <div class="goalnote" style="margin-top:10px">🎯 <b>월 목표 $2,850 → 하루 ~50,000 PV 필요</b> (8월 평균 39k라 트래픽이 관건). &nbsp; ⚠️ 충족률 정상(80%+) 기준 — 게재 제한 시 이 단가 무너짐.</div>
+  </div>
+
   <h2>✅ 진행 중인 액션 <small>— 실행한 조치와 효과 (데이터로 자동 판정)</small></h2>
   <div id="trackCard"></div>
 
