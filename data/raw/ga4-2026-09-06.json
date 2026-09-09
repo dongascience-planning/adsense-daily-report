@@ -4,7 +4,7 @@
     "total": {
       "bounce_rate": 36.53777594954065,
       "avg_session_duration": 95.00277552989168,
-      "user_engagement_duration": 3087857.0,
+      "user_engagement_duration": 3087860.0,
       "screen_page_views": 116367.0,
       "sessions": 72930.0
     },
@@ -12,7 +12,7 @@
       "desktop": {
         "bounce_rate": 53.11265051838765,
         "avg_session_duration": 60.3744402931331,
-        "user_engagement_duration": 476376.0,
+        "user_engagement_duration": 476379.0,
         "screen_page_views": 34010.0,
         "sessions": 21509.0
       },
