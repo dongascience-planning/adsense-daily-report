@@ -282,30 +282,30 @@
   "ga4": {
     "total": {
       "bounce_rate": 34.24751456976345,
-      "avg_session_duration": 114.64477639090596,
-      "user_engagement_duration": 2981004.0,
+      "avg_session_duration": 115.01425683273601,
+      "user_engagement_duration": 2983887.0,
       "screen_page_views": 98446.0,
       "sessions": 64174.0
     },
     "by_device": {
       "desktop": {
         "bounce_rate": 42.92146073036518,
-        "avg_session_duration": 189.30096787093547,
-        "user_engagement_duration": 671858.0,
+        "avg_session_duration": 189.81727229336096,
+        "user_engagement_duration": 672252.0,
         "screen_page_views": 27381.0,
         "sessions": 13993.0
       },
       "mobile": {
         "bounce_rate": 31.92296408064043,
-        "avg_session_duration": 89.34202618336896,
-        "user_engagement_duration": 2157706.0,
+        "avg_session_duration": 89.6699828782011,
+        "user_engagement_duration": 2159858.0,
         "screen_page_views": 65245.0,
         "sessions": 47718.0
       },
       "tablet": {
         "bounce_rate": 30.004060089321964,
-        "avg_session_duration": 180.71564404141293,
-        "user_engagement_duration": 151440.0,
+        "avg_session_duration": 181.05545424319936,
+        "user_engagement_duration": 151777.0,
         "screen_page_views": 5820.0,
         "sessions": 2463.0
       }
