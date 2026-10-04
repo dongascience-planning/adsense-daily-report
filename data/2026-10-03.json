@@ -1,0 +1,349 @@
+{
+  "date": "2026-10-03",
+  "adsense": {
+    "total": {
+      "earnings": 23.06,
+      "page_views": 17402.0,
+      "impressions": 23208.0,
+      "impressions_rpm": 0.99,
+      "clicks": 211.0,
+      "page_views_ctr": 0.0121,
+      "ad_requests": 31619.0,
+      "matched_ad_requests": 25034.0,
+      "ad_requests_coverage": 0.7917
+    },
+    "by_device": {
+      "Connected TV": {
+        "earnings": 0.0,
+        "page_views": 3.0,
+        "impressions": 5.0,
+        "impressions_rpm": 0.11,
+        "clicks": 0.0,
+        "page_views_ctr": 0.0,
+        "ad_requests": 5.0,
+        "matched_ad_requests": 5.0,
+        "ad_requests_coverage": 1.0
+      },
+      "Desktop": {
+        "earnings": 3.65,
+        "page_views": 6648.0,
+        "impressions": 4995.0,
+        "impressions_rpm": 0.73,
+        "clicks": 7.0,
+        "page_views_ctr": 0.0011,
+        "ad_requests": 11021.0,
+        "matched_ad_requests": 5569.0,
+        "ad_requests_coverage": 0.5053
+      },
+      "High-end mobile devices": {
+        "earnings": 19.03,
+        "page_views": 10327.0,
+        "impressions": 17475.0,
+        "impressions_rpm": 1.09,
+        "clicks": 193.0,
+        "page_views_ctr": 0.0187,
+        "ad_requests": 19708.0,
+        "matched_ad_requests": 18602.0,
+        "ad_requests_coverage": 0.9439
+      },
+      "Tablets": {
+        "earnings": 0.38,
+        "page_views": 424.0,
+        "impressions": 733.0,
+        "impressions_rpm": 0.51,
+        "clicks": 11.0,
+        "page_views_ctr": 0.0259,
+        "ad_requests": 885.0,
+        "matched_ad_requests": 858.0,
+        "ad_requests_coverage": 0.9695
+      }
+    },
+    "currency": "USD"
+  },
+  "monthly": {
+    "days_elapsed": 3,
+    "days_in_month": 31,
+    "mtd": {
+      "earnings": 80.17,
+      "page_views": 101928.0,
+      "ad_requests": 124819.0
+    },
+    "last_month_same_period": {
+      "earnings": 105.2,
+      "page_views": 84016.0,
+      "ad_requests": 166802.0
+    },
+    "last_month_full": {
+      "earnings": 1875.92,
+      "page_views": 1212626.0,
+      "ad_requests": 2318083.0
+    },
+    "last_month_label": "2026-09"
+  },
+  "diagnostics": {
+    "by_device": [
+      {
+        "name": "High-end mobile devices",
+        "requests": 19708.0,
+        "matched": 18602.0,
+        "coverage": 0.9439,
+        "impressions": 17475.0,
+        "earnings": 19.03,
+        "unfilled": 1106.0
+      },
+      {
+        "name": "Desktop",
+        "requests": 11021.0,
+        "matched": 5569.0,
+        "coverage": 0.5053,
+        "impressions": 4995.0,
+        "earnings": 3.65,
+        "unfilled": 5452.0
+      },
+      {
+        "name": "Tablets",
+        "requests": 885.0,
+        "matched": 858.0,
+        "coverage": 0.9695,
+        "impressions": 733.0,
+        "earnings": 0.38,
+        "unfilled": 27.0
+      },
+      {
+        "name": "Connected TV",
+        "requests": 5.0,
+        "matched": 5.0,
+        "coverage": 1.0,
+        "impressions": 5.0,
+        "earnings": 0.0,
+        "unfilled": 0.0
+      }
+    ],
+    "by_country": [
+      {
+        "name": "South Korea",
+        "requests": 23297.0,
+        "matched": 21966.0,
+        "coverage": 0.9429,
+        "impressions": 20765.0,
+        "earnings": 20.35,
+        "unfilled": 1331.0
+      },
+      {
+        "name": "China",
+        "requests": 3695.0,
+        "matched": 79.0,
+        "coverage": 0.0214,
+        "impressions": 29.0,
+        "earnings": 0.01,
+        "unfilled": 3616.0
+      },
+      {
+        "name": "United States",
+        "requests": 2021.0,
+        "matched": 1401.0,
+        "coverage": 0.6932,
+        "impressions": 1092.0,
+        "earnings": 1.8,
+        "unfilled": 620.0
+      },
+      {
+        "name": "Canada",
+        "requests": 187.0,
+        "matched": 187.0,
+        "coverage": 1.0,
+        "impressions": 157.0,
+        "earnings": 0.11,
+        "unfilled": 0.0
+      },
+      {
+        "name": "Germany",
+        "requests": 176.0,
+        "matched": 117.0,
+        "coverage": 0.6648,
+        "impressions": 99.0,
+        "earnings": 0.04,
+        "unfilled": 59.0
+      },
+      {
+        "name": "Japan",
+        "requests": 163.0,
+        "matched": 154.0,
+        "coverage": 0.9448,
+        "impressions": 132.0,
+        "earnings": 0.09,
+        "unfilled": 9.0
+      },
+      {
+        "name": "Vietnam",
+        "requests": 145.0,
+        "matched": 66.0,
+        "coverage": 0.4552,
+        "impressions": 62.0,
+        "earnings": 0.06,
+        "unfilled": 79.0
+      },
+      {
+        "name": "United Kingdom",
+        "requests": 142.0,
+        "matched": 108.0,
+        "coverage": 0.7606,
+        "impressions": 98.0,
+        "earnings": 0.1,
+        "unfilled": 34.0
+      },
+      {
+        "name": "Australia",
+        "requests": 125.0,
+        "matched": 121.0,
+        "coverage": 0.968,
+        "impressions": 108.0,
+        "earnings": 0.17,
+        "unfilled": 4.0
+      },
+      {
+        "name": "Ghana",
+        "requests": 117.0,
+        "matched": 5.0,
+        "coverage": 0.0427,
+        "impressions": 2.0,
+        "earnings": 0.0,
+        "unfilled": 112.0
+      }
+    ],
+    "by_ad_unit": [
+      {
+        "name": "피씨 인아티클 광고(기사)",
+        "requests": 28457.0,
+        "matched": 23172.0,
+        "coverage": 0.8143,
+        "impressions": 21514.0,
+        "earnings": 22.28,
+        "unfilled": 5285.0
+      },
+      {
+        "name": "피씨 디스플레이 세로(메인&기사 우측_1) 320*640",
+        "requests": 2847.0,
+        "matched": 1564.0,
+        "coverage": 0.5494,
+        "impressions": 1433.0,
+        "earnings": 0.65,
+        "unfilled": 1283.0
+      },
+      {
+        "name": "피씨 디스플레이 수평(메인 연재뉴스) 880*150",
+        "requests": 202.0,
+        "matched": 189.0,
+        "coverage": 0.9356,
+        "impressions": 159.0,
+        "earnings": 0.11,
+        "unfilled": 13.0
+      },
+      {
+        "name": "피씨 디스플레이 수평(서브 카테고리&태그&검색) 840*105",
+        "requests": 110.0,
+        "matched": 106.0,
+        "coverage": 0.9636,
+        "impressions": 99.0,
+        "earnings": 0.02,
+        "unfilled": 4.0
+      }
+    ],
+    "by_format": [
+      {
+        "name": "In-page",
+        "requests": 31616.0,
+        "matched": 25031.0,
+        "coverage": 0.7917,
+        "impressions": 23205.0,
+        "earnings": 23.06,
+        "unfilled": 6585.0
+      },
+      {
+        "name": "Unfilled fallback term",
+        "requests": 3.0,
+        "matched": 3.0,
+        "coverage": 1.0,
+        "impressions": 3.0,
+        "earnings": 0.0,
+        "unfilled": 0.0
+      }
+    ]
+  },
+  "ga4": {},
+  "insight_points": [
+    "어제 예상수익은 $23.06 수준입니다.",
+    "광고 요청은 7일평균 대비 줄었고, 이탈률 신호로는 독자가 떠나는 쪽입니다.",
+    "(자동 인사이트 생성에 실패해 규칙 기반 요약으로 대체했습니다.)"
+  ],
+  "insight": "• 어제 예상수익은 $23.06 수준입니다.\n• 광고 요청은 7일평균 대비 줄었고, 이탈률 신호로는 독자가 떠나는 쪽입니다.\n• (자동 인사이트 생성에 실패해 규칙 기반 요약으로 대체했습니다.)",
+  "comparisons": {
+    "earnings": {
+      "current": 23.06,
+      "prev": 28.81,
+      "week_avg": 35.95857142857143,
+      "vs_prev_pct": -19.958347795904203,
+      "vs_week_pct": -35.87064478963888
+    },
+    "ad_requests": {
+      "current": 31619.0,
+      "prev": 46583.0,
+      "week_avg": 47053.857142857145,
+      "vs_prev_pct": -32.123306785737284,
+      "vs_week_pct": -32.80253326735018
+    },
+    "impressions_rpm": {
+      "current": 0.99,
+      "prev": 0.79,
+      "week_avg": 0.9285714285714286,
+      "vs_prev_pct": 25.31645569620252,
+      "vs_week_pct": 6.6153846153846105
+    },
+    "page_views": {
+      "current": 17402.0,
+      "prev": 39660.0,
+      "week_avg": 30961.285714285714,
+      "vs_prev_pct": -56.122037317196174,
+      "vs_week_pct": -43.79432378684901
+    },
+    "bounce_rate": {
+      "current": null,
+      "prev": 56.89635574146907,
+      "week_avg": 48.13958907943148,
+      "vs_prev_pct": null,
+      "vs_week_pct": null
+    },
+    "avg_session_duration": {
+      "current": null,
+      "prev": 100.1536286205697,
+      "week_avg": 125.3320505976764,
+      "vs_prev_pct": null,
+      "vs_week_pct": null
+    },
+    "sessions": {
+      "current": null,
+      "prev": 43987.0,
+      "week_avg": 35567.142857142855,
+      "vs_prev_pct": null,
+      "vs_week_pct": null
+    }
+  },
+  "monthly_stats": {
+    "mtd": 80.17,
+    "days_elapsed": 3,
+    "days_in_month": 31,
+    "daily_avg": 26.723333333333333,
+    "projection": 828.4233333333333,
+    "lm_same": 105.2,
+    "lm_full": 1875.92,
+    "vs_lm_same_pct": -23.79277566539924,
+    "goal": 2850.0,
+    "progress_pct": 2.8129824561403507,
+    "projected_pct": 29.06748538011696,
+    "remaining": 2769.83,
+    "days_left": 28,
+    "needed_daily": 98.9225,
+    "projected_gap": -2021.5766666666668
+  },
+  "reader_date": "2026-10-02"
+}
